@@ -1,0 +1,41 @@
+﻿<div v-cloak>
+    <link rel="stylesheet" href="/assets/css/mobile.css?v=20211228" />
+    <div class="header">
+    </div>
+    <div class="header-logo">
+        <img v-if="!$root.guild || !$root.guild.guildLogoUrl" src="/assets/images/logo.png" alt="">
+        <img v-else v-bind:src="$root.guild.guildLogoUrl" alt="">
+    </div>
+    <div id="main"></div>
+    <div class="footer">
+        <table>
+            <tr>
+                <td v-if="!$root.guildId" v-bind:class="{ 'active': $root.active == 'guild' }" v-on:click="$root.open('/guild')">
+                    <i class="fa fa-home"></i>
+                    <br />
+                    <div>公会</div>
+                </td>
+                <td v-bind:class="{ 'active': $root.active == 'home' || $root.active == 'activity' }" v-on:click="$root.guildId ? $root.open('/home') : $root.open('/list')">
+                    <i class="fa fa-rocket"></i>
+                    <br />
+                    <div>活动</div>
+                </td>
+                <td v-bind:class="{ 'active': $root.active == 'ch' }" v-on:click="$root.open('/ch/search')">
+                    <i class="fa fa-search"></i>
+                    <br />
+                    <div>角色</div>
+                </td>
+                <td v-if="!$root.guildId">
+                    <i class="fa fa-user"></i>
+                    <br />
+                    <div>我的</div>
+                </td>
+                <td v-else v-bind:class="{ 'active': $root.active == 'login' }" v-on:click="$root.open('/login')">
+                    <i class="fa fa-cog"></i>
+                    <br />
+                    <div>管理</div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+﻿<div>
+    <div class="header-buttons">
+        <a class="right" v-on:click="login()">登录</a>
+    </div>
+    <div class="ch-wrapper">
+        <div class="section-title">请登录公会管理员账号</div>
+        <table class="form-table">
+            <colgroup>
+                <col style="width: 75px" />
+                <col />
+            </colgroup>
+            <tr>
+                <td>用户名</td>
+                <td><input class="inline-textbox" v-model="form.username" /></td>
+            </tr>
+            <tr>
+                <td>密码</td>
+                <td><input class="inline-textbox" type="password" v-model="form.password" /></td>
+            </tr>
+        </table>
+        <div class="section-title" style="margin-top: 15px;">您可以<a target="_blank" href="https://mwow.org/reg">点击这里</a>注册账号，创建属于你自己的公会网站。</div>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+<view>
+    <my-profile wx:if="{{ active == 'profile' }}"></my-profile>
+    <my-create-guild wx:if="{{ active == 'createGuild' }}"></my-create-guild>
+</view>
+
+<view class="{{ isFullScreen ? 'footer footer-full' : 'footer' }}">
+    <view class="table">
+        <!-- 底部导航栏 -->
+        <view class="table-tr">
+            <view class="table-td" style="color: {{ active == 'profile' ? '#3dd0d8' : '#c2d4f8' }}" data-active="profile" bindtap="switchTab">
+                <div class="btn-icon"><i class="fa fa-pencil"></i></div>
+                <div class="btn-text">个人资料</div>
+            </view>
+            <view class="table-td" style="color: {{ active == 'createGuild' ? '#3dd0d8' : '#c2d4f8' }}" data-active="createGuild" bindtap="switchTab">
+                <div class="btn-icon"><i class="fa fa-plus"></i></div>
+                <div class="btn-text">创建公会</div>
+            </view>
+        </view>
+    </view>
+</view>

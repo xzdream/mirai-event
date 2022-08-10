@@ -1,0 +1,46 @@
+﻿<div>
+    <table class="act-table">
+        <colgroup>
+            <col style="width: 120px" />
+        </colgroup>
+        <tr>
+            <td style="vertical-align: top">插件名称</td>
+            <td>团队成员助手</td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top">适用对象</td>
+            <td>团长</td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top">插件简介</td>
+            <td>本插件实现了屏幕中提示未入团的成员、密语自动进组、一键邀请所有报名人员等功能。本插件可一键邀请在“活动报名”中已通过审核以及替补成员进入团队。</td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top">邀请密语</td>
+            <td class="input-wrap">
+                <input type="text" v-model="whisper" class="general_input italic" placeholder="自动邀请密语" />
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top">人员选项</td>
+            <td class="input-wrap">
+                <select class="general_input input" v-model="scope">
+                    <option value="0">已通过审核人员和替补人员</option>
+                    <option value="1">仅包括已通过审核人员</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>WA字符串</td>
+            <td>
+                <input type="button" class="btn gradient mt30 color-white color-white plr50 ptb19" value="生成WA字符串" v-on:click="generate" />
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="input-wrap">
+                <textarea class="general_input italic" disabled v-model="waString" placeholder="生成的WA字符串"></textarea>
+            </td>
+        </tr>
+    </table>
+</div>

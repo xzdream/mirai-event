@@ -1,0 +1,22 @@
+@import "/app.wxss";
+
+.header-logo image {
+    display: inline-block;
+    vertical-align: top;
+    width: 38px;
+    height: 38px;
+}
+
+.class-img {
+    margin-right: 8px;
+}
+
+.header-logo span {
+    vertical-align: top;
+    line-height: 38px;
+}
+
+.header-logo small {
+    zoom: 0.5;
+    color: #c2d4f8;
+}

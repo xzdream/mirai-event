@@ -1,0 +1,19 @@
+﻿<div>
+    <table class="act-table">
+        <tr>
+            <td>报名策略</td>
+            <td class="input-wrap" v-if="$root.guild">
+                <select class="general_input input" v-model="$root.guild.registerPolicy">
+                    <option v-bind:value="0">允许网页端、微信小程序报名</option>
+                    <option v-bind:value="1">强制玩家使用微信小程序报名</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type="button" class="btn gradient mt30 color-white color-white plr50 ptb19" value="保存" v-on:click="save" />
+            </td>
+        </tr>
+    </table>
+</div>

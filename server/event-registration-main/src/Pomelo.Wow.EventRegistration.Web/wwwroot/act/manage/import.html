@@ -1,0 +1,60 @@
+﻿<div>
+    <div style="margin-bottom: 20px">
+        将游戏团队中玩家导入至报名帖
+        <br /><br />
+        本功能需要您下载插件 [<a style="color: #3dd0d8" target="_blank" href="/api/blob/MiraiRaid.zip">Mirai 团队信息收集器</a>] ，请将插件收集的团队信息字符串粘贴在下面的编辑框中。
+    </div>
+    <div class="input-wrap">
+        <textarea placeholder="请粘贴团队信息字符串" class="general_input italic" v-model="raidInfoString"></textarea>
+    </div>
+    <div class="input-wrap" v-if="!invalid && characters.length">
+        <table class="import-table">
+            <colgroup>
+                <col style="width: 80px" />
+            </colgroup>
+            <tr v-for="ch in characters">
+                <td>
+                    <span class="label-green" v-if="activity.registrations.some(x => x.name == ch.name)">出席</span>
+                    <span class="label-orange" v-else>临时</span>
+                </td>
+                <td>
+                    <img style="width: 24px; height: 24px;" v-bind:src="'/assets/images/class-' + ch.class + '.png'" />
+                    <i style="color:#fff" class="fa fa-shield" v-if="ch.role == 'MAINTANK'"></i>
+                    <i style="color:#fff" class="fa fa-wrench" v-if="ch.role == 'MAINASSIST'"></i>
+                    <span v-bind:class="'class-' + ch.class">{{ ch.name }}</span>
+                </td>
+                <td>小队{{ ch.partyIndex }}</td>
+            </tr>
+            <tr v-for="ch in activity.registrations.filter(x => x.status == 4 && !characters.some(y => x.name == y.name))">
+                <td>
+                    <span class="label-red" v-if="activity.registrations.some(x => x.name == ch.name)">缺席</span>
+                </td>
+                <td>
+                    <img style="width: 24px; height: 24px;" v-bind:src="'/assets/images/class-' + ch.class + '.png'" />
+                    <i style="color:#fff" class="fa fa-shield" v-if="ch.role == 0"></i>
+                    <i style="color:#fff" class="fa fa-plus-circle" v-if="ch.role == 2"></i>
+                    <span v-bind:class="'class-' + ch.class">{{ ch.name }}</span>
+                </td>
+                <td>-</td>
+            </tr>
+        </table>
+    </div>
+    <div class="input-wrap" v-else>导入的字符串有误，请更正后再试</div>
+    <div class="input-wrap">
+        <label>主坦克标记含义</label>
+        <select class="general_input input" v-model="maintankOption">
+            <option value="0">坦克</option>
+            <option value="1">消费</option>
+        </select>
+    </div>
+    <div class="input-wrap">
+        <label>主助理标记含义</label>
+        <select class="general_input input" v-model="mainassistOption">
+            <option value="0">治疗</option>
+            <option value="1">消费</option>
+        </select>
+    </div>
+    <div>
+        <input type="button" v-bind:value="importing ? '正在导入...' : '导入'" v-on:click="importRaidInfo" class="btn gradient mt30 color-white color-white plr50 ptb19" />
+    </div>
+</div>

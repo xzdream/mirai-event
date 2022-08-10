@@ -1,0 +1,39 @@
+<div>
+    <!-- PAGE NAME START -->
+    <section class="page-name parallax" data-paroller-factor="0.1" data-paroller-type="background" data-paroller-direction="vertical">
+        <div class="container">
+            <div class="row">
+                <div class="form-row">
+                    <div class="input-wrap">
+                        <input type="text" class="general_input" style="background: #292845cf" placeholder="搜索公会..." v-model="form.guild">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- PAGE NAME END -->
+    <!-- SECTION START -->
+    <section class="team-bl ptb150">
+        <div class="container">
+            <div class="row">
+                <div class="container-wrapper" v-if="result && result.data">
+                    <div class="item-content col-lg-4 col-md-4 col-sm-6 col-xs-12 mb30 equal-height wow fadeInUp" data-wow-duration="1s" v-for="guild in result.data">
+                        <div class="border-img">
+                            <img v-if="!guild.guildListImageUrl" style="width:370px;height:320px;" src="/assets/images/guild-image.jpg" alt="" class="img-responsive">
+                            <img v-else style="width:370px;height:320px;" v-bind:src="guild.guildListImageUrl" alt="" class="img-responsive">
+                        </div>
+                        <div class="text-container background-4 text-center">
+                            <a target="_blank" v-bind:href="`https://${guild.id}.mwow.org`" class="name font-agency fsize-32 fweight-700 lheight-32 color-white">
+                                {{ guild.name }}
+                            </a>
+                            <div class="position mt10">
+                                {{ guild.realm }} - {{ guild.faction == 0 ? '联盟' : '部落' }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- SECTION END -->    
+</div>

@@ -1,0 +1,32 @@
+<view class="{{ isFullScreen ? 'header header-full' : 'header' }}">
+</view>
+<view class="{{ isFullScreen ? 'header-logo header-full' : 'header-logo' }}">
+    <div class="text-title">{{activity.name}}</div>
+</view>
+<view wx:if="canBack" class="{{ isFullScreen ? 'header-buttons full' : 'header-buttons' }}">
+    <a bindtap="onBackBtnClicked"><i class="fa fa-angle-left"></i> 返回</a>
+</view>
+
+<view class="wrapper {{ isFullScreen ? 'full' : '' }}">
+    <view wx:for="{{ activity.tasks.groups }}" wx:for-index="groupIndex" wx:for-item="group">
+        <view class="section-title">
+            <span>{{ group.name }}</span>
+        </view>
+
+        <div class="task-item" wx:for="{{ group.tasks }}" wx:for-item="task">
+            <img src="/assets/images/task.svg" />
+            <span>{{ task.text }}</span>
+            <div class="task-players">
+                <span wx:for="{{ task.players }}" wx:for-item="reg" class="task-player class-{{ reg.class }}">
+                    <image src="{{ '/assets/images/class-' + reg.class + '.png' }}" class="class-img" />
+                    <i class="fa fa-shield" wx:if="{{ reg.role == 0 }}"></i>
+                    <i class="fa fa-plus-circle" wx:if="{{ reg.role == 2 }}"></i>
+                    <i class="fa fa-money" wx:if="{{ reg.role == 3 }}"></i>
+                    <span wx:if="{{ reg.status == 4 }}">{{ reg.name }}</span>
+                    <s wx:else style="opacity: 0.5">{{ reg.name }}</s>
+                </span>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </view>
+</view>

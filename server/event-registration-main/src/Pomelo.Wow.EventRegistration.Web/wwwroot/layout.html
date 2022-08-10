@@ -1,0 +1,146 @@
+﻿<div v-cloak>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Cabin:400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/assets/css/style.css?v=20220201" />
+    <link rel="stylesheet" href="/assets/css/responsive.css" />
+    <link rel="stylesheet" href="/assets/plugins/animate.css-master/animate.min.css">
+    <link href="/assets/plugins/lightbox2-master/dist/css/lightbox.css" rel="stylesheet">
+    <link href="/assets/css/video-js.css" rel="stylesheet">
+    <link href="/assets/plugins/jquery-date-range-picker-master/dist/daterangepicker.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/plugins/slick-1.8.0/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/plugins/slick-1.8.0/slick/slick-theme.css" />
+
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/plugins/slick-1.8.0/slick/slick.min.js"></script>
+    <script src="/assets/plugins/flex-menu/flexmenu.min.js"></script>
+    <script src="/assets/plugins/jquery-match-height-master/dist/jquery.matchHeight.js"></script>
+    <script src="/assets/plugins/muuri-master/muuri.js"></script>
+    <script src="/assets/plugins/vide-0.5.1/dist/jquery.vide.min.js"></script>
+    <script src="/assets/plugins/paroller.js-master/dist/jquery.paroller.min.js"></script>
+    <script src="/assets/js/video.js"></script>
+    <script src="/assets/js/jquery.inview.min.js"></script>
+    <script src="/assets/js/progressbar.min.js"></script>
+    <script src="/assets/plugins/lightbox2-master/dist/js/lightbox.js"></script>
+    <script src="/assets/js/moment.min.js"></script>
+    <script src="/assets/plugins/jquery-date-range-picker-master/dist/jquery.daterangepicker.min.js"></script>
+    <script src="/assets/plugins/wow-master/dist/wow.min.js"></script>
+    <script src="/assets/js/qrcode.min.js"></script>
+    <script src="/assets/js/script.js"></script>
+    <script>
+        $('#lbl-build').text(__version);
+    </script>
+
+    <!-- PRELOADER START -->
+    <div class="loader-wrapper">
+        <div class='cssload-loader'>
+            <div class='cssload-inner cssload-one'></div>
+            <div class='cssload-inner cssload-two'></div>
+            <div class='cssload-inner cssload-three'></div>
+        </div>
+    </div>
+    <!-- PRELOADER END -->
+    <!-- HEADER START -->
+    <div class="header-line-wrapper">
+        <header class="header-wrapper fixed-top plr100">
+            <div class="table height-100p">
+                <div class="table-row">
+                    <div class="table-cell valign-middle text-left">
+                        <a v-on:click="$root.guildId ? $root.open('/home') : $root.open('/guild')" class="logo">
+                            <img v-if="!$root.guild || !$root.guild.guildLogoUrl" src="/assets/images/logo.png" alt="" style="max-height: 90px;" class="img-responsive inline-block">
+                            <img v-else v-bind:src="$root.guild.guildLogoUrl" style="max-height: 90px;" alt="" class="img-responsive inline-block">
+                        </a>
+                    </div>
+                    <div class="table-cell valign-top text-center vm-sm">
+                        <div class="main-menu">
+                            <ul class="menu clearfix">
+                                <li class="inline-block" v-if="!$root.guildId" v-bind:class="{ 'active': active == 'guild' }">
+                                    <a v-on:click="$root.open('/guild')">公会</a>
+                                </li>
+                                <li class="inline-block" v-if="!$root.guildId" v-bind:class="{ 'active': active == 'ch' }">
+                                    <a v-on:click="$root.open('/ch/search')">角色</a>
+                                </li>
+                                <li class="inline-block" v-bind:class="{ 'active': active == 'activity' }">
+                                    <a v-on:click="$root.guildId ? $root.open('/home') : $root.open('/list')">{{ $root.guildId ? '首页' : '活动列表' }}</a>
+                                </li>
+                                <li class="inline-block" v-if="$root.guildId" v-bind:class="{ 'active': active == 'ch' }">
+                                    <a v-on:click="$root.open('/ch/search')">角色</a>
+                                </li>
+                                <li v-if="!$root.user.token" class="inline-block" v-bind:class="{ 'active': active == 'login' }">
+                                    <a v-on:click="$root.open('/login')">登录</a>
+                                </li>
+                                <li v-if="$root.guildPermission.guildManager" class="inline-block" v-bind:class="{ 'active': active == 'login' }">
+                                    <a v-on:click="$root.openNewAct()">创建活动</a>
+                                </li>
+                                <li v-if="!!$root.user.token && !$root.guildId" class="inline-block" v-bind:class="{ 'active': active == 'create-guild' }">
+                                    <a v-on:click="$root.open('/guild/create')">创建公会</a>
+                                </li>
+                                <li v-if="!!$root.user.token" class="inline-block">
+                                    <a v-on:click="$root.logout()">注销</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="table-cell valign-top text-right">
+                        <div class="right-bl">
+                            <ul class="menu clearfix">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+    <!-- HEADER END -->
+    <div id="main">
+    </div>
+    <!-- FOOTER START -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row mb110">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <a href="https://mwow.org" target="_blank">
+                        <img src="/assets/images/logo.png" alt="Mirai 公会管理平台">
+                    </a>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 text-right">
+                    <div class="mt60">
+                        <ul class="footer-list">
+                            <li class="" v-if="!$root.guildId" v-bind:class="{ 'active': active == 'guild' }">
+                                <a v-on:click="open('/guild')">公会</a>
+                            </li>
+                            <li class="" v-bind:class="{ 'active': active == 'activity' }">
+                                <a v-on:click="$root.guildId ? open('/home') : $root.open('/list')">{{ $root.guildId ? '首页' : '活动列表' }}</a>
+                            </li>
+                            <li v-if="!$root.user.token" class="" v-bind:class="{ 'active': active == 'login' }">
+                                <a v-on:click="open('/login')">登录</a>
+                            </li>
+                            <li v-if="$root.guildPermission.guildManager" class="" v-bind:class="{ 'active': active == 'login' }">
+                                <a v-on:click="openNewAct">创建活动</a>
+                            </li>
+                            <li v-if="!!$root.user.token && !$root.guildId" class="" v-bind:class="{ 'active': active == 'create-guild' }">
+                                <a v-on:click="open('/guild/create')">创建公会</a>
+                            </li>
+                            <li v-if="!!$root.user.token" class="">
+                                <a v-on:click="logout">注销</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="copyright ptb30 col-lg-12">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        本平台由<a href="https://mwow.org/reg" target="_blank">Mirai</a>提供
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-right">
+                        V<span id="lbl-build"></span>-beta
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- FOOTER END -->
+</div>

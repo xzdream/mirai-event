@@ -1,0 +1,42 @@
+<div>
+    <!-- PAGE NAME START -->
+    <section class="page-name parallax" data-paroller-factor="0.1" data-paroller-type="background" data-paroller-direction="vertical">
+        <div class="container">
+            <div class="row">
+                <h1 class="page-title">
+                    登录
+                </h1>
+            </div>
+        </div>
+    </section>
+    <!-- PAGE NAME END -->
+    <!-- SECTION START -->
+    <section class="blog-content ptb150 each-element">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-md-push-3">
+                    <table class="login-qrcode-table">
+                        <tr style="color: #3dd0d8">
+                            <td>第一步：使用微信扫描进入小程序</td>
+                            <td>第二步：使用小程序中扫一扫登录</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="border-img" v-if="$root.guildId">
+                                    <img v-bind:src="'/api/guild/' + $root.guildId + '/miniprogram-qrcode.png'" style="background:#fff; width: 100%; border-radius: 15px" />
+                                </div>
+                                <div class="border-img" v-else>
+                                    <img src="/assets/images/mp-qrcode.jpg" style="background:#fff; width: 100%; border-radius: 15px" />
+                                </div>
+                            </td>
+                            <td>
+                                <div id="qrcode" style="padding: 15px; background: #fff; border-radius: 15px;"></div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- SECTION END -->    
+</div>

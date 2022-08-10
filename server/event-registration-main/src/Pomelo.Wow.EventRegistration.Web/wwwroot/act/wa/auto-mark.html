@@ -1,0 +1,55 @@
+﻿<div>
+    <table class="act-table">
+        <colgroup>
+            <col style="width: 120px" />
+        </colgroup>
+        <tr>
+            <td style="vertical-align: top">插件名称</td>
+            <td>自动标记</td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top">适用对象</td>
+            <td>团长</td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top">插件简介</td>
+            <td>本插件实现了按住ctrl键鼠标滑过怪物时，自动为其添加预设的标记。</td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top">参数设置</td>
+            <td class="input-wrap">
+                <div class="wa-group-outer" v-for="(group, i) in groups" v-bind:data-wa-mark-group="i">
+                    <div class="wa-group-title">
+                        <input type="text" v-model="group.name" class="inline-textbox" />
+                        <a class="float-right" v-on:click="deleteGroup(i, group.name)"><i class="fa fa-trash"></i>删除</a>
+                    </div>
+                    <div class="wa-group-inner">
+                        <div class="wa-marks-outer">
+                            <span>选择图标</span>
+                            <img v-for="mark in marks" v-on:click="toggleMark(group, mark)" v-bind:class="{ 'active': group.marks.some(x => x == mark) }" v-bind:src="'/assets/images/tar_' + mark + '.png'" />
+                        </div>
+                        <div class="wa-marks-names">
+                            <div><span>选择目标</span></div>
+                            <div class="wa-marks-name" v-on:click="toggleName(group, enemy)" v-for="enemy in enemies" v-bind:class="{ 'active': group.names.some(x => x == enemy) }">{{ enemy }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <input type="button" v-on:click="addGroup" value="添加分组" class="button" />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>WA字符串</td>
+            <td>
+                <input type="button" class="btn gradient mt30 color-white color-white plr50 ptb19" value="生成WA字符串" v-on:click="generate" />
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="input-wrap">
+                <textarea class="general_input italic" disabled v-model="waString" placeholder="生成的WA字符串"></textarea>
+            </td>
+        </tr>
+    </table>
+</div>

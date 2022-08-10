@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "guild-activity": "guild/activity",
+    "guild-my": "guild/my",
+    "guild-member": "guild/member"
+  }
+}

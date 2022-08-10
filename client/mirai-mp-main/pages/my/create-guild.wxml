@@ -1,0 +1,51 @@
+<view class="{{ isFullScreen ? 'header header-full' : 'header' }}">
+</view>
+<view class="{{ isFullScreen ? 'header-logo header-full' : 'header-logo' }}">
+    <image src="/assets/images/logo.png" alt="" />
+</view>
+<view class="{{ isFullScreen ? 'header-buttons full' : 'header-buttons' }}">
+    <a bindtap="onBackBtnClicked"><i class="fa fa-angle-left"></i> 返回</a>
+</view>
+
+<view class="wrapper {{ isFullScreen ? 'full' : '' }}">
+    <div class="section-title">创建公会</div>
+    <view>
+        <table class="form-table" style="margin-top: 15px; margin-bottom: 15px;">
+            <tr>
+                <td>公会名称</td>
+                <td>
+                    <input class="txtbox" placeholder="点击输入公会名称" model:value="{{ name }}" />
+                </td>
+            </tr>
+            <tr>
+                <td>公会网址</td>
+                <td class="td-domain">
+                    <input class="txtbox" placeholder="请输入英文字母、数字" model:value="{{ domain }}" /><span>.mwow.org</span>
+                </td>
+            </tr>
+            <tr>
+                <td>服务器</td>
+                <td>
+                    <input class="txtbox" placeholder="请输入服务器名称，如“龙之召唤”" model:value="{{ realm }}" />
+                </td>
+            </tr>
+            <tr>
+                <td>阵营</td>
+                <td>
+                    <div bindtap="onFactionClicked" data-faction="Alliance" class="option"><div class="ratio {{ faction == 'Alliance' ? 'selected' : '' }}"><div></div></div> 联盟</div>
+                    <div bindtap="onFactionClicked" data-faction="Horde" class="option"><div class="ratio {{ faction == 'Horde' ? 'selected' : '' }}"><div></div></div> 部落</div>
+                </td>
+            </tr>
+        </table>
+
+        <div class="section-title">请输入正确的服务器名称，否则会无法正确拉取WCL数据，服务器名在公会创建后无法修改。</div>
+
+        <table class="form-table" style="margin-top: 45px; margin-bottom: 15px;">
+            <tr class="row-btn" bindtap="createGuild">
+                <td>创建公会</td>
+            </tr>
+        </table>
+        
+        <div class="section-title">每个账号最多创建3个公会，请谨慎操作。</div>
+    </view>
+</view>

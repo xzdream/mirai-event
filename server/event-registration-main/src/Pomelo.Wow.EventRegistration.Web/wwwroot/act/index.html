@@ -1,0 +1,684 @@
+<div v-if="activity">
+    <!-- PAGE NAME START -->
+    <section class="page-name parallax" data-paroller-factor="0.1" data-paroller-type="background" data-paroller-direction="vertical">
+        <div class="container">
+            <div class="row">
+                <h1 class="page-title">
+                    {{ activity.name }}
+                </h1>
+
+                <div class="breadcrumbs">
+                    {{ activity.description }}
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- PAGE NAME END -->
+    <!-- SECTION START -->
+    <section class="blog-content ptb150 each-element">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-md-10 col-md-push-1">
+                    <div v-show="activity">
+                        <div class="tab-outer">
+                            <a class="tab-item" v-on:click="active = 'registration'" v-bind:class="{ active: active == 'registration' }"><i class="fa fa-user-plus"></i> 活动报名</a>
+                            <a class="tab-item" v-on:click="active = 'grid'; bindDragula()" v-bind:class="{ active: active == 'grid' }"><i class="fa fa-braille"></i> 团队框架</a>
+                            <a class="tab-item" v-on:click="active = 'task'" v-bind:class="{ active: active == 'task' }"><i class="fa fa-puzzle-piece"></i> 任务分配</a>
+                            <a class="tab-item" v-if="ledger && ledger.income && ledger.other && ledger.expense" v-on:click="active = 'ledger'" v-bind:class="{ active: active == 'ledger' }"><i class="fa fa-money"></i> 收支明细</a>
+                            <a class="tab-item" v-on:click="active = 'wa'" v-bind:class="{ active: active == 'wa' }"><i class="fa fa-bolt"></i> WeakAuras</a>
+                            <a class="tab-item" v-on:click="active = 'manage'" v-bind:class="{ active: active == 'manage' }" v-if="permission.guildManager"><i class="fa fa-cog"></i> 管理活动</a>
+                        </div>
+                        <div v-if="active == 'registration'">
+                            <h5>报名情况</h5>
+                            <div class="reg-section" v-for="group in groups">
+                                <div class="class-group">
+                                    <img v-bind:src="group.img" style="margin-right: 10px;" />
+                                    <strong>{{ group.name }}</strong>
+                                    <small style="line-height: 36px" class="float-right">报名：{{ activity.registrations.filter(x => x.role == group.id).length }} / 确认：{{ activity.registrations.filter(x => x.role == group.id && x.status == 4).length }} / 替补：{{ activity.registrations.filter(x => x.role == group.id && x.status == 2).length }}</small>
+                                </div>
+                                <table class="reg-table">
+                                    <colgroup>
+                                        <col style="width: 100px" class="mobile-hidden" />
+                                        <col style="width: 160px" />
+                                    </colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th class="mobile-hidden">状态</th>
+                                            <th>名称</th>
+                                            <th>装等</th>
+                                            <th>WCL %</th>
+                                            <th>经验</th>
+                                            <th>微信</th>
+                                            <th>备注</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody v-if="activity">
+                                        <template v-for="reg in activity.registrations.filter(x => x.role == group.id)">
+                                            <tr v-on:click="reg.toggle = !!!reg.toggle">
+                                                <td class="mobile-hidden">
+                                                    <span class="label-gray" v-if="reg.status == 0">待审核</span>
+                                                    <span class="label-red" v-if="reg.status == 1">被拒绝</span>
+                                                    <span class="label-orange" v-if="reg.status == 2">替补队员</span>
+                                                    <span class="label-purple" v-if="reg.status == 3">已请假</span>
+                                                    <span class="label-green" v-if="reg.status == 4">已通过</span>
+                                                    <span class="label-red" v-if="reg.status == 5">缺席</span>
+                                                </td>
+                                                <td v-bind:class="'class-' + reg.class">
+                                                    <img v-bind:src="'/assets/images/class-' + reg.class + '.png'" class="class-img" />
+                                                    {{ reg.name }}
+                                                    <span class="guild-name" v-if="activity && reg.guildId && activity.domainGuildId != reg.guildId">&lt;{{ reg.guildNameCache }}&gt;</span>
+                                                </td>
+                                                <td v-if="reg.charactor" v-bind:class="getItemColor(bosses[0], reg.charactor.highestItemLevel)">{{ reg.charactor.highestItemLevel }}<span v-if="reg.setCount"> ({{ reg.setCount }}{{ reg.setName }})</span></td>
+                                                <td v-else>-</td>
+                                                <td v-if="!reg.wcl">-</td>
+                                                <td v-else v-bind:class="{ gray: reg.wcl <= 25, green: reg.wcl > 25 && reg.wcl <= 50, blue: reg.wcl > 50 && reg.wcl <= 75, purple: reg.wcl > 75 && reg.wcl < 95, orange: reg.wcl >= 95 }">{{ parseInt(reg.wcl) }}</td>
+                                                <td v-bind:class="{ purple: reg.bossPassed == bosses.length, gray: !!!reg.bossPassed, green: (reg.bossPassed || 0) < bosses.length / 2, blue: (reg.bossPassed || 0) >= bosses.length / 2 && (reg.bossPassed || 0) != bosses.length  }">{{ reg.bossPassed || 0 }} / {{ bosses.length }}</td>
+                                                <td v-if="reg.weChat" class="text-ellipsis"><img v-bind:src="reg.avatarUrl" class="class-img avatar" /> {{ reg.weChat }}</td>
+                                                <td v-else></td>
+                                                <td>{{ reg.hint }}</td>
+                                            </tr>
+                                            <tr v-show="reg.toggle">
+                                                <td colspan="7">
+                                                    <div class="ch-detail">
+                                                        <div v-if="reg.charactor">
+                                                            <div class="ch-tab">
+                                                                <a v-bind:class="{ active: reg.active == 'boss' }" v-on:click="reg.active = 'boss'">击杀概览</a>
+                                                                <a v-bind:class="{ active: reg.active == 'item' }" v-on:click="reg.active = 'item'">装备列表</a>
+                                                            </div>
+                                                            <div v-if="reg.active == 'boss'">
+                                                                <table class="reg-table" style="table-layout: auto">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>首领名称</th>
+                                                                            <th>装等</th>
+                                                                            <th>击杀</th>
+                                                                            <th>WCL %</th>
+                                                                            <th>击杀用时</th>
+                                                                            <th>{{ reg.role == 2 ? 'HPS' : 'DPS' }}</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr v-for="boss in bosses">
+                                                                            <td>{{ boss }}</td>
+                                                                            <td v-if="!reg.boss || !(reg.boss.filter(x => x.Name == boss).length > 0)">-</td>
+                                                                            <td v-else v-bind:class="getItemColor(boss, reg.boss.filter(x => x.Name == boss)[0].ItemLevel)">{{ reg.boss.filter(x => x.Name == boss)[0].ItemLevel }}</td>
+                                                                            <td v-if="!reg.boss || !(reg.boss.filter(x => x.Name == boss).length > 0)">-</td>
+                                                                            <td v-else>{{ reg.boss.filter(x => x.Name == boss)[0].Killed }}</td>
+                                                                            <td v-if="!reg.boss || !(reg.boss.filter(x => x.Name == boss).length > 0)">-</td>
+                                                                            <td v-else v-bind:class="{ gray: reg.boss.filter(x => x.Name == boss)[0].Parse <= 25, green: reg.boss.filter(x => x.Name == boss)[0].Parse > 25 && reg.boss.filter(x => x.Name == boss)[0].Parse <= 50, blue: reg.boss.filter(x => x.Name == boss)[0].Parse > 50 && reg.boss.filter(x => x.Name == boss)[0].Parse <= 75, purple: reg.boss.filter(x => x.Name == boss)[0].Parse > 75 && reg.boss.filter(x => x.Name == boss)[0].Parse < 95, orange: reg.boss.filter(x => x.Name == boss)[0].Parse >= 95 }">{{ reg.boss.filter(x => x.Name == boss)[0].Parse }}</td>
+                                                                            <td v-if="!reg.boss || !reg.boss.filter(x => x.Name == boss)[0]">-</td>
+                                                                            <td v-else>{{ reg.boss.filter(x => x.Name == boss)[0].Fastest }}</td>
+                                                                            <td v-if="!reg.boss || !reg.boss.filter(x => x.Name == boss)[0]">-</td>
+                                                                            <td v-else>{{ parseInt(reg.boss.filter(x => x.Name == boss)[0].Highest) }}</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+
+                                                            <div v-if="reg.active == 'item'">
+                                                                <table class="reg-table">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>装备名称</th>
+                                                                            <th>装等</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr v-for="item in reg.items">
+                                                                            <td v-on:click="openItem(item.id)" v-bind:class="{ gray: item.quality == 0, white: item.quality == 1, green: item.quality == 2, blue: item.quality == 3, purple: item.quality == 4, orange: item.quality == 5 }"><img class="class-img" v-bind:src="item.imageUrl" /> {{ item.name }}</td>
+                                                                            <td v-bind:class="getItemColor(bosses[0], item.itemLevel)">{{ item.itemLevel }}</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <div v-else>没有找到该角色的相关战斗记录</div>
+                                                        <div v-if="permission.guildManager">
+                                                            <hr />
+                                                            <input type="button" value="通过申请" class="form-btn" v-on:click="setStatus(reg.id, 4, reg.role)" />
+                                                            <input type="button" value="拒绝申请" class="form-btn" v-on:click="setStatus(reg.id, 1, reg.role)" />
+                                                            <input type="button" value="设为替补" class="form-btn" v-on:click="setStatus(reg.id, 2, reg.role)" />
+                                                            <input type="button" value="设为坦克" class="form-btn" v-on:click="setStatus(reg.id, reg.status, 0)" />
+                                                            <input type="button" value="设为输出" class="form-btn" v-on:click="setStatus(reg.id, reg.status, 1)" />
+                                                            <input type="button" value="设为治疗" class="form-btn" v-on:click="setStatus(reg.id, reg.status, 2)" />
+                                                            <input type="button" value="设为消费" class="form-btn" v-on:click="setStatus(reg.id, reg.status, 3)" />
+                                                            <input type="button" value="删除申请" class="form-btn" v-on:click="deleteReg(reg.id)" />
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                        <tr v-if="activity.registrations.filter(x => x.role == group.id).length == 0">
+                                            <td colspan="7">暂无报名</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div v-if="activity && activity.status < 3">
+                                <div v-if="$root.guild && $root.guild.registerPolicy != 1">
+                                    <h5>我的角色</h5>
+                                    <table class="reg-table" style="table-layout: auto!important;">
+                                        <thead>
+                                            <tr>
+                                                <th>角色</th>
+                                                <th class="mobile-hidden">服务器</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(ch, i) in myCharactors.filter(x => x.realm == activity.realm)">
+                                                <td v-bind:class="'class-' + ch.class">
+                                                    <img v-bind:src="'/assets/images/class-' + ch.class + '.png'" class="class-img" />
+                                                    {{ ch.name }}
+                                                    <small><a v-on:click="deleteCharactor(ch, i)"><i class="fa fa-trash"></i></a></small>
+                                                </td>
+                                                <td class="mobile-hidden">{{ ch.realm }}</td>
+                                                <td v-if="activity.registrations.filter(x => x.name == ch.name).length">
+                                                    <input class="form-input" type="button" value="请假" v-if="activity.registrations.filter(x => x.name == ch.name)[0].status != 3" v-on:click="leave(ch)" />
+                                                    <input class="form-input" type="button" value="取消请假" v-if="activity.registrations.filter(x => x.name == ch.name)[0].status == 3" v-on:click="leave(ch, false)" />
+                                                </td>
+                                                <td v-else-if="!inProgress">
+                                                    <template v-if="activity.status == 1">
+                                                        <input type="text" class="form-input" style="width: 90px" placeholder="报名备注" v-model="ch.hint" />
+                                                        <select class="form-input" v-model="ch.role">
+                                                            <option value="1">输出</option>
+                                                            <option value="0" v-if="canTank(ch.class)">坦克</option>
+                                                            <option value="2" v-if="canHeal(ch.class)">治疗</option>
+                                                            <option value="3">消费</option>
+                                                        </select>
+                                                        <input class="form-input" type="button" value="报名" v-on:click="register(ch)" />
+                                                    </template>
+                                                </td>
+                                                <td v-else>报名中，请稍候...</td>
+                                            </tr>
+                                            <tr class="table-footer" v-if="activity.status == 1">
+                                                <td>
+                                                    <select class="form-input" v-model="form.newCharactor.class">
+                                                        <option value="1">战士</option>
+                                                        <option value="2">圣骑士</option>
+                                                        <option value="8">萨满祭司</option>
+                                                        <option value="4">猎人</option>
+                                                        <option value="32">德鲁伊</option>
+                                                        <option value="16">潜行者</option>
+                                                        <option value="128">法师</option>
+                                                        <option value="64">术士</option>
+                                                        <option value="256">牧师</option>
+                                                    </select>
+                                                    <input class="form-input" style="width: 110px" type="text" placeholder="角色名" v-model="form.newCharactor.name" />
+                                                </td>
+                                                <td class="mobile-hidden">
+                                                    <input class="form-input" type="text" placeholder="服务器" v-model="form.newCharactor.realm" />
+                                                </td>
+                                                <td>
+                                                    <input class="form-input" type="button" value="添加角色" v-on:click="addCharactor" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div v-else-if="activity" style="text-align: center">
+                                    <div><img v-bind:src="'/api/activity/' + activity.id + '/miniprogram-qrcode.png'" class="mp-qrcode" /></div>
+                                    <div class="mp-qrcode-hint">本公会要求玩家使用微信扫描上方二维码在小程序中报名</div>
+                                </div>
+                            </div>
+                            <div v-if="activity.status != 1" class="cannot-reg">
+                                报名截止日期已过，您已无法报名
+                            </div>
+                        </div>
+                        <div v-if="active == 'grid'">
+                            <div v-for="(grid, i) in grids.data">
+                                <h5>{{ grid.name }} <a class="form-btn grid-btn" v-if="$root.user.token" v-on:click="saveGrids()"><i class="fa fa-save"></i> 保存</a></h5>
+                                <table class="group-grid">
+                                    <thead>
+                                        <tr>
+                                            <td>小队1</td>
+                                            <td>小队2</td>
+                                            <template v-if="grid.mode == 0">
+                                                <td>小队3</td>
+                                                <td>小队4</td>
+                                                <td>小队5</td>
+                                            </template>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(row, r) in grid.grid">
+                                            <template v-for="(col, c) in row">
+                                                <td v-bind:id="`grid-${i}-${r}-${c}`">
+                                                    <div class="grid-out-ch" v-bind:class="'c-' + col.class" v-if="col" v-bind:data-reg-id="col.id">
+                                                        <img v-bind:src="'/assets/images/class-' + col.class + '.png'" />
+                                                        <i class="fa fa-shield" v-if="col.role == 0"></i>
+                                                        <i class="fa fa-plus-circle" v-if="col.role == 2"></i>
+                                                        <i class="fa fa-money" v-if="col.role == 3"></i>
+                                                        <span v-if="col.status == 4">{{ col.name }}</span>
+                                                        <s style="opacity: 0.5" v-else>{{ col.name }}</s>
+                                                    </div>
+                                                </td>
+                                            </template>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="grid-out-ch-outer" v-bind:id="'grid-pending-of-' + i">
+                                    <div class="grid-out-ch" v-bind:class="'c-' + reg.class" v-for="reg in grid.pending" v-bind:data-reg-id="reg.id">
+                                        <img v-bind:src="'/assets/images/class-' + reg.class + '.png'" />
+                                        <i class="fa fa-shield" v-if="reg.role == 0"></i>
+                                        <i class="fa fa-plus-circle" v-if="reg.role == 2"></i>
+                                        <i class="fa fa-money" v-if="reg.role == 3"></i>
+                                        <span v-if="reg.status == 4">{{ reg.name }}</span>
+                                        <s style="opacity: 0.5" v-else>{{ reg.name }}</s>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-if="permission.guildManager">
+                                <h5>创建框架</h5>
+                                <select class="form-input" v-model="form.newGrid.mode">
+                                    <option value="0">25人团队</option>
+                                    <option value="1">10人团队</option>
+                                </select>
+                                <input type="text" v-model="form.newGrid.name" class="form-input" placeholder="框架名称" />
+                                <input value="创建" type="button" class="form-btn" v-on:click="createGrid(form.newGrid.name, form.newGrid.mode)" />
+                            </div>
+                        </div>
+                        <div v-show="active == 'task'">
+                            <div v-if="activeTaskUI == 'normal'">
+                                <div class="task-group" v-for="(group, i) in tasks.groups">
+                                    <div class="task-title">
+                                        <img src="/assets/images/wa.png" v-if="group.wa" style="height: 20px" title="这项任务是一个WA智能任务，您可以导出这项任务的WA字符串，导入游戏后将会在游戏中显示该任务的提示信息。" />
+                                        <span v-if="!group.wa">{{ group.name }}</span>
+                                        <span v-else-if="group.name.indexOf('WeakAuras - ') == 0">{{ group.name.substr('WeakAuras - '.length) }}</span>
+                                        <span v-else>{{ group.name }}</span>
+                                        <a v-if="taskEdit && permission.guildManager" class="form-btn" style="float:right; font-weight: normal" v-on:click="tasks.groups.splice(i, 1);$forceUpdate();"><i class="fa fa-trash"></i> 删除任务组</a>
+                                    </div>
+                                    <div class="task-item" v-for="(task, j) in group.tasks">
+                                        <a class="delete-task" v-if="taskEdit && permission.guildManager" v-on:click="group.tasks.splice(j, 1);$forceUpdate();"><i class="fa fa-minus-circle"></i></a>
+                                        <img src="/assets/images/task.svg" />
+                                        <span>{{ task.text }}</span>
+                                        <div class="task-players">
+                                            <template v-if="activity && activity.registrations">
+                                                <span v-on:click="activeTask = `${i},${j}`" v-for="reg in activity.registrations" v-if="task.players.some(x => x == reg.id)" v-bind:class="'class-' + reg.class" class="task-player">
+                                                    <img v-bind:src="'/assets/images/class-' + reg.class + '.png'" class="class-img" />
+                                                    <i class="fa fa-shield" v-if="reg.role == 0"></i>
+                                                    <i class="fa fa-plus-circle" v-if="reg.role == 2"></i>
+                                                    <i class="fa fa-money" v-if="reg.role == 3"></i>
+                                                    <span v-if="reg.status == 4">{{ reg.name }}</span>
+                                                    <s style="opacity: 0.5" v-else>{{ reg.name }}</s>
+                                                </span>
+                                            </template>
+                                            <a v-on:click="activeTask = `${i},${j}`" style="color: #3dd0d8" v-if="taskEdit && permission.guildManager"><i class="fa fa-user"></i></a>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="task-item-new" v-if="taskEdit && permission.guildManager">
+                                        <div class="form-row">
+                                            <div class="input-wrap">
+                                                <input type="text" placeholder="任务内容" class="general_input italic task-content" style="width: calc(100% - 140px);">
+                                                <input type="button" value="创建" class="btn gradient color-white color-white plr50 ptb19" style="width: 120px; margin-left: 10px;" v-on:click="createTask(group, $event)">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <template v-if="permission.guildManager">
+                                    <template v-if="taskEdit">
+                                        <div class="task-title">创建任务组</div>
+                                        <div class="form-row">
+                                            <div class="input-wrap">
+                                                <input type="text" placeholder="任务组名称" class="general_input italic" v-model="form.newTaskGroup.name" style="width: 50%;">
+                                                <input type="button" value="创建" class="btn gradient color-white color-white plr50 ptb19" style="width: 120px; margin-left: 10px;" v-on:click="createTaskGroup(form.newTaskGroup.name)">
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <div style="margin-top: 30px">
+                                        <div class="input-wrap">
+                                            <template v-if="taskEdit">
+                                                <input type="button" value="保存任务列表" class="btn gradient color-white color-white plr50 ptb19" style="width: 200px;" v-on:click="saveTasks()">
+                                                <input type="button" value="导入/导出任务" class="btn gradient color-white color-white plr50 ptb19;" style="width: 200px; margin-left: 10px" v-on:click="importExportTasks()">
+                                                <input type="button" value="取消编辑" class="btn gradient color-white color-white plr50 ptb19;" style="width: 200px; margin-left: 10px" v-on:click="taskEdit = false">
+                                            </template>
+                                            <template v-else>
+                                                <input type="button" value="编辑任务" class="btn gradient color-white color-white plr50 ptb19" style="width: 200px;" v-on:click="taskEdit = true">
+                                            </template>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                            <div v-else>
+                                <div class="input-wrap">
+                                    <textarea placeholder="任务字符串" class="general_input italic" style="text-transform: none;" v-model="taskString"></textarea>
+                                </div>
+                                <input type="button" value="导入任务" class="btn gradient color-white color-white plr50 ptb19" style="width: 200px;" v-on:click="importTasks()">
+                                <input type="button" value="返回" class="btn gradient color-white color-white plr50 ptb19" style="width: 200px;" v-on:click="activeTaskUI = 'normal'">
+                            </div>
+                        </div>
+                        <div v-show="active == 'manage'">
+                            <div id="act-manage-container" style="margin-top: 55px">
+                            </div>
+                        </div>
+                        <div v-show="active == 'wa'">
+                            <div id="act-wa-container" style="margin-top: 55px">
+                            </div>
+                        </div>
+                        <div v-if="active == 'ledger'">
+                            <div class="row">
+                                <div class="col-sm-7 col-md-8 col-lg-8 col-sm-push-5 col-md-push-4 col-lg-push-4">
+                                    <div v-if="activeLedger == 'detail'">
+                                        <div class="class-group">
+                                            <img src="/assets/images/consumer.jpg" style="margin-right: 10px;" />
+                                            <strong>装备收入</strong>
+                                        </div>
+                                        <table class="reg-table" style="margin-bottom: 30px">
+                                            <thead>
+                                                <tr>
+                                                    <th>物品</th>
+                                                    <th>数量</th>
+                                                    <th>玩家</th>
+                                                    <th>金额</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody v-if="ledger && ledger.income && ledger.other && ledger.expense">
+                                                <tr v-for="x in ledger.income">
+                                                    <td v-if="x.item" v-on:click="openItem(x.item.id)" v-bind:class="{ gray: x.item.quality == 0, white: x.item.quality == 1, green: x.item.quality == 2, blue: x.item.quality == 3, purple: x.item.quality == 4, orange: x.item.quality == 5 }"><img class="class-img" v-bind:src="x.item.imageUrl" /> {{ x.item.name }}</td>
+                                                    <td v-else>{{ x.name }}</td>
+                                                    <td>{{ x.amount }}</td>
+                                                    <td v-if="activity.registrations.some(y => y.name == x.player)" v-bind:class="'class-' + activity.registrations.filter(y => y.name == x.player)[0].class">
+                                                        <img v-bind:src="'/assets/images/class-' + activity.registrations.filter(y => y.name == x.player)[0].class + '.png'" class="class-img">
+                                                        {{ x.player }}
+                                                    </td>
+                                                    <td v-else-if="x.class" v-bind:class="'class-' + x.class">
+                                                        <img v-bind:src="'/assets/images/class-' + x.class + '.png'" class="class-img">
+                                                        {{ x.player }}
+                                                    </td>
+                                                    <td v-else>
+                                                        {{ x.player }}
+                                                    </td>
+                                                    <td>{{ x.price }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="class-group">
+                                            <img src="/assets/images/consumer.jpg" style="margin-right: 10px;" />
+                                            <strong>其他收入</strong>
+                                        </div>
+                                        <table class="reg-table" style="margin-bottom: 30px">
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="2">款项</th>
+                                                    <th>玩家</th>
+                                                    <th>金额</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody v-if="ledger && ledger.income && ledger.other && ledger.expense">
+                                                <tr v-for="x in ledger.other">
+                                                    <td colspan="2">{{ x.name }}</td>
+                                                    <td v-if="activity.registrations.some(y => y.name == x.player)" v-bind:class="'class-' + activity.registrations.filter(y => y.name == x.player)[0].class">
+                                                        <img v-bind:src="'/assets/images/class-' + activity.registrations.filter(y => y.name == x.player)[0].class + '.png'" class="class-img">
+                                                        {{ x.player }}
+                                                    </td>
+                                                    <td v-else-if="x.class" v-bind:class="'class-' + x.class">
+                                                        <img v-bind:src="'/assets/images/class-' + x.class + '.png'" class="class-img">
+                                                        {{ x.player }}
+                                                    </td>
+                                                    <td v-else>
+                                                        {{ x.player }}
+                                                    </td>
+                                                    <td>{{ x.price }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="class-group">
+                                            <img src="/assets/images/consumer.jpg" style="margin-right: 10px;" />
+                                            <strong>支出</strong>
+                                        </div>
+                                        <table class="reg-table" style="margin-bottom: 30px">
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="2">款项</th>
+                                                    <th>玩家</th>
+                                                    <th>金额</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody v-if="ledger && ledger.income && ledger.other && ledger.expense">
+                                                <tr v-for="x in ledger.expense">
+                                                    <td colspan="2">{{ x.name }}</td>
+                                                    <td v-if="activity.registrations.some(y => y.name == x.player)" v-bind:class="'class-' + activity.registrations.filter(y => y.name == x.player)[0].class">
+                                                        <img v-bind:src="'/assets/images/class-' + activity.registrations.filter(y => y.name == x.player)[0].class + '.png'" class="class-img">
+                                                        {{ x.player }}
+                                                    </td>
+                                                    <td v-else-if="x.class" v-bind:class="'class-' + x.class">
+                                                        <img v-bind:src="'/assets/images/class-' + x.class + '.png'" class="class-img">
+                                                        {{ x.player }}
+                                                    </td>
+                                                    <td v-else>
+                                                        {{ x.player }}
+                                                    </td>
+                                                    <td>{{ x.price }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div v-if="activeLedger == 'boss'">
+                                        <div class="class-group">
+                                            <img src="/assets/images/consumer.jpg" style="margin-right: 10px;" />
+                                            <strong>装备收入</strong>
+                                        </div>
+                                        <table class="reg-table" style="margin-bottom: 30px" v-if="ledger && ledger.income && ledger.other && ledger.expense && ledger.statistics && ledger.statistics.categories">
+                                            <template v-for="category in ledger.statistics.categories">
+                                                <thead>
+                                                    <tr class="tr-category">
+                                                        <th colspan="4"><span class="ledger-category">{{ category.category || '其他' }}</span> <span class="float-right">{{ category.price }}G</span></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>物品</th>
+                                                        <th>数量</th>
+                                                        <th>玩家</th>
+                                                        <th>金额</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr v-for="x in category.details">
+                                                        <td v-if="x.item" v-on:click="openItem(x.item.id)" v-bind:class="{ gray: x.item.quality == 0, white: x.item.quality == 1, green: x.item.quality == 2, blue: x.item.quality == 3, purple: x.item.quality == 4, orange: x.item.quality == 5 }"><img class="class-img" v-bind:src="x.item.imageUrl" /> {{ x.item.name }}</td>
+                                                        <td v-else>{{ x.name }}</td>
+                                                        <td>{{ x.amount }}</td>
+                                                        <td v-if="activity.registrations.some(y => y.name == x.player)" v-bind:class="'class-' + activity.registrations.filter(y => y.name == x.player)[0].class">
+                                                            <img v-bind:src="'/assets/images/class-' + activity.registrations.filter(y => y.name == x.player)[0].class + '.png'" class="class-img">
+                                                            {{ x.player }}
+                                                        </td>
+                                                        <td v-else-if="x.class" v-bind:class="'class-' + x.class">
+                                                            <img v-bind:src="'/assets/images/class-' + x.class + '.png'" class="class-img">
+                                                            {{ x.player }}
+                                                        </td>
+                                                        <td v-else>
+                                                            {{ x.player }}
+                                                        </td>
+                                                        <td>{{ x.price }}</td>
+                                                    </tr>
+                                                </tbody>
+                                                <tr style="height: 40px">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </template>
+                                        </table>
+                                        <div class="class-group">
+                                            <img src="/assets/images/consumer.jpg" style="margin-right: 10px;" />
+                                            <strong>其他收入</strong>
+                                        </div>
+                                        <table class="reg-table" style="margin-bottom: 30px">
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="2">款项</th>
+                                                    <th>玩家</th>
+                                                    <th>金额</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody v-if="ledger && ledger.income && ledger.other && ledger.expense">
+                                                <tr v-for="x in ledger.other">
+                                                    <td colspan="2">{{ x.name }}</td>
+                                                    <td v-if="activity.registrations.some(y => y.name == x.player)" v-bind:class="'class-' + activity.registrations.filter(y => y.name == x.player)[0].class">
+                                                        <img v-bind:src="'/assets/images/class-' + activity.registrations.filter(y => y.name == x.player)[0].class + '.png'" class="class-img">
+                                                        {{ x.player }}
+                                                    </td>
+                                                    <td v-else-if="x.class" v-bind:class="'class-' + x.class">
+                                                        <img v-if="x.player" v-bind:src="'/assets/images/class-' + x.class + '.png'" class="class-img">
+                                                        {{ x.player }}
+                                                    </td>
+                                                    <td v-else>
+                                                        {{ x.player }}
+                                                    </td>
+                                                    <td>{{ x.price }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="class-group">
+                                            <img src="/assets/images/consumer.jpg" style="margin-right: 10px;" />
+                                            <strong>支出</strong>
+                                        </div>
+                                        <table class="reg-table" style="margin-bottom: 30px">
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="2">款项</th>
+                                                    <th>玩家</th>
+                                                    <th>金额</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody v-if="ledger && ledger.income && ledger.other && ledger.expense">
+                                                <tr v-for="x in ledger.expense">
+                                                    <td colspan="2">{{ x.name }}</td>
+                                                    <td v-if="activity.registrations.some(y => y.name == x.player)" v-bind:class="'class-' + activity.registrations.filter(y => y.name == x.player)[0].class">
+                                                        <img v-bind:src="'/assets/images/class-' + activity.registrations.filter(y => y.name == x.player)[0].class + '.png'" class="class-img">
+                                                        {{ x.player }}
+                                                    </td>
+                                                    <td v-else-if="x.class" v-if="x.player" v-bind:class="'class-' + x.class">
+                                                        <img v-bind:src="'/assets/images/class-' + x.class + '.png'" class="class-img">
+                                                        {{ x.player }}
+                                                    </td>
+                                                    <td v-else>
+                                                        {{ x.player }}
+                                                    </td>
+                                                    <td>{{ x.price }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div v-if="activeLedger == 'top'">
+                                        <table class="reg-table" style="margin-bottom: 30px">
+                                            <thead>
+                                                <tr>
+                                                    <th>排行</th>
+                                                    <th>玩家</th>
+                                                    <th>金额</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody v-if="ledger && ledger.statistics">
+                                                <tr v-for="(x, i) in ledger.statistics.topConsumers">
+                                                    <td>{{ i + 1 }}</td>
+                                                    <td v-if="activity.registrations.some(y => y.name == x.player)" v-bind:class="'class-' + activity.registrations.filter(y => y.name == x.player)[0].class">
+                                                        <img v-bind:src="'/assets/images/class-' + activity.registrations.filter(y => y.name == x.player)[0].class + '.png'" class="class-img">
+                                                        {{ x.player }}
+                                                    </td>
+                                                    <td v-else-if="x.class" v-bind:class="'class-' + x.class">
+                                                        <img v-bind:src="'/assets/images/class-' + x.class + '.png'" class="class-img">
+                                                        {{ x.player }}
+                                                    </td>
+                                                    <td v-else>
+                                                        {{ x.player }}
+                                                    </td>
+                                                    <td>{{ x.price }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div v-if="activeLedger == 'summary'">
+                                        <table class="reg-table" style="margin-bottom: 30px" v-if="ledger && ledger.statistics">
+                                            <tbody>
+                                                <tr>
+                                                    <td>总收入</td>
+                                                    <td>{{ ledger.statistics.summary.total }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>总支出</td>
+                                                    <td>{{ ledger.statistics.summary.expense }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>净利润</td>
+                                                    <td>{{ ledger.statistics.summary.profit }}</td>
+                                                </tr>
+                                                <template v-if="ledger.statistics.summary.split">
+                                                    <tr>
+                                                        <td>打工人数</td>
+                                                        <td>{{ ledger.statistics.summary.split }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>人均收入</td>
+                                                        <td>{{ ledger.statistics.summary.per }}</td>
+                                                    </tr>
+                                                </template>
+                                                <tr v-else>
+                                                    <td style="color: rgb(255,128,128);" colspan="2">[插件过时] 人均收入信息需使用最新版金团助手导入</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="sidebar col-sm-5 col-md-4 col-lg-4 col-sm-pull-7 col-md-pull-8 col-lg-pull-8">
+                                    <div class="widget-bl categories-widget">
+                                        <h5 class="fsize-20">活动账本</h5>
+                                        <div class="widget-wrapper">
+                                            <ul class="list-1 menu-list">
+                                                <li class="color1" v-bind:class="{ 'active': activeLedger == 'summary' }">
+                                                    <a v-on:click="activeLedger = 'summary'">
+                                                        <i class="fa fa-fw fa-money"></i>
+                                                        <span>概览</span>
+                                                    </a>
+                                                </li>
+                                                <li class="color1" v-bind:class="{ 'active': activeLedger == 'detail' }">
+                                                    <a v-on:click="activeLedger = 'detail'">
+                                                        <i class="fa fa-fw fa-money"></i>
+                                                        <span>收支详情</span>
+                                                    </a>
+                                                </li>
+                                                <li class="color1" v-bind:class="{ 'active': activeLedger == 'boss' }" v-if="ledger.statistics && ledger.statistics.categories">
+                                                    <a v-on:click="activeLedger = 'boss'">
+                                                        <i class="fa fa-fw fa-money"></i>
+                                                        <span>BOSS详情</span>
+                                                    </a>
+                                                </li>
+                                                <li class="color1" v-bind:class="{ 'active': activeLedger == 'top' }">
+                                                    <a v-on:click="activeLedger = 'top'">
+                                                        <i class="fa fa-fw fa-money"></i>
+                                                        <span>消费榜</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-show="!activity">
+                        正在加载活动信息...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="player-picker" v-show="activeTask && permission.guildManager">
+        <div class="player-picker-title">
+            <i class="fa fa-user-circle-o"></i> 选择玩家
+        </div>
+        <div class="player-picker-list">
+            <div class="player-picker-list-item" v-for="reg in activity.registrations" v-bind:class="'class-' + reg.class" v-if="reg.id" v-on:click="toggleTaskPlayer(reg.id)">
+                <img v-bind:src="'/assets/images/class-' + reg.class + '.png'" class="class-img" />
+                <i class="fa fa-shield" v-if="reg.role == 0"></i>
+                <i class="fa fa-plus-circle" v-if="reg.role == 2"></i>
+                <i class="fa fa-money" v-if="reg.role == 3"></i>
+                <span v-if="reg.status == 4">{{ reg.name }}</span>
+                <s style="opacity: 0.5" v-else>{{ reg.name }}</s>
+                <i v-if="activeTask && findTask().players.some(x => x == reg.id)" class="fa fa-check-circle" style="color: greenyellow; float:right"></i>
+            </div>
+        </div>
+        <div class="player-picker-footer">
+            <input type="button" class="form-btn" v-on:click="activeTask = null" value="确定" />
+        </div>
+    </div>
+    <!-- SECTION END -->
+</div>

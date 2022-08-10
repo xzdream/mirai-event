@@ -1,0 +1,30 @@
+<view>
+    <activity-manage-basic wx:if="{{ active == 'basic' && activity && permission.guildManager }}" activity="{{ activity }}" permission="{{ permission }}"></activity-manage-basic>
+    <activity-manage-delete wx:if="{{ active == 'delete' && activity && permission.guildManager }}" activity="{{ activity }}" permission="{{ permission }}"></activity-manage-delete>
+    <activity-manage-wcl wx:if="{{ active == 'wcl' && activity && permission.guildManager }}" activity="{{ activity }}" permission="{{ permission }}"></activity-manage-wcl>
+    <activity-manage-ledger wx:if="{{ active == 'ledger' && activity && permission.guildManager }}" activity="{{ activity }}" permission="{{ permission }}"></activity-manage-ledger>
+</view>
+
+<view class="{{ isFullScreen ? 'footer footer-full' : 'footer' }}" wx:if="{{ loaded }}">
+    <view class="table">
+        <!-- 底部导航栏 -->
+        <view class="table-tr">
+            <view class="table-td" style="color: {{ active == 'basic' ? '#3dd0d8' : '#c2d4f8' }}" data-active="basic" bindtap="switchTab">
+                <div class="btn-icon"><i class="fa fa-pencil"></i></div>
+                <div class="btn-text">基本</div>
+            </view>
+            <view class="table-td" style="color: {{ active == 'wcl' ? '#3dd0d8' : '#c2d4f8' }}" data-active="wcl" bindtap="switchTab">
+                <div class="btn-icon"><i class="fa fa-globe"></i></div>
+                <div class="btn-text">WCL</div>
+            </view>
+            <!-- <view class="table-td" style="color: {{ active == 'ledger' ? '#3dd0d8' : '#c2d4f8' }}" data-active="ledger" bindtap="switchTab">
+                <div class="btn-icon"><i class="fa fa-money"></i></div>
+                <div class="btn-text">账本</div>
+            </view> -->
+            <view class="table-td" style="color: {{ active == 'delete' ? '#3dd0d8' : '#c2d4f8' }}" data-active="delete" bindtap="switchTab">
+                <div class="btn-icon"><i class="fa fa-trash"></i></div>
+                <div class="btn-text">删除</div>
+            </view>
+        </view>
+    </view>
+</view>

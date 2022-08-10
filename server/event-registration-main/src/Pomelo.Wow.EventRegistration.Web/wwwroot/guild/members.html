@@ -1,0 +1,36 @@
+﻿<div>
+    <div class="tab-outer">
+        <a class="tab-item" v-on:click="days = 7" v-bind:class="{ active: days == 7 }">近一周</a>
+        <a class="tab-item" v-on:click="days = 30" v-bind:class="{ active: days == 30 }">近一个月</a>
+        <a class="tab-item" v-on:click="days = 180" v-bind:class="{ active: days == 180 }">近半年</a>
+    </div>
+    <table class="reg-table">
+        <colgroup>
+            <col />
+            <col style="width: 70px" />
+            <col />
+        </colgroup>
+        <thead>
+            <tr>
+                <th>成员</th>
+                <th>出席</th>
+                <th>常用角色</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="member in members">
+                <td><img v-bind:src="member.avatarUrl" class="class-img avatar" /> {{ member.nickname }}</td>
+                <td>{{ member.attend }}</td>
+                <td>
+                    <span v-for="ch in member.charactors" v-bind:class="'class-' + ch.class" style="margin-right: 10px">
+                        <img v-bind:src="'/assets/images/class-' + ch.class + '.png'" class="class-img" />
+                        {{ ch.name }}
+                    </span>
+                </td>
+            </tr>
+            <tr v-if="members.length == 0">
+                <td colspan="3">暂无成员</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

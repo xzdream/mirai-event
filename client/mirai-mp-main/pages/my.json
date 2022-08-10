@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "my-profile": "my/profile",
+    "my-create-guild": "my/create-guild"
+  }
+}

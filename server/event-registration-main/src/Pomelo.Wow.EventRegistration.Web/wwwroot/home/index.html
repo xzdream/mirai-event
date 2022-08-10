@@ -1,0 +1,110 @@
+<div>
+    <!-- PAGE NAME START -->
+    <section class="page-name parallax" data-paroller-factor="0.1" data-paroller-type="background" data-paroller-direction="vertical">
+        <div class="container">
+            <div class="row">
+                <h1 class="page-title" v-if="active == 'activity'">公会活动</h1>
+                <h1 class="page-title" v-if="active == 'new-act'">创建活动</h1>
+                <h1 class="page-title" v-if="active == 'about'">关于公会</h1>
+                <h1 class="page-title" v-if="active == 'price'">装备价目表</h1>
+                <h1 class="page-title" v-if="active == 'manager'">管理员设置</h1>
+                <h1 class="page-title" v-if="active == 'icon'">公会图标设置</h1>
+                <h1 class="page-title" v-if="active == 'reg-policy'">报名策略</h1>
+                <h1 class="page-title" v-if="active == 'members'">公会成员</h1>
+            </div>
+
+            <div class="breadcrumbs" v-if="$root.guild">
+                {{ $root.guild.realm }} - {{ $root.guild.faction == 0 ? '联盟' : '部落' }} - {{ $root.guild.name }}
+            </div>
+        </div>
+    </section>
+    <!-- PAGE NAME END -->
+    <!-- SECTION START -->
+    <section class="blog-content ptb150 each-element">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-7 col-md-8 col-lg-8 col-sm-push-5 col-md-push-4 col-lg-push-4">
+                    <div id="guild-container"></div>
+                </div>
+                <div class="sidebar col-sm-5 col-md-4 col-lg-4 col-sm-pull-7 col-md-pull-8 col-lg-pull-8">
+                    <div class="widget-bl categories-widget">
+                        <h5 class="fsize-20" v-if="$root.guild">{{ $root.guild.name }}</h5>
+                        <div class="widget-wrapper">
+                            <ul class="list-1 menu-list">
+                                <li class="color1" v-on:click="active = 'activity'" v-bind:class="{ 'active': active == 'activity' }">
+                                    <a>
+                                        <i class="fa fa-fw fa-calendar"></i>
+                                        <span>公会活动</span>
+                                    </a>
+                                </li>
+                                <li class="color1" v-on:click="active = 'members'" v-bind:class="{ 'active': active == 'members' }">
+                                    <a>
+                                        <i class="fa fa-fw fa-user"></i>
+                                        <span>公会成员</span>
+                                    </a>
+                                </li>
+                                <li class="color1" v-if="$root.guildPermission.guildManager" v-on:click="active = 'new-act'" v-bind:class="{ 'active': active == 'new-act' }">
+                                    <a>
+                                        <i class="fa fa-fw fa-calendar-plus-o"></i>
+                                        <span>创建活动</span>
+                                    </a>
+                                </li>
+                                <li class="color1" v-on:click="active = 'price'" v-bind:class="{ 'active': active == 'price' }">
+                                    <a>
+                                        <i class="fa fa-fw fa-diamond"></i>
+                                        <span>装备价目表</span>
+                                    </a>
+                                </li>
+                                <li class="color1" v-on:click="active = 'about'" v-bind:class="{ 'active': active == 'about' }">
+                                    <a>
+                                        <i class="fa fa-fw fa-info-circle"></i>
+                                        <span>关于公会</span>
+                                    </a>
+                                </li>
+                                <template v-if="$root.guildPermission.guildManager">
+                                    <li class="color1" v-on:click="active = 'manager'" v-bind:class="{ 'active': active == 'manager' }">
+                                        <a>
+                                            <i class="fa fa-fw fa-users"></i>
+                                            <span>管理员设置</span>
+                                        </a>
+                                    </li>
+                                    <li class="color1" v-on:click="active = 'reg-policy'" v-bind:class="{ 'active': active == 'reg-policy' }">
+                                        <a>
+                                            <i class="fa fa-fw fa-gavel"></i>
+                                            <span>报名策略</span>
+                                        </a>
+                                    </li>
+                                    <li class="color1">
+                                        <a href="#">
+                                            <i class="fa fa-fw fa-pencil"></i>
+                                            <span>公会简介设置</span>
+                                        </a>
+                                    </li>
+                                    <li class="color1" v-on:click="active = 'icon'" v-bind:class="{ 'active': active == 'icon' }">
+                                        <a>
+                                            <i class="fa fa-fw fa-image"></i>
+                                            <span>公会图标设置</span>
+                                        </a>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="widget-bl calendar-widget">
+                        <div class="widget-wrapper">
+                            <div class="calendar-bl">
+                                <div class="calendar-container"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="$root.guild && $root.guild.name">
+                        <div><img v-bind:src="'/api/guild/' + $root.guildId + '/miniprogram-qrcode.png'" style="background:#fff; width: 100%; border-radius: 15px" /></div>
+                        <div class="mp-guild-icon"><img v-bind:src="$root.guild.guildListImageUrl" /></div>
+                        <div style="margin-top: 15px; text-align: center; color: #3dd0d8">微信扫描收藏{{ $root.guild.name }}微信小程序</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- SECTION END -->
+</div>

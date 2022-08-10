@@ -1,0 +1,29 @@
+﻿<div v-cloak>
+    <div class="search-dropdown-box">
+        <input type="text" class="textbox" placeholder="搜索公会..." v-model="form.guild" />
+    </div>
+    <div class="guild-wrapper">
+        <div class="guild-item" v-for="guild in result.data">
+            <table>
+                <colgroup>
+                    <col style="width: 50px;" />
+                </colgroup>
+                <tr v-on:click="$root.openWindow(`https://${guild.id}.mwow.org`)">
+                    <td>
+                        <img v-if="!guild.guildListImageUrl" src="/assets/images/guild-image.jpg" alt="" class="img-responsive">
+                        <img v-else v-bind:src="guild.guildListImageUrl" alt="" class="img-responsive">
+                    </td>
+                    <td>
+                        {{ guild.name }}
+                        <span class="right guild-item-hint">
+                            {{ guild.realm }} - {{ guild.faction == 0 ? '联盟' : '部落' }}
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="guild-item" v-if="!result.data.length">
+            <div class="text-center" style="line-height: 40px;">没有找到公会...</div>
+        </div>
+    </div>
+</div>

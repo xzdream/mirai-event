@@ -1,0 +1,21 @@
+﻿{
+  "Id": "auto-mark",
+  "Name": "【Mirai】自动标记",
+  "Arguments": [
+    {
+      "Key": "GROUP_COUNT",
+      "Default": "0",
+      "Description": "标记分组数量"
+    },
+    {
+      "Key": "GROUP_DEF",
+      "Default": "",
+      "Description": "标记分组定义（代码）"
+    },
+    {
+      "Key": "NAMES_DEF",
+      "Default": "",
+      "Description": "怪物名称定义（代码）"
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+<view class="{{ isFullScreen ? 'header header-full' : 'header' }}">
+</view>
+<view class="{{ isFullScreen ? 'header-logo header-full' : 'header-logo' }}">
+    <image wx:if="{{ guild && guild.guildLogoUrl }}" src="{{ host + guild.guildLogoUrl }}" alt="" />
+    <image wx:else src="/assets/images/logo.png" alt="" />
+</view>
+<view class="{{ isFullScreen ? 'header-buttons full' : 'header-buttons' }}">
+    <a bindtap="onBackBtnClicked"><i class="fa fa-angle-left"></i> 返回</a>
+</view>
+
+<view class="wrapper {{ isFullScreen ? 'full' : '' }}">
+    <div class="section-title">发起公会活动</div>
+    <view>
+        <table class="form-table" style="margin-top: 15px; margin-bottom: 15px;">
+            <tr>
+                <td>活动名称</td>
+                <td>
+                    <input class="txtbox" placeholder="点击输入活动名称" model:value="{{ name }}" />
+                </td>
+            </tr>
+            <tr>
+                <td>活动须知</td>
+                <td>
+                    <input class="txtbox" placeholder="点击输入活动须知" model:value="{{ description }}" />
+                </td>
+            </tr>
+            <tr>
+                <td>报名截止</td>
+                <td>
+                    <date-time-picker data-field="deadline" bind:change="handleDateTimePickerChanged" value="{{ deadline }}">{{ deadline }}</date-time-picker>
+                </td>
+            </tr>
+            <tr>
+                <td>活动开始</td>
+                <td>
+                    <date-time-picker data-field="begin" bind:change="handleDateTimePickerChanged" value="{{ begin }}">{{ begin }}</date-time-picker>
+                </td>
+            </tr>
+            <tr>
+                <td>活动时长</td>
+                <td class="td-domain">
+                    <input class="txtbox" placeholder="点击输入活动时长" model:value="{{ duration }}" /><span>小时</span>
+                </td>
+            </tr>
+        </table>
+        
+        <div class="section-title" style="margin-top: 30px;">选择活动副本</div>
+        <table class="form-table">
+            <tr wx:for="{{ raids }}" wx:for-item="raid" wx:for-index="i">
+                <td data-raid="{{ raid.id }}" data-index="{{ i }}" bindtap="toggleRaid">
+                    <image class="raid-img" src="{{ host + '/assets/images/raid/' + raid.id + '.jpg' }}" />
+                    <span>{{ raid.name }}</span>
+                    <i wx:if="{{ raid.checked }}" class="fa fa-check-circle right raid-checked"></i>
+                </td>
+            </tr>
+        </table>
+
+        <div class="section-title" style="margin-top: 30px;">转发设置</div>
+        <table class="form-table">
+            <tr>
+                <td data-allow="{{ false }}" bindtap="switchAllowForward">
+                    <span>禁止转发至其他公会</span>
+                    <i wx:if="{{ !allowForward }}" class="fa fa-check-circle right raid-checked"></i>
+                </td>
+            </tr>
+            <tr>
+                <td data-allow="{{ true }}" bindtap="switchAllowForward">
+                    <span>允许转发至其他公会</span>
+                    <i wx:if="{{ allowForward }}" class="fa fa-check-circle right raid-checked"></i>
+                </td>
+            </tr>
+        </table>
+
+        <table class="form-table" style="margin-top: 45px; margin-bottom: 15px;">
+            <tr class="row-btn" bindtap="createActivity">
+                <td>发起活动</td>
+            </tr>
+        </table>
+        
+        <div class="section-title">您可以在 https://{{ guildId }}.mwow.org 上对创建活动进行更多的管理操作</div>
+    </view>
+</view>

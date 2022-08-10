@@ -1,0 +1,60 @@
+<view class="{{ isFullScreen ? 'header header-full' : 'header' }}">
+</view>
+<view class="{{ isFullScreen ? 'header-logo header-full' : 'header-logo' }}">
+    <div class="text-title">{{activity.name}}</div>
+</view>
+<view wx:if="canBack" class="{{ isFullScreen ? 'header-buttons full' : 'header-buttons' }}">
+    <a bindtap="onBackBtnClicked"><i class="fa fa-angle-left"></i> 返回</a>
+</view>
+
+<view class="wrapper {{ isFullScreen ? 'full' : '' }}">
+    <div class="section-title">
+        <span>收入概览</span>
+    </div>
+    <table class="form-table" style="margin-bottom: 30px; font-size: 12px; font-weight: bold;">
+        <tr>
+            <td>总收入</td>
+            <td style="text-align: right;">{{ activity.ledger.statistics.summary.total }}G</td>
+        </tr>
+        <tr>
+            <td>总支出</td>
+            <td style="text-align: right;">{{ activity.ledger.statistics.summary.expense }}G</td>
+        </tr>
+        <tr>
+            <td>净利润</td>
+            <td style="text-align: right;">{{ activity.ledger.statistics.summary.profit }}G</td>
+        </tr>
+        <tr wx:if="{{ activity.ledger.statistics.summary.split }}">
+            <td>打工人数</td>
+            <td style="text-align: right;">{{ activity.ledger.statistics.summary.split }}人</td>
+        </tr>
+        <tr wx:if="{{ activity.ledger.statistics.summary.split }}">
+            <td>人均收入</td>
+            <td style="text-align: right;">{{ activity.ledger.statistics.summary.per }}G</td>
+        </tr>
+    </table>
+
+    <view>
+        <div class="section-title">
+            <span>快捷操作</span>
+        </div>
+        <view>
+            <button class="btn-rect" open-type="share">
+                <div><i class="fa fa-share"></i></div>
+                <div>分享</div>
+            </button>
+            <button class="btn-rect" bindtap="onBackBtnClicked">
+                <div><i class="fa fa-calendar"></i></div>
+                <div>返回活动</div>
+            </button>
+            <button class="btn-rect" bindtap="onBackToGuildClicked">
+                <div><i class="fa fa-building"></i></div>
+                <div>公会主页</div>
+            </button>
+            <button class="btn-rect" bindtap="onBackToHomeBtnClicked">
+                <div><i class="fa fa-list"></i></div>
+                <div>公会列表</div>
+            </button>
+        </view>
+    </view>
+</view>

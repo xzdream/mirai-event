@@ -1,0 +1,61 @@
+﻿<div>
+    <div style="margin-bottom: 20px">
+        克隆活动将本报名帖中的人员、团队框架等信息作为基础，创建一个新的活动
+    </div>
+    <div>
+        <table class="act-table">
+            <tr>
+                <td>活动名称</td>
+                <td class="input-wrap">
+                    <input type="text" v-model="form.name" class="general_input italic" placeholder="活动名称" />
+                </td>
+            </tr>
+            <tr>
+                <td>活动说明</td>
+                <td class="input-wrap">
+                    <textarea class="general_input italic" v-model="form.description" placeholder="活动说明：如开组时间、装等要求等"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>报名截止日期</td>
+                <td class="input-wrap">
+                    <input id="txt-clone-deadline" type="text" class="general_input italic" />
+                </td>
+            </tr>
+            <tr>
+                <td>活动开始时间</td>
+                <td class="input-wrap">
+                    <input id="txt-clone-begin" type="text" class="general_input italic" />
+                </td>
+            </tr>
+            <tr>
+                <td>副本</td>
+                <td>
+                    <label v-for="raid in raids" class="raid-label">
+                        <img v-bind:src="'/assets/images/raid/' + raid.id + '.jpg'" />
+                        <br />
+                        <span>{{ raid.name }}</span>
+                        <input type="checkbox" v-bind:value="raid.id" v-model="selectedRaids" />
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>克隆人员选项</td>
+                <td class="input-wrap">
+                    <select class="general_input italic input" v-model="form.rule">
+                        <option v-bind:value="0">不克隆报名人员</option>
+                        <option v-bind:value="1">仅克隆批准入团人员</option>
+                        <option v-bind:value="2">克隆全部人员</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="button" class="btn gradient mt30 color-white color-white plr50 ptb19" value="克隆活动" v-on:click="clone" />
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</div>

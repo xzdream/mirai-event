@@ -1,0 +1,49 @@
+<view class="{{ isFullScreen ? 'header header-full' : 'header' }}">
+</view>
+<view class="{{ isFullScreen ? 'header-logo header-full' : 'header-logo' }}">
+    <div class="text-title">{{activity.name}}</div>
+</view>
+<view wx:if="canBack" class="{{ isFullScreen ? 'header-buttons full' : 'header-buttons' }}">
+    <a bindtap="onBackBtnClicked"><i class="fa fa-angle-left"></i> 返回</a>
+</view>
+
+<view class="wrapper {{ isFullScreen ? 'full' : '' }}">
+    <view wx:for="{{ grouped }}" wx:for-item="group" wx:if="{{ activity }}" wx:for-index="idx">
+        <table class="form-table reg-table grid-name {{ group.display ? 'active' : '' }}" data-index="{{ idx }}" bindtap="onGridNameClicked" wx:if="{{ !party.length }}">
+            <tr>
+                <td>{{ group.name }}</td>
+            </tr>
+        </table>
+
+        <view wx:if="{{ group.display }}" wx:for="{{ group.parties }}" wx:for-index="partyIndex" wx:for-item="party">
+            <view class="section-title">
+                <span>小队{{ partyIndex + 1 }}</span>
+            </view>
+
+            <table class="form-table reg-table">
+                <tr wx:for="{{ party }}" wx:for-item="reg">
+                    <td>
+                        <a>
+                            <div>
+                                <div>
+                                    <span class="character-name {{ 'class-' + reg.class }}">
+                                        <!-- <image class="class-img" src="{{ '/assets/images/class-' + reg.class + '.png' }}" /> -->
+                                        {{ reg.name }}
+                                    </span>
+                                    <span class="right reg-label">
+                                        <span class="label-gray" wx-if="{{ reg.status == 0 }}">待审核</span>
+                                        <span class="label-red" wx-if="{{ reg.status == 1 }}">被拒绝</span>
+                                        <span class="label-orange" wx-if="{{ reg.status == 2 }}">替补队员</span>
+                                        <span class="label-purple" wx-if="{{ reg.status == 3 }}">已请假</span>
+                                        <span class="label-green" wx-if="{{ reg.status == 4 }}">已通过</span>
+                                        <span class="label-red" wx-if="{{ reg.status == 5 }}">缺席</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </view>
+    </view>
+</view>

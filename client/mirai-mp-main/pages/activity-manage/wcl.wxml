@@ -1,0 +1,20 @@
+<view class="{{ isFullScreen ? 'header header-full' : 'header' }}">
+</view>
+<view class="{{ isFullScreen ? 'header-logo header-full' : 'header-logo' }}">
+    <div class="text-title">{{activity.name}}</div>
+</view>
+<view class="{{ isFullScreen ? 'header-buttons full' : 'header-buttons' }}">
+    <a bindtap="onBackBtnClicked"><i class="fa fa-angle-left"></i> 返回</a>
+</view>
+
+<view class="wrapper {{ isFullScreen ? 'full' : '' }}">
+    <div class="section-title">WCL同步</div>
+    <view>
+        <table class="form-table" style="margin-bottom: 15px;">
+            <tr class="row-btn" bindtap="updateWcl">
+                <td>强制同步WCL</td>
+            </tr>
+        </table>
+        <div class="section-title">报名帖中的装等、经验数据等信息均来自WCL榜，玩家在报名时会访问WCL拉取这些数据，但如果报名帖发起时间与实际活动开始时间间隔过长会导致数据不同步，因此您可以在这里强制拉取所有报名人员的实时WCL数据。</div>
+    </view>
+</view>

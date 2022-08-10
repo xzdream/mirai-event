@@ -1,0 +1,22 @@
+﻿<div>
+    <div class="header-buttons">
+        <a class="right" v-on:click="search()"><i class="fa fa-search"></i> 搜索</a>
+    </div>
+    <div class="ch-wrapper">
+        <div class="section-title">搜索角色</div>
+        <table class="form-table">
+            <colgroup>
+                <col style="width: 75px" />
+                <col />
+            </colgroup>
+            <tr>
+                <td>角色名</td>
+                <td><input class="inline-textbox" v-model="name" /></td>
+            </tr>
+            <tr>
+                <td>服务器</td>
+                <td><input class="inline-textbox" v-model="realm" /></td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+<view class="{{ isFullScreen ? 'header header-full' : 'header' }}">
+</view>
+<view class="{{ isFullScreen ? 'header-logo header-full' : 'header-logo' }}">
+    <div class="text-title">{{activity.name}}</div>
+</view>
+<view class="{{ isFullScreen ? 'header-buttons full' : 'header-buttons' }}">
+    <a bindtap="onBackBtnClicked"><i class="fa fa-angle-left"></i> 返回</a>
+</view>
+
+<view class="wrapper {{ isFullScreen ? 'full' : '' }}">
+    <div class="section-title">删除活动</div>
+    <view>
+        <table class="form-table" style="margin-top: 15px; margin-bottom: 15px;">
+            <tr>
+                <td>
+                    <input class="txtbox" placeholder="请输入“我确定”" model:value="{{ confirm }}" />
+                </td>
+            </tr>
+        </table>
+        
+        <div class="section-title">删除后报名数据将无法找回。如您确定删除，请在上面的编辑框中输入“我确定”。</div>
+
+        <table class="form-table" style="margin-top: 45px; margin-bottom: 15px;">
+            <tr class="row-btn" bindtap="deleteActivity" style="color:rgb(255,128,128)">
+                <td>删除活动</td>
+            </tr>
+        </table>
+    </view>
+</view>

@@ -1,0 +1,36 @@
+<view class="{{ isFullScreen ? 'header header-full' : 'header' }}">
+</view>
+<view class="{{ isFullScreen ? 'header-logo header-full' : 'header-logo' }}">
+    <div class="text-title">报名策略</div>
+</view>
+<view wx:if="canBack" class="{{ isFullScreen ? 'header-buttons full' : 'header-buttons' }}">
+    <a bindtap="onBackBtnClicked"><i class="fa fa-angle-left"></i> 返回</a>
+</view>
+
+<view class="wrapper {{ isFullScreen ? 'full' : '' }}">
+    <view>
+        <div class="section-title">报名策略</div>
+        <view>
+            <table class="form-table">
+                <tr>
+                    <td data-policy="0" bindtap="onPolicyOptionClicked">
+                        <span>允许使用所有平台报名</span>
+                        <i wx:if="{{ policy == 0 }}" class="fa fa-check-circle right raid-checked"></i>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-policy="1" bindtap="onPolicyOptionClicked">
+                        <span>强制使用小程序报名</span>
+                        <i wx:if="{{ policy == 1 }}" class="fa fa-check-circle right raid-checked"></i>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="form-table" style="margin-top: 15px; margin-bottom: 15px;">
+                <tr>
+                    <td class="row-btn" bindtap="onSaveBtnClicked">保存</td>
+                </tr>
+            </table>
+        </view>
+    </view>
+</view>

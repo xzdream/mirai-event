@@ -1,0 +1,32 @@
+<view class="{{ isFullScreen ? 'header header-full' : 'header' }}">
+</view>
+<view class="{{ isFullScreen ? 'header-logo header-full' : 'header-logo' }}">
+    <div class="text-title">{{activity.name}}</div>
+</view>
+<view wx:if="canBack" class="{{ isFullScreen ? 'header-buttons full' : 'header-buttons' }}">
+    <a bindtap="onBackBtnClicked"><i class="fa fa-angle-left"></i> 返回</a>
+</view>
+
+<view class="wrapper {{ isFullScreen ? 'full' : '' }}">
+    <div class="section-title">
+        <span>消费排行</span>
+    </div>
+    <table class="form-table" style="margin-bottom: 30px; font-size: 12px; font-weight: bold;">
+        <tbody wx:if="{{ activity.ledger && activity.ledger.statistics }}">
+            <tr wx:for="{{ activity.ledger.statistics.topConsumers }}" wx:for-item="x">
+                <td wx:if="{{ x._player }}" class="{{ 'class-' + x._player.class }}">
+                    <!-- <image src="{{ '/assets/images/class-' + x._player.class + '.png' }}" class="class-img" /> -->
+                    {{ x.player }}
+                </td>
+                <td wx:elif="{{ x.class }}" class="{{ 'class-' + x.class }}">
+                    <!-- <image src="{{ '/assets/images/class-' + x.class + '.png' }}" class="class-img" /> -->
+                    {{ x.player }}
+                </td>
+                <td wx:else>
+                    {{ x.player }}
+                </td>
+                <td class="{{ x._priceCss }}" style="text-align: right;">{{ x.price }}G</td>
+            </tr>
+        </tbody>
+    </table>
+</view>

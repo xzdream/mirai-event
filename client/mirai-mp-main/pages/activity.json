@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "activity-reg": "activity/reg",
+    "activity-grid": "activity/grid",
+    "activity-task": "activity/task",
+    "activity-submit": "activity/submit"
+  }
+}

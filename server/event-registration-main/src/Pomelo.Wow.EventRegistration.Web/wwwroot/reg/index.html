@@ -1,0 +1,54 @@
+<div>
+    <!-- PAGE NAME START -->
+    <section class="page-name parallax" data-paroller-factor="0.1" data-paroller-type="background" data-paroller-direction="vertical">
+        <div class="container">
+            <div class="row">
+                <h1 class="page-title">
+                    新用户注册
+                </h1>
+                <div class="breadcrumbs">
+                    注册成为会员后，您将可以创建自己的公会，或帮助他人管理公会
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- PAGE NAME END -->
+    <!-- SECTION START -->
+    <section class="blog-content ptb150 each-element">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-md-push-3">
+                    <div class="form-row">
+                        <div class="input-wrap">
+                            <input type="text" class="general_input italic" placeholder="用户名" v-model="form.username">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-wrap">
+                            <input type="password" class="general_input italic" placeholder="密码" v-model="form.password">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-wrap">
+                            <input type="password" class="general_input italic" placeholder="密码重复" v-model="form.confirm">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-wrap">
+                            <input type="text" class="general_input italic" placeholder="电子邮箱地址" v-model="form.email">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-wrap">
+                            <input type="text" class="general_input italic" placeholder="昵称" v-model="form.displayName">
+                        </div>
+                    </div>
+                    <div>
+                        <input type="button" class="btn gradient mt30 color-white color-white plr50 ptb19" value="注册" v-on:click="reg" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- SECTION END -->    
+</div>

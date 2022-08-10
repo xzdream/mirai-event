@@ -1,0 +1,83 @@
+<div>
+    <!-- PAGE NAME START -->
+    <section class="page-name parallax" data-paroller-factor="0.1" data-paroller-type="background" data-paroller-direction="vertical">
+        <div class="container">
+            <div class="row">
+                <h1 class="page-title">
+                    近期活动
+                </h1>
+            </div>
+        </div>
+    </section>
+    <!-- PAGE NAME END -->
+    <!-- SECTION START -->
+    <section class="blog-content ptb150 each-element">
+        <div class="container">
+            <div class="row" v-if="result && result.data">
+                <div class="col-lg-8 col-md-8 col-md-push-2">
+                    <article class="vertical-item format-thumb fsize-0 clearfix" v-for="act in result.data">
+                        <div class="item-left-img col-lg-4 col-md-4 col-sm-12 col-xs-12 equal-height">
+                            <img v-if="act.raids == '1,2'" src="/assets/images/raid/1_2.png" />
+                            <img v-else-if="act.raids == '3,4'" src="/assets/images/raid/3_4.png" />
+                            <img v-else-if="act.raids == '5,6'" src="/assets/images/raid/5_6.png" />
+                            <img v-else v-bind:src="'/assets/images/raid/' + act.raids.split(',')[0].trim() + '.jpg'">
+                        </div>
+                        <div class="post-content col-lg-8 col-md-8 col-sm-12 col-xs-12 equal-height">
+                            <div class="post-wrapper">
+                                <div class="table">
+                                    <div class="table-row">
+                                        <div class="table-cell valign-top">
+                                            <div class="platform fsize-14 fweight-700 uppercase orange">
+                                                <span class="act-status green" v-if="act.status == 1">报名中</span>
+                                                <span class="act-status blue" v-if="act.status == 2">报名截止</span>
+                                                <span class="act-status orange" v-if="act.status == 3">进行中</span>
+                                                <span class="act-status gray" v-if="act.status == 4">已结束</span>
+                                                {{ act.realm }} - {{ act.faction == 0 ? '联盟' : '部落' }} - {{ act.guildName }}
+                                            </div>
+                                        </div>
+                                        <div class="table-cell valign-top text-right">
+                                            <div class="fsize-14 fweight-700 uppercase">
+                                                {{ $root.moment(act.begin).format('YYYY年MM月DD日 HH:mm') }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt15">
+                                    <a v-on:click="$root.open('/act?id=' + act.id)" class="post-title">
+                                        <h5>
+                                            {{ act.name }}
+                                        </h5>
+                                    </a>
+                                    <div class="fsize-16 lheight-26 mt15" data-trim="140">
+                                        {{ act.description }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="post-bottom table">
+                                <div class="table-cell valign-middle">
+                                    <i class="fa fa-star color-1 fsize-14" aria-hidden="true"></i>
+                                    <span class="color-2 fsize-14 ml5" style="margin-right: 15px">{{ act.raidLeader }}</span>
+
+                                    <i class="fa fa-clock-o color-1 fsize-14" aria-hidden="true"></i>
+                                    <span class="color-2 fsize-14 ml5">{{ parseFloat(act.estimatedDurationInHours).toFixed(1) }}小时</span>
+                                </div>
+                                <div class="table-cell valign-middle text-right">
+                                    <i class="fa fa-user color-1 fsize-14" aria-hidden="true"></i>
+                                    <span class="color-2 fsize-14 ml5">{{ act.registeredCount }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    <div class="col-lg-12 text-center mt60" v-if="result && result.currentPage < result.totalPages - 1">
+                        <div class="pagination-page">
+                            <a class="page-numbers prev" style="width: 200px" v-on:click="next">
+                                加载更多
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- SECTION END -->    
+</div>

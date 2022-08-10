@@ -1,0 +1,11 @@
+@import "/app.wxss";
+
+.form-table td {
+    line-height: 48px;
+    font-size: 16px;
+}
+
+.search-btn {
+    text-align: center;
+    color: #3dd0d8;
+}

@@ -1,0 +1,31 @@
+﻿<div>
+    <div>
+        <table class="reg-table">
+            <thead>
+                <tr>
+                    <th>用户名</th>
+                    <th>昵称</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="manager in managers">
+                    <td>{{ manager.username }}</td>
+                    <td>{{ manager.displayName }}</td>
+                    <td>
+                        <input type="button" value="删除" class="form-btn" v-on:click="deleteManager(manager.username)" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div style="margin-top: 25px;">
+            <div class="form-row">
+                <div class="input-wrap">
+                    <input type="text" class="general_input italic" style="width: 50%" placeholder="用户名" v-model="form.username">
+                    <input type="button" class="btn gradient color-white color-white plr50 ptb19" style="width: 120px;margin-left:10px" value="添加管理员" v-on:click="createManager" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

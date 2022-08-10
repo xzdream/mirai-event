@@ -1,0 +1,30 @@
+<view>
+    <ledger-summary wx:if="{{ activity && active == 'summary' }}" activity="{{ activity }}"></ledger-summary>
+    <ledger-detail wx:if="{{ activity && active == 'detail' }}" activity="{{ activity }}"></ledger-detail>
+    <ledger-top wx:if="{{ activity && active == 'top' }}" activity="{{ activity }}"></ledger-top>
+    <ledger-boss wx:if="{{ activity && active == 'boss' }}" activity="{{ activity }}"></ledger-boss>
+</view>
+
+<view class="{{ isFullScreen ? 'footer footer-full' : 'footer' }}" wx:if="{{ loaded }}">
+    <view class="table">
+        <!-- 底部导航栏 -->
+        <view class="table-tr">
+            <view class="table-td" style="color: {{ active == 'summary' ? '#3dd0d8' : '#c2d4f8' }}" data-active="summary" bindtap="switchTab">
+                <div class="btn-icon"><i class="fa fa-money"></i></div>
+                <div class="btn-text">概览</div>
+            </view>
+            <view class="table-td" style="color: {{ active == 'top' ? '#3dd0d8' : '#c2d4f8' }}" data-active="top" bindtap="switchTab">
+                <div class="btn-icon"><i class="fa fa-trophy"></i></div>
+                <div class="btn-text">排行</div>
+            </view>
+            <view class="table-td" style="color: {{ active == 'detail' ? '#3dd0d8' : '#c2d4f8' }}" data-active="detail" bindtap="switchTab">
+                <div class="btn-icon"><i class="fa fa-diamond"></i></div>
+                <div class="btn-text">详情</div>
+            </view>
+            <view class="table-td" wx:if="{{ activity.ledger.statistics.categories }}" style="color: {{ active == 'boss' ? '#3dd0d8' : '#c2d4f8' }}" data-active="boss" bindtap="switchTab">
+                <div class="btn-icon"><i class="fa fa-flag-checkered"></i></div>
+                <div class="btn-text">分组</div>
+            </view>
+        </view>
+    </view>
+</view>

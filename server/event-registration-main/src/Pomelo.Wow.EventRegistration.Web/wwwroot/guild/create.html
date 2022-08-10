@@ -1,0 +1,50 @@
+<div>
+    <!-- PAGE NAME START -->
+    <section class="page-name parallax" data-paroller-factor="0.1" data-paroller-type="background" data-paroller-direction="vertical">
+        <div class="container">
+            <div class="row">
+                <h1 class="page-title">
+                    创建公会
+                </h1>
+            </div>
+        </div>
+    </section>
+    <!-- PAGE NAME END -->
+    <!-- SECTION START -->
+    <section class="blog-content ptb150 each-element">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-md-push-3">
+                    <div class="form-row">
+                        <div class="input-wrap">
+                            <input type="text" class="general_input italic" placeholder="公会名称" v-model="form.name">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-wrap">
+                            <input type="text" class="general_input italic" style="display: inline-block; width: 50%" placeholder="公会网址（英文字母、数字）" v-model="form.id">
+                            .mwow.org
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-wrap">
+                            <input type="text" class="general_input italic" placeholder="服务器，如：龙之召唤" v-model="form.realm">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-wrap">
+                            <select class="general_input input" v-model="form.faction">
+                                <option value="Alliance">联盟</option>
+                                <option value="Horde">部落</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <input type="button" class="btn gradient mt30 color-white color-white plr50 ptb19" value="创建公会" v-on:click="create" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- SECTION END -->    
+</div>

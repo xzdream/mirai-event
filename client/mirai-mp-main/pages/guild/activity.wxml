@@ -1,0 +1,57 @@
+<view class="{{ isFullScreen ? 'header header-full' : 'header' }}">
+</view>
+<view class="{{ isFullScreen ? 'header-logo header-full' : 'header-logo' }}">
+    <image wx:if="{{ guild && guild.guildLogoUrl }}" src="{{ host + guild.guildLogoUrl }}" alt="" />
+    <image wx:else src="/assets/images/logo.png" alt="" />
+</view>
+<view class="{{ isFullScreen ? 'header-buttons full' : 'header-buttons' }}">
+    <a bindtap="onNavigateToHomeBtnClicked" class="btn-home"><i class="fa fa-home"></i></a>
+</view>
+
+<view class="act-dropdown-box {{ isFullScreen ? 'full' : '' }}">
+    <div class="tab-outer">
+        <a class="tab-item {{ status == 0 ? 'active' : '' }}" data-status="0" bindtap="changeStatusTab">全部</a>
+        <a class="tab-item {{ status == 1 ? 'active' : '' }}" data-status="1" bindtap="changeStatusTab">报名中</a>
+        <a class="tab-item {{ status == 2 ? 'active' : '' }}" data-status="2" bindtap="changeStatusTab">报名截止</a>
+        <a class="tab-item {{ status == 3 ? 'active' : '' }}" data-status="3" bindtap="changeStatusTab">进行中</a>
+        <a class="tab-item {{ status == 4 ? 'active' : '' }}" data-status="4" bindtap="changeStatusTab">已结束</a>
+    </div>
+</view>
+
+<view class="wrapper {{ isFullScreen ? 'full' : '' }}">
+    <table class="wcl-table">
+        <tr data-id="{{ act.id }}" bindtap="navigateToGuild" wx:for="{{ result.data }}" wx:for-item="act">
+            <td>
+                <image class="raid-icon" wx:if="{{ act.raids == '1,2' }}" src="{{ host }}/assets/images/raid/1_2.png" />
+                <image class="raid-icon" wx:elif="{{ act.raids == '3,4' }}" src="{{ host }}/assets/images/raid/3_4.png" />
+                <image class="raid-icon" wx:elif="{{ act.raids == '5,6' }}" src="{{ host }}/assets/images/raid/5_6.png" />
+                <image class="raid-icon" wx:else src="{{ (host + '/assets/images/raid/' + act._firstRaid + '.jpg') }}" />
+            </td>
+            <td>
+                <div class="first-line">
+                    {{ act.name }}
+                </div>
+                <div class="subline" style="zoom: 1.2">
+                    <i style="color:#fff" class="fa fa-calendar"></i> {{ act._begin }}
+                    <i style="color:#fff; margin-left: 5px" class="fa fa-star"></i> {{ act.raidLeader }}
+                    <i style="color:#fff; margin-left: 5px" class="fa fa-user"></i> {{ act.registeredCount }}
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <table class="wcl-table">
+        <tr wx:if="{{ !result.data.length }}">
+            <td colspan="2" class="text-center" style="line-height: 40px;">没有找到活动...</td>
+        </tr>
+        <tr wx:if="{{ result && result.currentPage < result.totalPages - 1 }}" bindtap="next">
+            <td colspan="2" class="text-center" style="line-height: 40px;">点击加载更多</td>
+        </tr>
+    </table>
+
+    <table class="wcl-table" wx:if="{{ guildPermission.guildManager }}">
+        <tr bindtap="onCreateActivityBtnClicked">
+            <td colspan="2" class="text-center row-btn" style="line-height: 40px;"><i class="fa fa-plus"></i> 创建活动</td>
+        </tr>
+    </table>
+</view>

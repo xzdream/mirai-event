@@ -1,0 +1,18 @@
+@import "/app.wxss";
+
+.guild-item td:nth-child(1) {
+    width: 50px;
+}
+
+.guild-item td:nth-child(2) {
+    text-align: left;
+    line-height: 32px;
+}
+
+.guild-item td {
+    vertical-align: middle;
+}
+
+.guild-wrapper.full {
+    padding-bottom: 75px;
+}

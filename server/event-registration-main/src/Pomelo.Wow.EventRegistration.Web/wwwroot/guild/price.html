@@ -1,0 +1,90 @@
+﻿<div>
+    <div v-show="active == 'price'">
+        <table class="reg-table">
+            <thead>
+                <tr>
+                    <th>价目表</th>
+                    <th>更新于</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="price in prices" v-on:click="openPrice(price.id)">
+                    <td>{{ price.name }}</td>
+                    <td>{{ $root.moment(price.createdAt).format('YYYY/MM/DD') }}</td>
+                </tr>
+                <tr v-if="prices.length == 0">
+                    <td colspan="2">公会尚未创建价目表</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div style="margin-top: 25px;" v-if="$root.guildPermission.guildManager">
+            <div class="form-row">
+                <div class="input-wrap">
+                    <input type="text" class="general_input italic" style="width: 50%" placeholder="价目表名称" v-model="form.createPrice.name">
+                    <input type="button" class="btn gradient color-white color-white plr50 ptb19" style="width: 120px;margin-left:10px" value="创建" v-on:click="createPrice" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div v-if="active == 'price-detail'">
+        <h5>{{ price.name }} <a class="form-btn grid-btn" v-if="$root.guildPermission.guildManager" v-on:click="patchPrice()"><i class="fa fa-save"></i> 保存</a></h5>
+
+        <template v-for="group in price.data">
+            <div style="margin-top:25px">{{ group.name }}</div>
+            <table class="reg-table price-table">
+                <thead>
+                    <tr>
+                        <th>装备名称</th>
+                        <th>装等</th>
+                        <th>起拍价</th>
+                        <th>封顶价</th>
+                        <th v-if="$root.user.token">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, i) in group.items">
+                        <td v-on:click="openItem(item.id)" v-bind:class="{ gray: item.quality == 0, white: item.quality == 1, green: item.quality == 2, blue: item.quality == 3, purple: item.quality == 4, orange: item.quality == 5 }"><img class="class-img" v-bind:src="item.imageUrl" /> {{ item.name }}</td>
+                        <td>{{ item.itemLevel }}</td>
+                        <td v-if="!$root.guildPermission.guildManager">{{ item.initial }}</td>
+                        <td v-else><input class="form-input" type="text" v-model="item.initial" placeholder="起拍价" /></td>
+                        <td v-if="!$root.guildPermission.guildManager">{{ item.cap || '不封顶' }}</td>
+                        <td v-else><input class="form-input" type="text" v-model="item.cap" placeholder="封顶价" /></td>
+                        <td v-if="$root.guildPermission.guildManager"><input type="button" v-on:click="removeItem(group, i)" class="form-btn" value="删除" /></td>
+                    </tr>
+                    <tr v-if="!$root.guildPermission.guildManager && !group.items.length">
+                        <td v-bind:colspan="4">该分组下没有装备</td>
+                    </tr>
+                    <tr v-if="!working && $root.guildPermission.guildManager">
+                        <td colspan="2">
+                            <input class="form-input" type="text" v-model="form.createItem.itemId" placeholder="装备ID" />
+                        </td>
+                        <td>
+                            <input class="form-input" type="text" v-model="form.createItem.initial" placeholder="起拍价" />
+                        </td>
+                        <td>
+                            <input class="form-input" type="text" v-model="form.createItem.cap" placeholder="封顶价" />
+                        </td>
+                        <td>
+                            <input class="form-input" type="button" value="创建" v-on:click="createItem(group)" />
+                        </td>
+                    </tr>
+                    <tr v-if="$root.guildPermission.guildManager && working">
+                        <td colspan="5">创建中...</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+            </div>
+        </template>
+
+        <div style="margin-top: 45px;" v-if="$root.user.token">
+            <div class="form-row">
+                <div class="input-wrap">
+                    <input type="text" class="general_input italic" style="width: 50%" placeholder="价目分组名称" v-model="form.createGroup.name">
+                    <input type="button" class="btn gradient color-white color-white plr50 ptb19" style="width: 120px;margin-left:10px" value="创建" v-on:click="createGroup" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+<view class="{{ isFullScreen ? 'header header-full' : 'header' }}">
+</view>
+<view class="{{ isFullScreen ? 'header-logo header-full' : 'header-logo' }}">
+    <div class="text-title">设置管理员</div>
+</view>
+<view wx:if="canBack" class="{{ isFullScreen ? 'header-buttons full' : 'header-buttons' }}">
+    <a bindtap="onBackBtnClicked"><i class="fa fa-angle-left"></i> 返回</a>
+</view>
+
+<view class="wrapper {{ isFullScreen ? 'full' : '' }}">
+    <div class="section-title">管理员列表</div>
+    
+    <view>
+        <table class="form-table" style="margin-top: 15px; margin-bottom: 15px;">
+            <tr wx:for="{{ managers }}">
+                <td class="manager-row" bindtap="onManagerClicked" data-username="{{ item.username }}">
+                    <text class="first-line">{{ item.displayName || item.username }} {{ item.username == me ? '(你自己)' : '' }}</text>
+                    <text class="second-line">{{ item.username }}</text>
+                </td>
+            </tr>
+        </table>
+    </view>
+
+    <view style="margin-top: 45px">
+        <div class="section-title" style="margin-top: 45px">添加管理员</div>
+        <view>
+            <table class="form-table" style="margin-top: 15px; margin-bottom: 15px;">
+                <tr>
+                    <td>
+                        <input class="txt-nickname" model:value="{{ username }}" placeholder="点击输入用户ID" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="row-btn" bindtap="onAddManagerBtnClicked">添加为管理员</td>
+                </tr>
+            </table>
+        </view>
+    </view>
+</view>

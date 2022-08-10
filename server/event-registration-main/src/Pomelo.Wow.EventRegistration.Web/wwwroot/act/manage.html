@@ -1,0 +1,59 @@
+﻿<div>
+    <div class="row">
+        <div class="col-sm-7 col-md-8 col-lg-8 col-sm-push-5 col-md-push-4 col-lg-push-4">
+            <div id="act-manage-inner-container"></div>
+        </div>
+        <div class="sidebar col-sm-5 col-md-4 col-lg-4 col-sm-pull-7 col-md-pull-8 col-lg-pull-8">
+            <div class="widget-bl categories-widget">
+                <h5 class="fsize-20">管理活动</h5>
+                <div class="widget-wrapper">
+                    <ul class="list-1 menu-list">
+                        <li class="color1" v-bind:class="{ 'active': active == 'common' }">
+                            <a v-on:click="open('common')">
+                                <i class="fa fa-fw fa-pencil"></i>
+                                <span>基本设置</span>
+                            </a>
+                        </li>
+                        <li class="color1" v-bind:class="{ 'active': active == 'import' }">
+                            <a v-on:click="open('import')">
+                                <i class="fa fa-fw fa-sign-in"></i>
+                                <span>导入玩家</span>
+                            </a>
+                        </li>
+                        <li class="color1" v-bind:class="{ 'active': active == 'ledger' }">
+                            <a v-on:click="open('ledger')">
+                                <i class="fa fa-fw fa-money"></i>
+                                <span>导入账本</span>
+                            </a>
+                        </li>
+                        <li class="color1" v-bind:class="{ 'active': active == 'wcl' }">
+                            <a v-on:click="open('wcl')">
+                                <i class="fa fa-fw fa-globe"></i>
+                                <span>WCL同步</span>
+                            </a>
+                        </li>
+                        <li class="color1" v-bind:class="{ 'active': active == 'clone' }">
+                            <a v-on:click="open('clone')">
+                                <i class="fa fa-fw fa-copy"></i>
+                                <span>克隆活动</span>
+                            </a>
+                        </li>
+                        <li class="color1" v-bind:class="{ 'active': active == 'delete' }">
+                            <a v-on:click="open('delete')">
+                                <i class="fa fa-fw fa-trash"></i>
+                                <span>删除活动</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="widget-bl calendar-widget">
+                <div class="widget-wrapper">
+                    <div class="calendar-bl">
+                        <div class="calendar-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+﻿<div>
+    <table class="act-table">
+        <colgroup>
+            <col style="width: 120px" />
+        </colgroup>
+        <tr>
+            <td style="vertical-align: top">插件名称</td>
+            <td>BUFF检查</td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top">适用对象</td>
+            <td>团长</td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top">插件简介</td>
+            <td>本插件实现了BUFF丢失自动密语，屏幕提示缺少BUFF的人员。</td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top">参数设置</td>
+            <td class="input-wrap">
+                <div class="task-item" v-if="taskIndex >= 0" v-for="(task, j) in tasks.groups[taskIndex].tasks">
+                    <img src="/assets/images/task.svg" />
+                    <span>{{ task.text }}</span>
+                    <div class="task-players">
+                        <template>
+                            <span v-for="reg in activity.registrations" v-on:click="$parent.$parent.activeTask = `${taskIndex},${j}`" v-if="task.players.some(x => x == reg.id)" v-bind:class="'class-' + reg.class" class="task-player">
+                                <img v-bind:src="'/assets/images/class-' + reg.class + '.png'" class="class-img" />
+                                <i class="fa fa-shield" v-if="reg.role == 0"></i>
+                                <i class="fa fa-plus-circle" v-if="reg.role == 2"></i>
+                                <i class="fa fa-money" v-if="reg.role == 3"></i>
+                                <span v-if="reg.status == 4">{{ reg.name }}</span>
+                                <s style="opacity: 0.5" v-else>{{ reg.name }}</s>
+                            </span>
+                            <a style="color: #3dd0d8" v-if="!task.players.length" v-on:click="$parent.$parent.activeTask = `${taskIndex},${j}`">未分配</a>
+                        </template>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>WA字符串</td>
+            <td>
+                <input type="button" class="btn gradient mt30 color-white color-white plr50 ptb19" value="生成WA字符串" v-on:click="generate" />
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="input-wrap">
+                <textarea class="general_input italic" disabled v-model="waString" placeholder="生成的WA字符串"></textarea>
+            </td>
+        </tr>
+    </table>
+</div>

@@ -1,0 +1,45 @@
+<view class="{{ isFullScreen ? 'header header-full' : 'header' }}">
+</view>
+<view class="{{ isFullScreen ? 'header-logo header-full' : 'header-logo' }}">
+    <image src="/assets/images/logo.png" alt="" />
+</view>
+<view class="{{ isFullScreen ? 'header-buttons full' : 'header-buttons' }}">
+    <a bindtap="onBackBtnClicked"><i class="fa fa-angle-left"></i> 返回</a>
+</view>
+
+<view class="wrapper {{ isFullScreen ? 'full' : '' }}">
+    <div class="section-title">我的昵称</div>
+    <view>
+        <table class="form-table" style="margin-top: 15px; margin-bottom: 15px;">
+            <tr>
+                <td>
+                    <input class="txt-nickname" placeholder="点击输入昵称..." model:value="{{ nickname }}" />
+                </td>
+            </tr>
+            <tr>
+                <td class="row-btn" bindtap="patchDisplayName">保存新昵称</td>
+            </tr>
+        </table>
+
+        <div class="section-title">这个昵称将显示在活动列表中，作为团长名称显示，建议使用游戏中角色名称作为昵称。</div>
+    </view>
+
+    <div class="section-title" style="margin-top: 45px">我管理的公会</div>
+    
+    <table wx:if="{{ !myGuilds.length }}" class="form-table" style="margin-top: 15px; margin-bottom: 15px;">
+        <tr>
+            <td>
+                没有可以管理的公会
+            </td>
+        </tr>
+    </table>
+    <table wx:if="{{ myGuilds.length }}" class="form-table" style="margin-top: 15px; margin-bottom: 15px;">
+        <tr wx:for="{{ myGuilds }}" wx:for-item="guild">
+            <td data-id="{{ guild.id }}" bindtap="onGuildClicked">
+                <image wx:if="{{ !guild.guildListImageUrl }}" src="{{ host }}/assets/images/guild-image.jpg" alt="" class="class-img guild-img" />
+                <image wx:else src="{{ host + guild.guildListImageUrl }}" alt="" class="class-img guild-img" />
+                {{ guild.name }}
+            </td>
+        </tr>
+    </table>
+</view>

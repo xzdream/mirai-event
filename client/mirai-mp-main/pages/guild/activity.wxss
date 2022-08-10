@@ -1,0 +1,22 @@
+@import "/app.wxss";
+
+.act-dropdown-box {
+    top: 65px;
+}
+
+.act-dropdown-box.full {
+    top: 95px;
+}
+
+.wrapper {
+    padding: 66px 10px 60px 10px;
+  }
+  
+  .wrapper.full {
+    padding-top: 96px;
+    padding-bottom: 80px;
+  }
+
+  .wcl-table td:nth-child(1) {
+      width: 50px;
+  }

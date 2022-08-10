@@ -1,0 +1,13 @@
+﻿<div>
+    <div style="margin-bottom: 20px">
+        将团队收支记录导入至报名帖
+        <br /><br />
+        本功能需要您下载插件 [<a style="color: #3dd0d8" target="_blank" href="/api/blob/MiraiLedger.zip">Mirai 金团助手</a>] ，请将插件收集的账单信息字符串粘贴在下面的编辑框中。
+    </div>
+    <div class="input-wrap">
+        <textarea placeholder="请粘贴账目信息字符串" class="general_input italic" v-model="ledgerString"></textarea>
+    </div>
+    <div>
+        <input type="button" v-bind:value="busy ? '正在导入...' : '导入'" v-on:click="importLedger" class="btn gradient mt30 color-white color-white plr50 ptb19" />
+    </div>
+</div>

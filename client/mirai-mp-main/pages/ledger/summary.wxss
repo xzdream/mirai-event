@@ -1,0 +1,16 @@
+@import "/app.wxss";
+
+.text-title {
+    max-width: 50%;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    color: #fff;
+    vertical-align: top;
+    line-height: 42px;
+}
+
+.character-name {
+    font-weight: bold;
+}

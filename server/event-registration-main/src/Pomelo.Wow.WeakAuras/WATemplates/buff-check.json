@@ -1,0 +1,126 @@
+﻿{
+  "Id": "buff-check",
+  "Name": "【Mirai】Buff检查",
+  "Arguments": [
+    {
+      "Key": "BUFF_1_SWITCH",
+      "Default": "false",
+      "Description": "是否检查奥术智慧/奥术光辉"
+    },
+    {
+      "Key": "BUFF_2_SWITCH",
+      "Default": "false",
+      "Description": "是否检查野性印记/野性赐福"
+    },
+    {
+      "Key": "BUFF_3_SWITCH",
+      "Default": "false",
+      "Description": "是否检查真言术：韧/坚韧祷言"
+    },
+    {
+      "Key": "BUFF_4_SWITCH",
+      "Default": "false",
+      "Description": "是否检查全团拯救祝福/猎人组力量祝福"
+    },
+    {
+      "Key": "BUFF_5_SWITCH",
+      "Default": "false",
+      "Description": "是否检查智慧祝福"
+    },
+    {
+      "Key": "BUFF_6_SWITCH",
+      "Default": "false",
+      "Description": "是否检查王者祝福"
+    },
+    {
+      "Key": "OWNER_MAGE_1",
+      "Default": null,
+      "Description": "1队智力负责人"
+    },
+    {
+      "Key": "OWNER_MAGE_2",
+      "Default": null,
+      "Description": "2队智力负责人"
+    },
+    {
+      "Key": "OWNER_MAGE_3",
+      "Default": null,
+      "Description": "3队智力负责人"
+    },
+    {
+      "Key": "OWNER_MAGE_4",
+      "Default": null,
+      "Description": "4队智力负责人"
+    },
+    {
+      "Key": "OWNER_MAGE_5",
+      "Default": null,
+      "Description": "5队智力负责人"
+    },
+    {
+      "Key": "OWNER_DRUID_1",
+      "Default": null,
+      "Description": "1队爪子负责人"
+    },
+    {
+      "Key": "OWNER_DRUID_2",
+      "Default": null,
+      "Description": "2队爪子负责人"
+    },
+    {
+      "Key": "OWNER_DRUID_3",
+      "Default": null,
+      "Description": "3队爪子负责人"
+    },
+    {
+      "Key": "OWNER_DRUID_4",
+      "Default": null,
+      "Description": "4队爪子负责人"
+    },
+    {
+      "Key": "OWNER_DRUID_5",
+      "Default": null,
+      "Description": "5队爪子负责人"
+    },
+    {
+      "Key": "OWNER_PRIEST_1",
+      "Default": null,
+      "Description": "1队耐力负责人"
+    },
+    {
+      "Key": "OWNER_PRIEST_2",
+      "Default": null,
+      "Description": "2队耐力负责人"
+    },
+    {
+      "Key": "OWNER_PRIEST_3",
+      "Default": null,
+      "Description": "3队耐力负责人"
+    },
+    {
+      "Key": "OWNER_PRIEST_4",
+      "Default": null,
+      "Description": "4队耐力负责人"
+    },
+    {
+      "Key": "OWNER_PRIEST_5",
+      "Default": null,
+      "Description": "5队耐力负责人"
+    },
+    {
+      "Key": "OWNER_PALADIN_1",
+      "Default": null,
+      "Description": "全团拯救/猎人力量负责人"
+    },
+    {
+      "Key": "OWNER_PALADIN_2",
+      "Default": null,
+      "Description": "全团回蓝负责人"
+    },
+    {
+      "Key": "OWNER_PALADIN_3",
+      "Default": null,
+      "Description": "全团王者负责人"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+<view class="{{ isFullScreen ? 'header header-full' : 'header' }}">
+</view>
+<view class="{{ isFullScreen ? 'header-logo header-full' : 'header-logo' }}">
+    <image src="/assets/images/logo.png" alt="" />
+</view>
+
+<view class="search-dropdown-box {{ isFullScreen ? 'full' : '' }}">
+    <input type="text" class="textbox" placeholder="搜索公会..." model:value="{{ search }}" bindinput="onSearchTextChanged" />
+</view>
+
+<view class="guild-wrapper {{ isFullScreen ? 'full' : '' }}">
+    <view class="guild-item" wx:if="result" wx:for="{{ result.data }}" bindtap="openGuild" data-id="{{ item.id }}">
+        <table>
+            <colgroup>
+                <col style="width: 50px;" />
+            </colgroup>
+            <tr>
+                <td>
+                    <image wx:if="{{ !item.guildListImageUrl }}" src="{{ host }}/assets/images/guild-image.jpg" alt="" class="img-responsive" />
+                    <image wx:else src="{{ host + item.guildListImageUrl }}" alt="" class="img-responsive" />
+                </td>
+                <td>
+                    {{ item.name }}
+                    <span class="right guild-item-hint">
+                        {{ item.realm }} - {{ item.faction == 0 ? '联盟' : '部落' }}
+                    </span>
+                </td>
+            </tr>
+        </table>
+    </view>
+    <view class="guild-item" wx:if="{{ result && !result.data.length }}">
+        <view class="text-center" style="line-height: 40px;">没有找到公会...</view>
+    </view>
+</view>

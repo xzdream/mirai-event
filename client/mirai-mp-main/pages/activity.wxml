@@ -1,0 +1,38 @@
+<view>
+    <activity-reg wx:if="{{ activity && active == 'reg' }}" activity="{{ activity }}"></activity-reg>
+    <activity-grid wx:if="{{ activity && active == 'grid' }}" activity="{{ activity }}"></activity-grid>
+    <activity-task wx:if="{{ activity && active == 'task' }}" activity="{{ activity }}"></activity-task>
+    <activity-submit wx:if="{{ activity && active == 'my' }}" activity="{{ activity }}"></activity-submit>
+</view>
+
+<view class="{{ isFullScreen ? 'footer footer-full' : 'footer' }}" wx:if="{{ loaded }}">
+    <view class="table">
+        <!-- 底部导航栏 -->
+        <view class="table-tr">
+            <view class="table-td" style="color: {{ active == 'reg' ? '#3dd0d8' : '#c2d4f8' }}" data-active="reg" bindtap="switchTab">
+                <div class="btn-icon"><i class="fa fa-user"></i></div>
+                <div class="btn-text">人员</div>
+            </view>
+            <view wx:if="{{ activity.grids.data.length }}" class="table-td" style="color: {{ active == 'grid' ? '#3dd0d8' : '#c2d4f8' }}" data-active="grid" bindtap="switchTab">
+                <div class="btn-icon"><i class="fa fa-braille"></i></div>
+                <div class="btn-text">框架</div>
+            </view>
+            <view wx:if="{{ activity.tasks.groups.length }}" class="table-td" style="color: {{ active == 'task' ? '#3dd0d8' : '#c2d4f8' }}" data-active="task" bindtap="switchTab">
+                <div class="btn-icon"><i class="fa fa-book"></i></div>
+                <div class="btn-text">任务</div>
+            </view>
+            <view wx:if="{{ activity.ledger.income }}" class="table-td" style="color: {{ active == 'ledger' ? '#3dd0d8' : '#c2d4f8' }}" bindtap="openLedger">
+                <div class="btn-icon"><i class="fa fa-money"></i></div>
+                <div class="btn-text">账本</div>
+            </view>
+            <view class="table-td" wx:if="{{ activity.status != 4 }}" style="color: {{ active == 'my' ? '#3dd0d8' : '#c2d4f8' }}" data-active="my" bindtap="switchTab">
+                <div class="btn-icon"><i class="fa fa-pencil"></i></div>
+                <div class="btn-text">报名</div>
+            </view>
+            <view class="table-td" wx:if="{{ permission.guildManager }}" bindtap="switchToManageActivity">
+                <div class="btn-icon"><i class="fa fa-cog"></i></div>
+                <div class="btn-text">管理</div>
+            </view>
+        </view>
+    </view>
+</view>

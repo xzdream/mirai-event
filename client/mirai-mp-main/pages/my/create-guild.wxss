@@ -1,0 +1,28 @@
+@import "/app.wxss";
+
+.txtbox {
+    line-height: 48px;
+    height: 48px;
+    color: #fff;
+    font-size: 16px;
+    display: block;
+}
+
+.form-table tr td:nth-child(1) {
+    width: 60px;
+}
+
+.td-domain input, .td-domain span {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.td-domain input {
+    width: calc(100% - 80px);
+}
+
+.option {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 20px;
+}

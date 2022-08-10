@@ -1,0 +1,41 @@
+﻿<div>
+    <div class="act-dropdown-box">
+        <div class="tab-outer">
+            <a class="tab-item" v-on:click="status = 0" v-bind:class="{ active: status == 0 }">全部活动</a>
+            <a class="tab-item" v-on:click="status = 1" v-bind:class="{ active: status == 1 }">报名中</a>
+            <a class="tab-item" v-on:click="status = 3" v-bind:class="{ active: status == 3 }">进行中</a>
+            <a class="tab-item" v-on:click="status = 4" v-bind:class="{ active: status == 4 }">已结束</a>
+        </div>
+    </div>
+    <div class="guild-wrapper" style="padding-top: 60px;">
+        <table class="wcl-table">
+            <colgroup>
+                <col style="width: 58px" />
+            </colgroup>
+            <tr v-on:click="$root.open('/act?id=' + act.id)" v-for="act in result.data">
+                <td>
+                    <img class="raid-icon" v-if="act.raids == '1,2'" src="/assets/images/raid/1_2.png" />
+                    <img class="raid-icon" v-else-if="act.raids == '3,4'" src="/assets/images/raid/3_4.png" />
+                    <img class="raid-icon" v-else-if="act.raids == '5,6'" src="/assets/images/raid/5_6.png" />
+                    <img class="raid-icon" v-else v-bind:src="'/assets/images/raid/' + act.raids.split(',')[0].trim() + '.jpg'">
+                </td>
+                <td>
+                    <div class="first-line">
+                        {{ act.name }}
+                    </div>
+                    <div class="subline" style="zoom: 1.2">
+                        <i class="fa fa-calendar"></i> {{ $root.moment(act.begin).format('MM月DD日 HH:mm') }}
+                        &nbsp;
+                        <i class="fa fa-home"></i> {{ act.guildName }} ({{ act.realm }} - {{ act.faction == 0 ? '联盟' : '部落' }})
+                    </div>
+                </td>
+            </tr>
+            <tr v-if="!result.data.length">
+                <td colspan="2" class="text-center" style="line-height: 40px;">没有找到活动...</td>
+            </tr>
+            <tr v-if="result && result.currentPage < result.totalPages - 1" v-on:click="next">
+                <td colspan="2" class="text-center" style="line-height: 40px;">点击加载更多</td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+﻿<div>
+    <div class="header-buttons z-100">
+        <a class="right" v-on:click="patch">保存</a>
+    </div>
+    <div class="ch-wrapper">
+        <table class="form-table">
+            <colgroup>
+                <col style="width: 86px" />
+                <col />
+            </colgroup>
+            <tr>
+                <td>活动名称</td>
+                <td><input class="inline-textbox" v-model="activity.name" /></td>
+            </tr>
+            <tr>
+                <td>活动简介</td>
+                <td><input class="inline-textbox" v-model="activity.description" /></td>
+            </tr>
+            <tr v-show="false">
+                <td>服务器</td>
+                <td><input class="inline-textbox" disabled v-model="activity.realm" /></td>
+            </tr>
+            <tr>
+                <td>报名截止</td>
+                <td><input id="txt-deadline" class="inline-textbox" type="text" /></td>
+            </tr>
+            <tr>
+                <td>活动开始</td>
+                <td><input id="txt-begin" class="inline-textbox" type="text" /></td>
+            </tr>
+            <tr>
+                <td>小时</td>
+                <td><input class="inline-textbox" v-model="activity.estimatedDurationInHours" /></td>
+            </tr>
+        </table>
+
+        <div class="section-title" style="margin-top: 30px;">选择活动副本</div>
+        <table class="form-table">
+            <tr v-for="raid in raids">
+                <td v-on:click="mobileToggleRaid(raid.id)">
+                    <img class="raid-img" v-bind:src="'/assets/images/raid/' + raid.id + '.jpg'" />
+                    <span>{{ raid.name }}</span>
+                    <i v-if="selectedRaids.indexOf(raid.id.toString()) >= 0" class="fa fa-check-circle right raid-checked"></i>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</div>

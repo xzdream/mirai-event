@@ -1,0 +1,464 @@
+﻿<div>
+    <div class="header-buttons" v-if="active != 'manage'">
+        <a v-on:click="mobileBack"><i class="fa fa-angle-left"></i> 返回</a>
+        <a v-on:click="active = (active == 'registration' ? 'grid' : 'registration')" class="right" v-if="active == 'registration' || active == 'grid'">切换视图</a>
+    </div>
+
+    <template v-if="activity">
+        <div class="ch-wrapper" v-if="active == 'registration'">
+            <template v-for="group in groups">
+                <div class="section-title">
+                    <span>{{ group.name }}</span>
+                    <span class="right">报名：{{ activity.registrations.filter(x => x.role == group.id).length }} / 确认：{{ activity.registrations.filter(x => x.role == group.id && x.status == 4).length }} / 替补：{{ activity.registrations.filter(x => x.role == group.id && x.status == 2).length }}</span>
+                </div>
+                <table class="form-table reg-table">
+                    <template v-for="reg in activity.registrations.filter(x => x.role == group.id)">
+                        <tr>
+                            <td>
+                                <a v-on:click="mobileSelectRegisitration(reg)">
+                                    <div>
+                                        <div>
+                                            <span v-bind:class="'class-' + reg.class">
+                                                <img class="class-img" v-bind:src="'/assets/images/class-' + reg.class + '.png'" />
+                                                {{ reg.name }}
+                                            </span>
+                                            <span class="right reg-label">
+                                                <span class="label-gray" v-if="reg.status == 0">待审核</span>
+                                                <span class="label-red" v-if="reg.status == 1">被拒绝</span>
+                                                <span class="label-orange" v-if="reg.status == 2">替补队员</span>
+                                                <span class="label-purple" v-if="reg.status == 3">已请假</span>
+                                                <span class="label-green" v-if="reg.status == 4">已通过</span>
+                                                <span class="label-red" v-if="reg.status == 5">缺席</span>
+                                            </span>
+                                        </div>
+                                        <div class="reg-subline" style="margin-top: -14px;">
+                                            <span class="reg-icon"><i class="fa fa-trophy"></i></span>
+                                            <span v-bind:class="{ gray: reg.wcl <= 25, green: reg.wcl > 25 && reg.wcl <= 50, blue: reg.wcl > 50 && reg.wcl <= 75, purple: reg.wcl > 75 && reg.wcl < 95, orange: reg.wcl >= 95 }">
+                                                {{ parseInt(reg.wcl || 0) || '未知' }}
+                                            </span>
+                                            &nbsp;
+                                            <span class="reg-icon">iLvl.</span>
+                                            <span v-if="reg.charactor" v-bind:class="getItemColor(bosses[0], reg.charactor.highestItemLevel)">{{ reg.charactor.highestItemLevel }}<span v-if="reg.setCount"> ({{ reg.setCount }}{{ reg.setName }})</span></span>
+                                            <span v-else>未知</span>
+                                            &nbsp;
+                                            <span class="reg-icon"><i class="fa fa-star"></i></span>
+                                            <span v-bind:class="{ purple: reg.bossPassed == bosses.length, gray: !!!reg.bossPassed, green: (reg.bossPassed || 0) < bosses.length / 2, blue: (reg.bossPassed || 0) >= bosses.length / 2 && (reg.bossPassed || 0) != bosses.length  }">{{ reg.bossPassed || 0 }} / {{ bosses.length }}</span>
+                                            <template v-if="reg.avatarUrl">
+                                                &nbsp;
+                                                <img class="class-img avatar" v-bind:src="reg.avatarUrl" />
+                                                <span class="wechat-nickname">{{ reg.weChat }}</span>
+                                            </template>
+                                            <template v-if="reg.hint">
+                                                &nbsp;
+                                                <span class="reg-icon"><i class="fa fa-comment-o"></i></span>
+                                                <span class="hint">{{ reg.hint }}</span>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </a>
+                            </td>
+                        </tr>
+                    </template>
+                </table>
+            </template>
+        </div>
+        <div class="ch-wrapper" v-if="active == 'grid'">
+            <template v-for="(grid, i) in grids.data">
+                <div class="section-title" style="color: rgb(255, 255, 255) !important; background-color: rgb(41,40,69); padding: 5px 10px; border-radius: 10px; opacity: 1; font-weight: bold;">
+                    <span>{{ grid.name }}</span>
+                </div>
+                <template v-for="(row, r) in grid.grid">
+                    <div class="section-title" style="color:#fff">
+                        <span>小队{{ r + 1 }}</span>
+                    </div>
+                    <table class="form-table reg-table">
+                        <tr v-for="(col, c) in row" v-if="col">
+                            <td>
+                                <div>
+                                    <div>
+                                        <span v-bind:class="'class-' + col.class">
+                                            <img class="class-img" v-bind:src="'/assets/images/class-' + col.class + '.png'" />
+                                            <i class="fa fa-shield" v-if="col.role == 0"></i>
+                                            <i class="fa fa-plus-circle" v-if="col.role == 2"></i>
+                                            <i class="fa fa-money" v-if="col.role == 3"></i>
+                                            <span v-if="col.status == 4">{{ col.name }}</span>
+                                            <s style="opacity: 0.5" v-else>{{ col.name }}</s>
+                                        </span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </template>
+
+            </template>
+        </div>
+        <div class="ch-wrapper" v-if="active == 'task'">
+            <div v-if="activeTaskUI == 'normal'">
+                <div class="task-group" v-for="(group, i) in tasks.groups">
+                    <div class="section-title">
+                        {{ group.name }}
+                        <a v-if="taskEdit && $root.guildPermission.guildManager" class="form-btn" style="float:right; font-weight: normal" v-on:click="tasks.groups.splice(i, 1);$forceUpdate();"><i class="fa fa-trash"></i> 删除任务组</a>
+                    </div>
+                    <div class="task-item" v-for="(task, j) in group.tasks">
+                        <a class="delete-task" v-if="taskEdit && $root.guildPermission.guildManager" v-on:click="group.tasks.splice(j, 1);$forceUpdate();"><i class="fa fa-minus-circle"></i></a>
+                        <img src="/assets/images/task.svg" />
+                        <span>{{ task.text }}</span>
+                        <div class="task-players">
+                            <template v-if="activity && activity.registrations">
+                                <span v-on:click="activeTask = `${i},${j}`" v-for="reg in activity.registrations" v-if="task.players.some(x => x == reg.id)" v-bind:class="'class-' + reg.class" class="task-player">
+                                    <img v-bind:src="'/assets/images/class-' + reg.class + '.png'" class="class-img" />
+                                    <i class="fa fa-shield" v-if="reg.role == 0"></i>
+                                    <i class="fa fa-plus-circle" v-if="reg.role == 2"></i>
+                                    <i class="fa fa-money" v-if="reg.role == 3"></i>
+                                    <span v-if="reg.status == 4">{{ reg.name }}</span>
+                                    <s style="opacity: 0.5" v-else>{{ reg.name }}</s>
+                                </span>
+                            </template>
+                            <a v-on:click="activeTask = `${i},${j}`" style="color: #3dd0d8" v-if="taskEdit && $root.guildPermission.guildManager"><i class="fa fa-user"></i></a>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="task-item-new" v-if="taskEdit && $root.guildPermission.guildManager">
+                        <div class="form-row">
+                            <div class="input-wrap">
+                                <input type="text" placeholder="任务内容" class="general_input italic task-content" style="width: calc(100% - 140px);">
+                                <input type="button" value="创建" class="btn gradient color-white color-white plr50 ptb19" style="width: 120px; margin-left: 10px;" v-on:click="createTask(group, $event)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <template v-if="$root.guildPermission.guildManager">
+                    <template v-if="taskEdit">
+                        <div class="task-title">创建任务组</div>
+                        <div class="form-row">
+                            <div class="input-wrap">
+                                <input type="text" placeholder="任务组名称" class="general_input italic" v-model="form.newTaskGroup.name" style="width: 50%;">
+                                <input type="button" value="创建" class="btn gradient color-white color-white plr50 ptb19" style="width: 120px; margin-left: 10px;" v-on:click="createTaskGroup(form.newTaskGroup.name)">
+                            </div>
+                        </div>
+                    </template>
+                    <div style="margin-top: 30px" v-if="false">
+                        <div class="input-wrap">
+                            <template v-if="taskEdit">
+                                <input type="button" value="保存任务列表" class="btn gradient color-white color-white plr50 ptb19" style="width: 200px;" v-on:click="saveTasks()">
+                                <input type="button" value="导入/导出任务" class="btn gradient color-white color-white plr50 ptb19;" style="width: 200px; margin-left: 10px" v-on:click="importExportTasks()">
+                                <input type="button" value="取消编辑" class="btn gradient color-white color-white plr50 ptb19;" style="width: 200px; margin-left: 10px" v-on:click="taskEdit = false">
+                            </template>
+                            <template v-else>
+                                <input type="button" value="编辑任务" class="btn gradient color-white color-white plr50 ptb19" style="width: 200px;" v-on:click="taskEdit = true">
+                            </template>
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <div v-else>
+                <div class="input-wrap">
+                    <textarea placeholder="任务字符串" class="general_input italic" style="text-transform: none;" v-model="taskString"></textarea>
+                </div>
+                <input type="button" value="导入任务" class="btn gradient color-white color-white plr50 ptb19" style="width: 200px;" v-on:click="importTasks()">
+                <input type="button" value="返回" class="btn gradient color-white color-white plr50 ptb19" style="width: 200px;" v-on:click="activeTaskUI = 'normal'">
+            </div>
+        </div>
+        <div class="ch-wrapper" v-if="active == 'reg'">
+            <template v-if="activity.description">
+                <div class="section-title">
+                    <span>活动须知</span>
+                </div>
+                <table class="form-table" style="margin-bottom: 30px">
+                    <tr>
+                        <td style="line-height: 32px; padding: 8px 12px;">{{ activity.description }}</td>
+                    </tr>
+                </table>
+            </template>
+
+            <div v-if="$root.guild && $root.guild.registerPolicy != 1">
+                <div class="section-title">
+                    <span v-if="activity.status == 1">请点击角色进行报名</span>
+                    <span v-else>点击角色可请假</span>
+                </div>
+                <table class="form-table" style="margin-bottom: 30px">
+                    <tr v-for="(ch, i) in myCharactors.filter(x => x.realm == activity.realm)" v-on:click="mobile.ch = ch">
+                        <td v-bind:class="'class-' + ch.class">
+                            <img v-bind:src="'/assets/images/class-' + ch.class + '.png'" class="class-img" />
+                            {{ ch.name }}
+                            <template v-if="activity.registrations.filter(x => x.name == ch.name).length">
+                                <span class="right" style="color: #ccc" v-if="activity.registrations.filter(x => x.name == ch.name)[0].status == 0">待审核</span>
+                                <span class="right" style="color: #ccc" v-if="activity.registrations.filter(x => x.name == ch.name)[0].status == 1">被拒绝</span>
+                                <span class="right" style="color: #ccc" v-if="activity.registrations.filter(x => x.name == ch.name)[0].status == 2">替补队员</span>
+                                <span class="right" style="color: #ccc" v-if="activity.registrations.filter(x => x.name == ch.name)[0].status == 3">已请假</span>
+                                <span class="right" style="color: #ccc" v-if="activity.registrations.filter(x => x.name == ch.name)[0].status == 4">已通过</span>
+                            </template>
+                        </td>
+                    </tr>
+                    <tr v-if="myCharactors.filter(x => x.realm == activity.realm).length == 0">
+                        <td style=" line-height: 42px; padding-left: 15px;">您还没有添加任何角色</td>
+                    </tr>
+                </table>
+
+                <template v-if="activity.status == 1">
+                    <div class="section-title">
+                        <span>添加新角色 (请填写完整角色名)</span>
+                    </div>
+                    <table class="form-table ch-table" style="margin-bottom: 30px">
+                        <colgroup>
+                            <col style="width: 80px" />
+                            <col />
+                        </colgroup>
+                        <tr>
+                            <td>角色名</td>
+                            <td>
+                                <input class="inline-textbox" placeholder="点击以输入角色名..." style="width: 110px" type="text" v-model="form.newCharactor.name" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>职业</td>
+                            <td>
+                                <select class="inline-textbox" v-model="form.newCharactor.class" style="background: rgb(41,40,69);">
+                                    <option value="1">战士</option>
+                                    <option value="2">圣骑士</option>
+                                    <option value="8">萨满祭司</option>
+                                    <option value="4">猎人</option>
+                                    <option value="32">德鲁伊</option>
+                                    <option value="16">潜行者</option>
+                                    <option value="128">法师</option>
+                                    <option value="64">术士</option>
+                                    <option value="256">牧师</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>服务器</td>
+                            <td>
+                                <input disabled class="inline-textbox" style="width: 110px" type="text" v-model="form.newCharactor.realm" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align:center">
+                                <a style="display:block" v-on:click="addCharactor">添加角色</a>
+                            </td>
+                        </tr>
+                    </table>
+                </template>
+                <template v-else>
+                    <div class="section-title">
+                        <span>报名截止日期已过，您已无法报名</span>
+                    </div>
+                </template>
+            </div>
+            <div v-else style="text-align: center">
+                <div><img v-bind:src="'/api/activity/' + activity.id + '/miniprogram-qrcode.png'" class="mp-qrcode" /></div>
+                <div class="mp-qrcode-hint">本公会要求玩家使用微信扫描上方二维码在小程序中报名</div>
+            </div>
+        </div>
+        <div class="ch-wrapper" v-if="active == 'ledger'">
+            <div class="section-title">
+                <span>装备收入</span>
+            </div>
+            <table class="form-table" style="margin-bottom: 30px; font-size: 12px; font-weight: bold;">
+                <colgroup>
+                    <col style="width: 45%" />
+                    <col style="width: 35%" />
+                </colgroup>
+                <tbody v-if="ledger && ledger.income && ledger.other && ledger.expense">
+                    <tr v-for="x in ledger.income">
+                        <td v-if="x.item" v-on:click="openItem(x.item.id)" v-bind:class="{ gray: x.item.quality == 0, white: x.item.quality == 1, green: x.item.quality == 2, blue: x.item.quality == 3, purple: x.item.quality == 4, orange: x.item.quality == 5 }"><img class="class-img" v-bind:src="x.item.imageUrl" /> {{ x.item.name }}<span v-if="x.amount > 1">x{{x.amount}}</span></td>
+                        <td v-else>{{ x.name }}<span v-if="x.amount > 1">x{{x.amount}}</span></td>
+                        <td v-if="activity.registrations.some(y => y.name == x.player)" v-bind:class="'class-' + activity.registrations.filter(y => y.name == x.player)[0].class">
+                            <img v-bind:src="'/assets/images/class-' + activity.registrations.filter(y => y.name == x.player)[0].class + '.png'" class="class-img">
+                            {{ x.player }}
+                        </td>
+                        <td v-else-if="x.class" v-bind:class="'class-' + x.class">
+                            <img v-bind:src="'/assets/images/class-' + x.class + '.png'" class="class-img">
+                            {{ x.player }}
+                        </td>
+                        <td v-else>
+                            {{ x.player }}
+                        </td>
+                        <td>{{ x.price }}G</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="section-title">
+                <span>其他收入</span>
+            </div>
+            <table class="form-table" style="margin-bottom: 30px; font-size: 12px; font-weight: bold;">
+                <colgroup>
+                    <col style="width: 45%" />
+                    <col style="width: 35%" />
+                </colgroup>
+                <tbody v-if="ledger && ledger.income && ledger.other && ledger.expense">
+                    <tr v-for="x in ledger.other">
+                        <td>{{ x.name }}</td>
+                        <td v-if="activity.registrations.some(y => y.name == x.player)" v-bind:class="'class-' + activity.registrations.filter(y => y.name == x.player)[0].class">
+                            <img v-bind:src="'/assets/images/class-' + activity.registrations.filter(y => y.name == x.player)[0].class + '.png'" class="class-img">
+                            {{ x.player }}
+                        </td>
+                        <td v-else-if="x.class" v-bind:class="'class-' + x.class">
+                            <img v-bind:src="'/assets/images/class-' + x.class + '.png'" class="class-img">
+                            {{ x.player }}
+                        </td>
+                        <td v-else>
+                            {{ x.player }}
+                        </td>
+                        <td>{{ x.price }}G</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="section-title">
+                <span>支出</span>
+            </div>
+            <table class="form-table" style="margin-bottom: 30px; font-size: 12px; font-weight: bold;">
+                <colgroup>
+                    <col style="width: 45%" />
+                    <col style="width: 35%" />
+                </colgroup>
+                <tbody v-if="ledger && ledger.income && ledger.other && ledger.expense">
+                    <tr v-for="x in ledger.expense">
+                        <td>{{ x.name }}</td>
+                        <td v-if="activity.registrations.some(y => y.name == x.player)" v-bind:class="'class-' + activity.registrations.filter(y => y.name == x.player)[0].class">
+                            <img v-bind:src="'/assets/images/class-' + activity.registrations.filter(y => y.name == x.player)[0].class + '.png'" class="class-img">
+                            {{ x.player }}
+                        </td>
+                        <td v-else-if="x.class" v-bind:class="'class-' + x.class">
+                            <img v-bind:src="'/assets/images/class-' + x.class + '.png'" class="class-img">
+                            {{ x.player }}
+                        </td>
+                        <td v-else>
+                            {{ x.player }}
+                        </td>
+                        <td>{{ x.price }}G</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="dialog" style="margin-top:-240px" v-if="mobile.selectedReg">
+            <div class="dialog-header">
+                <span v-bind:class="'class-' + mobile.selectedReg.class">
+                    <img class="class-img" v-bind:src="'/assets/images/class-' + mobile.selectedReg.class + '.png'" />
+                    {{ mobile.selectedReg.name }}
+                </span>
+                <a class="right" v-on:click="mobileCloseDialog"><i class="fa fa-close"></i></a>
+            </div>
+            <div class="dialog-body" style="padding: 0 15px">
+                <div class="dialog-select-row" v-on:click="mobile.action = 'accept'"><div class="ratio" v-bind:class="{ 'selected': mobile.action == 'accept' }"><div></div></div> 通过申请</div>
+                <div class="dialog-select-row" v-on:click="mobile.action = 'standby'"><div class="ratio" v-bind:class="{ 'selected': mobile.action == 'standby' }"><div></div></div> 设为替补</div>
+                <div class="dialog-select-row" v-on:click="mobile.action = 'reject'"><div class="ratio" v-bind:class="{ 'selected': mobile.action == 'reject' }"><div></div></div> 拒绝申请</div>
+                <div class="dialog-select-row" v-on:click="mobile.action = 'tank'"><div class="ratio" v-bind:class="{ 'selected': mobile.action == 'tank' }"><div></div></div> 设为坦克</div>
+                <div class="dialog-select-row" v-on:click="mobile.action = 'dps'"><div class="ratio" v-bind:class="{ 'selected': mobile.action == 'dps' }"><div></div></div> 设为输出</div>
+                <div class="dialog-select-row" v-on:click="mobile.action = 'hps'"><div class="ratio" v-bind:class="{ 'selected': mobile.action == 'hps' }"><div></div></div> 设为治疗</div>
+                <div class="dialog-select-row" v-on:click="mobile.action = 'consumer'"><div class="ratio" v-bind:class="{ 'selected': mobile.action == 'consumer' }"><div></div></div> 设为消费</div>
+                <div class="dialog-select-row" v-on:click="mobile.action = 'delete'"><div class="ratio" v-bind:class="{ 'selected': mobile.action == 'delete' }"><div></div></div> 删除申请</div>
+            </div>
+            <div class="dialog-footer">
+                <table>
+                    <tr>
+                        <td><a v-on:click="mobileSetReg">确定</a></td>
+                        <td><a v-on:click="mobileCloseDialog">取消</a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="dialog" style="margin-top:-215px" v-if="mobile.ch && !activity.registrations.filter(x => x.name == mobile.ch.name).length">
+            <div class="dialog-header">
+                <span v-bind:class="'class-' + mobile.ch.class">
+                    <img class="class-img" v-bind:src="'/assets/images/class-' + mobile.ch.class + '.png'" />
+                    {{ mobile.ch.name }}
+                </span>
+                <a class="right" v-on:click="mobile.ch = null"><i class="fa fa-close"></i></a>
+            </div>
+            <div class="dialog-body" style="padding: 0 15px">
+                <div style="padding: 15px 0; border-bottom: 0.8px solid #1e1d32;">
+                    <div class="section-title">职责</div>
+                    <div class="dialog-select-row" v-on:click="mobile.ch.role = 1"><div class="ratio" v-bind:class="{ 'selected': mobile.ch.role == 1 }"><div></div></div> 输出</div>
+                    <div class="dialog-select-row" v-bind:disabled="!canTank(mobile.ch.class)" v-on:click="canTank(mobile.ch.class) ? mobile.ch.role = 0 : null"><div class="ratio" v-bind:class="{ 'selected': mobile.ch.role == 0 }"><div></div></div> 坦克 <span v-if="!canTank(mobile.ch.class)">(不可用)</span></div>
+                    <div class="dialog-select-row" v-bind:disabled="!canHeal(mobile.ch.class)" v-on:click="canHeal(mobile.ch.class) ? mobile.ch.role = 2 : null"><div class="ratio" v-bind:class="{ 'selected': mobile.ch.role == 2 }"><div></div></div> 治疗 <span v-if="!canHeal(mobile.ch.class)">(不可用)</span></div>
+                    <div class="dialog-select-row" v-on:click="mobile.ch.role = 3"><div class="ratio" v-bind:class="{ 'selected': mobile.ch.role == 3 }"><div></div></div> 消费</div>
+                </div>
+                <div style="padding-bottom: 15px; margin-top: 10px">
+                    <div class="section-title">备注</div>
+                    <input class="textbox" placeholder="点击以输入备注..." />
+                </div>
+            </div>
+            <div class="dialog-footer">
+                <table>
+                    <tr>
+                        <td><a v-if="activity.status == 1" v-on:click="mobileReg">报名</a><span style="color: #888" v-else>无法报名</span></td>
+                        <td><a style="color: rgb(255,128,128);" v-on:click="mobileDeleteCh">删除角色</a></td>
+                        <td><a v-on:click="mobile.ch = null">取消</a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="dialog" style="margin-top:-53px" v-if="mobile.ch && activity.registrations.filter(x => x.name == mobile.ch.name).length">
+            <div class="dialog-header">
+                <span v-bind:class="'class-' + mobile.ch.class">
+                    <img class="class-img" v-bind:src="'/assets/images/class-' + mobile.ch.class + '.png'" />
+                    {{ mobile.ch.name }}
+                </span>
+                <a class="right" v-on:click="mobile.ch = null"><i class="fa fa-close"></i></a>
+            </div>
+            <div class="dialog-footer">
+                <table>
+                    <tr>
+                        <td><a v-on:click="mobileLeave(activity.registrations.filter(x => x.name == mobile.ch.name)[0].status != 3)">{{ activity.registrations.filter(x => x.name == mobile.ch.name)[0].status != 3 ? '请假' : '取消请假' }}</a></td>
+                        <td><a style="color: rgb(255,128,128);" v-on:click="mobileDeleteCh">删除角色</a></td>
+                        <td><a v-on:click="mobile.ch = null">取消</a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </template>
+    <template v-else>
+        <div style="text-align: center; padding-top: 80px;">
+            <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 width="120px" height="120px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+            <path fill="#3dd0d8" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+            <animateTransform attributeType="xml"
+                              attributeName="transform"
+                              type="rotate"
+                              from="0 25 25"
+                              to="360 25 25"
+                              dur="0.6s"
+                              repeatCount="indefinite" />
+                </path>
+            </svg>
+            <div style="margin-top: 30px;">请稍候，正在加载活动...</div>
+        </div>
+    </template>
+
+    <div class="footer z-100" v-if="active != 'manage'">
+        <table>
+            <tr>
+                <td v-bind:class="{ 'active': active == 'registration' || active == 'grid' }" v-on:click="active = 'registration'">
+                    <i class="fa fa-users"></i>
+                    <br />
+                    <div>人员</div>
+                </td>
+                <td v-bind:class="{ 'active': active == 'task' }" v-on:click="active = 'task'">
+                    <i class="fa fa-book"></i>
+                    <br />
+                    <div>任务</div>
+                </td>
+                <td v-bind:class="{ 'active': active == 'reg' }" v-on:click="active = 'reg'">
+                    <i class="fa fa-pencil"></i>
+                    <br />
+                    <div>报名</div>
+                </td>
+                <td v-if="ledger && ledger.income" v-bind:class="{ 'active': active == 'ledger' }" v-on:click="active = 'ledger'">
+                    <i class="fa fa-money"></i>
+                    <br />
+                    <div>账目</div>
+                </td>
+                <td v-if="$root.guildPermission.guildManager" v-bind:class="{ 'active': active == 'manage' }" v-on:click="active = 'manage'">
+                    <i class="fa fa-cog"></i>
+                    <br />
+                    <div>设置</div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div v-show="active == 'manage'" id="act-manage-container"></div>
+    <div v-show="false" id="act-wa-container"></div>
+</div>

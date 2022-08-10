@@ -1,0 +1,19 @@
+﻿<div>
+    <h5>公会徽标</h5>
+    <div class="guild-logo">
+        <img v-if="$root.guild.guildLogoUrl" v-bind:src="$root.guild.guildLogoUrl" v-on:click="selectLogo" />
+        <img v-else src="/assets/images/logo.png" v-on:click="selectLogo" />
+    </div>
+    <div>点击上方图标以上传公会徽标，推荐尺寸250*90。</div>
+
+    <br />
+    <br />
+    <h5>公会卡片</h5>
+    <div class="guild-card">
+        <img v-if="$root.guild.guildListImageUrl" v-bind:src="$root.guild.guildListImageUrl" v-on:click="selectCard" />
+        <img v-else src="/assets/images/guild-image.jpg" v-on:click="selectCard" />
+    </div>
+    <div>点击上方图标以上传公会卡片，推荐尺寸370*320。</div>
+    <input style="display: none" type="file" id="uploader1" v-on:change="uploadLogo()" />
+    <input style="display: none" type="file" id="uploader2" v-on:change="uploadCard()" />
+</div>

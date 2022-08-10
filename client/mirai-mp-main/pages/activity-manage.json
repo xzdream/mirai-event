@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "activity-manage-basic": "activity-manage/basic",
+    "activity-manage-delete": "activity-manage/delete",
+    "activity-manage-wcl": "activity-manage/wcl",
+    "activity-manage-ledger": "activity-manage/ledger"
+  }
+}

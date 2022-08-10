@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "guild-list": "guild/list",
+    "character-search": "character/search",
+    "character-detail": "character/detail"
+  }
+}

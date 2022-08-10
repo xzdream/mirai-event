@@ -1,0 +1,34 @@
+<view class="{{ isFullScreen ? 'header header-full' : 'header' }}">
+</view>
+<view class="{{ isFullScreen ? 'header-logo header-full' : 'header-logo' }}">
+    <span class="page-title">{{ pricing.name }}</span>
+</view>
+<view class="{{ isFullScreen ? 'header-buttons full' : 'header-buttons' }}">
+    <a bindtap="onBackBtnClicked"><i class="fa fa-angle-left"></i> 返回</a>
+</view>
+
+<view class="wrapper {{ isFullScreen ? 'full' : '' }}">
+    <div wx:for="{{ pricing.data }}" wx:for-item="group" wx:if="{{ group.items.length }}">
+        <div class="section-title">
+            <span>{{ group.name }}</span>
+        </div>
+        <table class="form-table" style="margin-bottom: 30px; font-size: 12px; font-weight: bold;">
+            <tbody>
+                <tr wx:for="{{ group.items }}" wx:for-item="x">
+                    <td class="{{ x._css }}">
+                        <image class="class-img" src="{{ x.imageUrl }}" /> {{ x.name }}
+                    </td>
+                    <td style="text-align: right;">
+                        {{ x.initial }} / {{ x.cap || '不封顶' }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <table class="wcl-table">
+        <tr wx:if="{{ !pricing.data.length }}">
+            <td colspan="2" class="text-center" style="line-height: 40px;">价目表为空</td>
+        </tr>
+    </table>
+</view>

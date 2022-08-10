@@ -1,0 +1,120 @@
+<view class="{{ isFullScreen ? 'header header-full' : 'header' }}">
+</view>
+<view class="{{ isFullScreen ? 'header-logo header-full' : 'header-logo' }}">
+    <div class="text-title">{{activity.name}}</div>
+</view>
+<view wx:if="canBack" class="{{ isFullScreen ? 'header-buttons full' : 'header-buttons' }}">
+    <a bindtap="onBackBtnClicked"><i class="fa fa-angle-left"></i> 返回</a>
+</view>
+
+<view class="wrapper {{ isFullScreen ? 'full' : '' }}">
+    <view wx:for="{{ groups }}" wx:for-item="group" wx:if="{{ activity }}" wx:for-index="idx">
+        <div class="section-title">
+            <span>{{ group.name }}</span>
+            <span class="right">报名：{{ statistics[idx].submit }} / 确认：{{ statistics[idx].accepted }} / 替补：{{ statistics[idx].standby }}</span>
+        </div>
+
+        <table class="form-table reg-table">
+            <tr wx:for="{{ grouped[idx] }}" wx:for-item="reg" data-reg="{{ reg }}" bindtap="onPlayerClicked">
+                <td>
+                    <a>
+                        <div>
+                            <div class="reg-title">
+                                <span class="character-name {{ 'class-' + reg.class }}">
+                                    <image class="class-img" src="{{ '/assets/images/class-' + reg.class + '.png' }}" />
+                                    {{ reg.name }} 
+                                    <span class="guild-name" wx:if="{{ !!activityCurrentGuild && !!reg.guildId && activityCurrentGuild != reg.guildId }}">
+                                    {{'<'}}{{ reg.guildNameCache }}{{'>'}}
+                                    </span>
+                                </span>
+                                <span class="right reg-label">
+                                    <span class="label-gray" wx-if="{{ reg.status == 0 }}">待审核</span>
+                                    <span class="label-red" wx-if="{{ reg.status == 1 }}">被拒绝</span>
+                                    <span class="label-orange" wx-if="{{ reg.status == 2 }}">替补队员</span>
+                                    <span class="label-purple" wx-if="{{ reg.status == 3 }}">已请假</span>
+                                    <span class="label-green" wx-if="{{ reg.status == 4 }}">已通过</span>
+                                    <span class="label-red" wx-if="{{ reg.status == 5 }}">缺席</span>
+                                </span>
+                            </div>
+                            <div class="reg-subline {{ shortWidth ? 'short-width' : '' }}">
+                                <span class="reg-icon"><i class="fa fa-trophy"></i></span>
+                                <span class="{{ reg._wclCss || 'gray' }}">
+                                    {{ reg.wcl }}
+                                </span>
+                                <span class="reg-icon" style="margin-left: 8px">iLvl.</span>
+                                <span wx:if="{{ reg.charactor }}" class="{{ reg.charactor._itemCss }}">{{ reg.charactor.highestItemLevel }}<span wx:if="{{ reg.setCount }}"> ({{ reg.setCount }}{{ reg.setName }})</span></span>
+                                <span wx:else class="gray">未知</span>
+                                <span class="reg-icon" style="margin-left: 8px"><i class="fa fa-star"></i></span>
+                                <span wx:if="{{ reg.charactor }}" class="{{ reg._bossCss }}"> {{ reg.bossPassed || 0 }} / {{ bossAmount }}</span>
+                                <span wx:else class="gray"> 未知</span>
+                                <image class="class-img avatar" style="margin-left: 8px" wx:if="{{ reg.avatarUrl }}" src="{{ reg.avatarUrl }}" />
+                                <span wx:if="{{ reg.weChat }}" class="wechat-nickname">{{ reg.weChat }}</span>
+                                <span wx:if="{{ reg.hint }}" class="reg-icon" style="margin-left: 8px"><i class="fa fa-comment-o"></i></span>
+                                <span wx:if="{{ reg.hint }}" class="hint">{{ reg.hint }}</span>
+                            </div>
+                        </div>
+                    </a>
+                </td>
+            </tr>
+        </table>
+
+        <table class="form-table reg-table" wx:if="{{ !grouped[idx].length }}" style="margin-top: -30px;">
+            <tr>
+                <td>该职责尚无人报名</td>
+            </tr>
+        </table>
+    </view>
+
+    <view>
+        <div class="section-title">
+            <span>快捷操作</span>
+        </div>
+        <view>
+            <button class="btn-rect" open-type="share">
+                <div><i class="fa fa-share"></i></div>
+                <div>分享给好友</div>
+            </button>
+            <button wx:if="{{ activity.allowForward }}" class="btn-rect" bindtap="onShareToGuildBtnClicked">
+                <div><i class="fa fa-share"></i></div>
+                <div>分享至公会</div>
+            </button>
+            <button class="btn-rect" bindtap="onBackBtnClicked">
+                <div><i class="fa fa-building"></i></div>
+                <div>公会主页</div>
+            </button>
+            <button class="btn-rect" bindtap="onBackToHomeBtnClicked">
+                <div><i class="fa fa-list"></i></div>
+                <div>公会列表</div>
+            </button>
+        </view>
+    </view>
+</view>
+
+<view class="dialog" style="margin-top:-240px" wx:if="{{ selectedReg }}">
+    <div class="dialog-header">
+        <span class="class-{{ selectedReg.class }}">
+            <!-- <image class="class-img" src="{{ '/assets/images/class-' + selectedReg.class + '.png' }}" /> -->
+            {{ selectedReg.name }}
+        </span>
+        <a class="right" bindtap="onDialogCloseBtnClicked"><i class="fa fa-close"></i></a>
+        <a class="right" bindtap="onQueryWclBtnClicked" data-realm="{{ activity.realm }}" data-name="{{ selectedReg.name }}" style="margin-right: 20px;"><i class="fa fa-globe"></i> 查询WCL</a>
+    </div>
+    <div class="dialog-body" style="padding: 0 15px">
+        <div class="dialog-select-row" data-action="accept" bindtap="onActionOptClicked"><div class="ratio {{ action == 'accept' ? 'selected' : '' }}"><div></div></div> 通过申请</div>
+        <div class="dialog-select-row" data-action="standby" bindtap="onActionOptClicked"><div class="ratio {{ action == 'standby' ? 'selected' : '' }}"><div></div></div> 设为替补</div>
+        <div class="dialog-select-row" data-action="reject" bindtap="onActionOptClicked"><div class="ratio {{ action == 'reject' ? 'selected' : '' }}"><div></div></div> 拒绝申请</div>
+        <div class="dialog-select-row" data-action="tank" bindtap="onActionOptClicked"><div class="ratio {{ action == 'tank' ? 'selected' : '' }}"><div></div></div> 设为坦克</div>
+        <div class="dialog-select-row" data-action="dps" bindtap="onActionOptClicked"><div class="ratio {{ action == 'dps' ? 'selected' : '' }}"><div></div></div> 设为输出</div>
+        <div class="dialog-select-row" data-action="hps" bindtap="onActionOptClicked"><div class="ratio {{ action == 'hps' ? 'selected' : '' }}"><div></div></div> 设为治疗</div>
+        <div class="dialog-select-row" data-action="consumer" bindtap="onActionOptClicked"><div class="ratio {{ action == 'consumer' ? 'selected' : '' }}"><div></div></div> 设为消费</div>
+        <div class="dialog-select-row" data-action="delete" bindtap="onActionOptClicked"><div class="ratio {{ action == 'delete' ? 'selected' : '' }}"><div></div></div> 删除申请</div>
+    </div>
+    <div class="dialog-footer">
+        <table>
+            <tr>
+                <td><a bindtap="onDialogOkBtnClicked">确定</a></td>
+                <td><a bindtap="onDialogCloseBtnClicked">取消</a></td>
+            </tr>
+        </table>
+    </div>
+</view>

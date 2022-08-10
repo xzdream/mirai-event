@@ -1,0 +1,33 @@
+<view class="{{ isFullScreen ? 'header header-full' : 'header' }}">
+</view>
+<view class="{{ isFullScreen ? 'header-logo header-full' : 'header-logo' }}">
+    <image src="/assets/images/logo.png" alt="" />
+</view>
+<view class="{{ isFullScreen ? 'header-buttons full' : 'header-buttons' }}">
+    <a bindtap="onNavigateToHomeBtnClicked" class="btn-home"><i class="fa fa-home"></i></a>
+</view>
+
+<view class="wrapper {{ isFullScreen ? 'full' : '' }}">
+    <view class="section-title">搜索角色</view>
+    <table class="form-table">
+        <colgroup>
+            <col style="width: 75px;" />
+            <col />
+        </colgroup>
+        <tr>
+            <td>角色名</td>
+            <td><input class="inline-textbox" model:value="{{ characterName }}" placeholder="点击输入角色名" /></td>
+        </tr>
+        <tr>
+            <td>服务器</td>
+            <td><input class="inline-textbox" model:value="{{ realm }}" placeholder="点击输入服务器名称" /></td>
+        </tr>
+    </table>
+
+    
+    <table class="form-table" style="margin-top: 15px">
+        <tr>
+            <td class="search-btn" bindtap="onSearchBtnClicked"><i class="fa fa-search"></i> 搜索角色</td>
+        </tr>
+    </table>
+</view>

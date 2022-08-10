@@ -1,0 +1,29 @@
+@import "/app.wxss";
+
+.text-title {
+    max-width: 50%;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    color: #fff;
+    vertical-align: top;
+    line-height: 42px;
+}
+
+.character-name {
+    font-weight: bold;
+}
+
+.grid-name {
+    text-align: center; 
+    border-radius: 50px;
+    color: #3dd0d8; 
+    font-weight: bold;
+    margin-bottom: 10px
+}
+
+.grid-name.active {
+    color: #fff;
+    background-color: #3dd0d8; 
+}

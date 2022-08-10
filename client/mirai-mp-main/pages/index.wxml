@@ -1,0 +1,40 @@
+<view>
+    <!-- 公会列表 -->
+    <view wx:if="{{ active == 'home' }}">
+        <guild-list></guild-list>
+    </view>
+
+    <!-- 角色搜索 -->
+    <view wx:if="{{ active == 'ch' }}">
+        <character-search></character-search>
+    </view>
+
+    <!-- 角色搜索结果 -->
+    <view wx:if="{{ active == 'ch-res' }}">
+        <character-detail name="{{ layoutVariables.characterSearch.name }}" realm="{{ layoutVariables.characterSearch.realm }}"></character-detail>
+    </view>
+</view>
+
+<view class="{{ isFullScreen ? 'footer footer-full' : 'footer' }}">
+    <view class="table">
+        <!-- 底部导航栏 -->
+        <view class="table-tr">
+            <view class="table-td" style="color: {{ active == 'home' ? '#3dd0d8' : '#c2d4f8' }}" data-active="home" bindtap="switchTab">
+                <div class="btn-icon"><i class="fa fa-home"></i></div>
+                <div class="btn-text">公会</div>
+            </view>
+            <view class="table-td" style="color: {{ (active == 'ch' || active == 'ch-res') ? '#3dd0d8' : '#c2d4f8' }}" data-active="ch" bindtap="switchTab">
+                <div class="btn-icon"><i class="fa fa-search"></i></div>
+                <div class="btn-text">角色</div>
+            </view>
+            <view class="table-td" bindtap="scanQrCode">
+                <div class="btn-icon"><i class="fa fa-qrcode"></i></div>
+                <div class="btn-text">扫码</div>
+            </view>
+            <view class="table-td" bindtap="navigateToMy">
+                <div class="btn-icon"><i class="fa fa-user"></i></div>
+                <div class="btn-text">我的</div>
+            </view>
+        </view>
+    </view>
+</view>
