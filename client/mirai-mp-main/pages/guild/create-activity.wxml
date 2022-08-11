@@ -77,6 +77,6 @@
             </tr>
         </table>
         
-        <div class="section-title">您可以在 https://{{ guildId }}.mwow.org 上对创建活动进行更多的管理操作</div>
+        <!-- <div class="section-title">您可以在 https://{{ guildId }}.173qu.com 上对创建活动进行更多的管理操作</div> -->
     </view>
 </view>

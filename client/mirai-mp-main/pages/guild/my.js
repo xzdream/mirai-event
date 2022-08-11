@@ -91,7 +91,7 @@ Component({
                 guildPermission: !wx.$guild ? {} : wx.$guild.data.permission,
                 nickname: getApp().globalData.session.displayName,
                 userId: getApp().globalData.session.username,
-                website: 'https://' + this.properties.guild.id + '.mwow.org'
+                website: 'https://' + this.properties.guild.id + '.173qu.com'
             });
         }
     }
