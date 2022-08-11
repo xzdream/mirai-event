@@ -4,7 +4,7 @@
 
 var app = new Vue({
     data: {
-        authHost: 'https://gbgbg.cn',
+        authHost: 'https://www.173qu.com',
         notifications: [],
         active: 'activity',
         user: {
@@ -32,9 +32,9 @@ var app = new Vue({
             }
         }, 1000);
         this.checkToken();
-        var idx = window.location.host.indexOf('.mwow.org');
+        var idx = window.location.host.indexOf('.173qu.com');
         if (idx > 0) {
-            var len = window.location.host.length - '.mwow.org'.length;
+            var len = window.location.host.length - '.173qu.com'.length;
             app.guildId = window.location.host.substr(0, len);
         }
     },
