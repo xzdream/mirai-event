@@ -16,10 +16,10 @@
                 <div class="btn-icon"><i class="fa fa-search"></i></div>
                 <div class="btn-text">成员</div>
             </view>
-            <view class="table-td" bindtap="scanQrCode">
+            <!-- <view class="table-td" bindtap="scanQrCode">
                 <div class="btn-icon"><i class="fa fa-qrcode"></i></div>
                 <div class="btn-text">扫码</div>
-            </view>
+            </view> -->
             <!-- <view class="table-td" bindtap="showPricing">
                 <div class="btn-icon"><i class="fa fa-money"></i></div>
                 <div class="btn-text">价目</div>

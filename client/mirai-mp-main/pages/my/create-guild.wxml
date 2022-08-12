@@ -12,17 +12,17 @@
     <view>
         <table class="form-table" style="margin-top: 15px; margin-bottom: 15px;">
             <tr>
-                <td>公会名称</td>
+                <td>金团名称</td>
                 <td>
-                    <input class="txtbox" placeholder="点击输入公会名称" model:value="{{ name }}" />
+                    <input class="txtbox" placeholder="点击输入金团名称" model:value="{{ name }}" />
                 </td>
             </tr>
-            <!-- <tr>
-                <td>公会网址</td>
+            <tr>
+                <td>英文简称</td>
                 <td class="td-domain">
-                    <input class="txtbox" placeholder="请输入英文字母、数字" model:value="{{ domain }}" /><span>.173qu.com</span>
+                    <input class="txtbox" placeholder="请输入英文字母、数字" model:value="{{ domain }}" />
                 </td>
-            </tr> -->
+            </tr>
             <tr>
                 <td>服务器</td>
                 <td>

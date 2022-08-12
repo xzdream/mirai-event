@@ -26,7 +26,6 @@ Component({
             });
         },
         createGuild: function() {
-          debugger
           console.log(this.data)
             if (!this.data.name) {
                 wx.showModal({
@@ -37,14 +36,14 @@ Component({
                 return;
             }
 
-            // if (!this.data.domain || !/^[0-9a-zA-Z-_]{4,16}$/.test(this.data.domain)) {
-            //     wx.showModal({
-            //         title: "错误",
-            //         content: "网址不合法，请输入4-16个英文字母或数字",
-            //         showCancel: false
-            //     });
-            //     return;
-            // }
+            if (!this.data.domain || !/^[0-9a-zA-Z-_]{4,16}$/.test(this.data.domain)) {
+                wx.showModal({
+                    title: "错误",
+                    content: "网址不合法，请输入4-16个英文字母或数字",
+                    showCancel: false
+                });
+                return;
+            }
             
             if (!this.data.realm) {
                 wx.showModal({
@@ -69,7 +68,6 @@ Component({
             });
 
             let self = this;
-            console.log("host:"+this.data.host);
             qv.post(this.data.host + '/api/guild', {
                 id: this.data.domain,
                 name: this.data.name,
