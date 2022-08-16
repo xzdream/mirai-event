@@ -21,7 +21,8 @@ Component({
             var self = this;
             wx.showModal({
                 title: "完成",
-                content: `已将${this.data.guild.name}设置为默认公会`,
+                // content: `已将${this.data.guild.name}设置为默认公会`,
+                content: `已将${this.data.guild.name}设置为默认金团`,
                 showCancel: false
             }).then(() => {
                 self.setData({
@@ -33,7 +34,8 @@ Component({
             wx.removeStorageSync('defaultGuild');
             wx.showModal({
                 title: "完成",
-                content: `已取消${this.data.guild.name}默认公会`,
+                // content: `已取消${this.data.guild.name}默认公会`,
+                content: `已取消${this.data.guild.name}默认金团`,
                 showCancel: false
             }).then(() => {
                 wx.$guildId = null;

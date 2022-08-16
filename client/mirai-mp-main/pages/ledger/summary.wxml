@@ -49,11 +49,13 @@
             </button>
             <button class="btn-rect" bindtap="onBackToGuildClicked">
                 <div><i class="fa fa-building"></i></div>
-                <div>公会主页</div>
+                <!-- <div>公会主页</div> -->
+                <div>金团主页</div>
             </button>
             <button class="btn-rect" bindtap="onBackToHomeBtnClicked">
                 <div><i class="fa fa-list"></i></div>
-                <div>公会列表</div>
+                <!-- <div>公会列表</div> -->
+                <div>金团列表</div>
             </button>
         </view>
     </view>

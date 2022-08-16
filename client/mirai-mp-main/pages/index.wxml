@@ -21,11 +21,12 @@
         <view class="table-tr">
             <view class="table-td" style="color: {{ active == 'home' ? '#3dd0d8' : '#c2d4f8' }}" data-active="home" bindtap="switchTab">
                 <div class="btn-icon"><i class="fa fa-home"></i></div>
-                <div class="btn-text">公会</div>
+                <!-- <div class="btn-text">公会</div> -->
+                <div class="btn-text">金团</div>
             </view>
             <view class="table-td" style="color: {{ (active == 'ch' || active == 'ch-res') ? '#3dd0d8' : '#c2d4f8' }}" data-active="ch" bindtap="switchTab">
                 <div class="btn-icon"><i class="fa fa-search"></i></div>
-                <div class="btn-text">角色</div>
+                <div class="btn-text">WCL</div>
             </view>
             <!-- <view class="table-td" bindtap="scanQrCode">
                 <div class="btn-icon"><i class="fa fa-qrcode"></i></div>

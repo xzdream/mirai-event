@@ -8,7 +8,8 @@
 </view>
 
 <view class="wrapper {{ isFullScreen ? 'full' : '' }}">
-    <div class="section-title">创建公会</div>
+    <!-- <div class="section-title">创建公会</div> -->
+    <div class="section-title">创建金团</div>
     <view>
         <table class="form-table" style="margin-top: 15px; margin-bottom: 15px;">
             <tr>
@@ -20,7 +21,7 @@
             <tr>
                 <td>英文简称</td>
                 <td class="td-domain">
-                    <input class="txtbox" placeholder="请输入英文字母、数字" model:value="{{ domain }}" />
+                    <input class="txtbox" placeholder="请输入4位英文字母或数字" model:value="{{ domain }}" />
                 </td>
             </tr>
             <tr>
@@ -38,14 +39,14 @@
             </tr>
         </table>
 
-        <div class="section-title">请输入正确的服务器名称，否则会无法正确拉取WCL数据，服务器名在公会创建后无法修改。</div>
+        <div class="section-title">请输入正确的服务器名称，否则会无法正确拉取WCL数据，服务器名在金团创建后无法修改。</div>
 
         <table class="form-table" style="margin-top: 45px; margin-bottom: 15px;">
             <tr class="row-btn" bindtap="createGuild">
-                <td>创建公会</td>
+                <td>创建金团</td>
             </tr>
         </table>
         
-        <div class="section-title">每个账号最多创建3个公会，请谨慎操作。</div>
+        <div class="section-title">每个账号最多创建3个金团，请谨慎操作。</div>
     </view>
 </view>

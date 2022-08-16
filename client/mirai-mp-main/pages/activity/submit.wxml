@@ -143,7 +143,7 @@
             <div class="dialog-select-row" data-role="1" bindtap="onRoleClicked"><div class="ratio {{ ui.selectedRole == 1 ? 'selected' : '' }}"><div></div></div> 输出</div>
             <div class="dialog-select-row" data-role="0" bindtap="onRoleClicked"><div class="ratio {{ ui.selectedRole == 0 ? 'selected' : '' }}"><div></div></div> 坦克 <span wx:if="{{ !selectedCharacter._canTank }}">(不可用)</span></div>
             <div class="dialog-select-row" data-role="2" bindtap="onRoleClicked"><div class="ratio {{ ui.selectedRole == 2 ? 'selected' : '' }}"><div></div></div> 治疗 <span wx:if="{{ !selectedCharacter._canHeal }}">(不可用)</span></div>
-            <div class="dialog-select-row" data-role="3" bindtap="onRoleClicked"><div class="ratio {{ ui.selectedRole == 3 ? 'selected' : '' }}"><div></div></div> 消费</div>
+            <!-- <div class="dialog-select-row" data-role="3" bindtap="onRoleClicked"><div class="ratio {{ ui.selectedRole == 3 ? 'selected' : '' }}"><div></div></div> 消费</div> -->
         </div>
         <div style="padding-bottom: 15px; margin-top: 10px">
             <div class="section-title">备注</div>

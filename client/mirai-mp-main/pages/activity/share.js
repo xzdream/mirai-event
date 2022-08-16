@@ -29,7 +29,8 @@ Page({
         let self = this;
         wx.showModal({
             title: '分享活动',
-            content: '你确定要将活动分享至该公会吗？',
+            //content: '你确定要将活动分享至该公会吗？',
+            content: '你确定要将活动分享至该金团吗？',
             confirmText: '确定',
             cancelText: '取消',
             success: function(res) {

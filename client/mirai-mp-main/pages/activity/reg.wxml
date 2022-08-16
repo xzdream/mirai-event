@@ -72,19 +72,21 @@
         <view>
             <button class="btn-rect" open-type="share">
                 <div><i class="fa fa-share"></i></div>
-                <div>分享给好友</div>
+                <div>分享到群</div>
             </button>
-            <button wx:if="{{ activity.allowForward }}" class="btn-rect" bindtap="onShareToGuildBtnClicked">
+            <!-- <button wx:if="{{ activity.allowForward }}" class="btn-rect" bindtap="onShareToGuildBtnClicked">
                 <div><i class="fa fa-share"></i></div>
                 <div>分享至公会</div>
-            </button>
+            </button> -->
             <button class="btn-rect" bindtap="onBackBtnClicked">
                 <div><i class="fa fa-building"></i></div>
-                <div>公会主页</div>
+                <!-- <div>公会主页</div> -->
+                <div>金团主页</div>
             </button>
             <button class="btn-rect" bindtap="onBackToHomeBtnClicked">
                 <div><i class="fa fa-list"></i></div>
-                <div>公会列表</div>
+                <!-- <div>公会列表</div> -->
+                <div>金团列表</div>
             </button>
         </view>
     </view>
@@ -103,10 +105,10 @@
         <div class="dialog-select-row" data-action="accept" bindtap="onActionOptClicked"><div class="ratio {{ action == 'accept' ? 'selected' : '' }}"><div></div></div> 通过申请</div>
         <div class="dialog-select-row" data-action="standby" bindtap="onActionOptClicked"><div class="ratio {{ action == 'standby' ? 'selected' : '' }}"><div></div></div> 设为替补</div>
         <div class="dialog-select-row" data-action="reject" bindtap="onActionOptClicked"><div class="ratio {{ action == 'reject' ? 'selected' : '' }}"><div></div></div> 拒绝申请</div>
-        <div class="dialog-select-row" data-action="tank" bindtap="onActionOptClicked"><div class="ratio {{ action == 'tank' ? 'selected' : '' }}"><div></div></div> 设为坦克</div>
+        <!-- <div class="dialog-select-row" data-action="tank" bindtap="onActionOptClicked"><div class="ratio {{ action == 'tank' ? 'selected' : '' }}"><div></div></div> 设为坦克</div>
         <div class="dialog-select-row" data-action="dps" bindtap="onActionOptClicked"><div class="ratio {{ action == 'dps' ? 'selected' : '' }}"><div></div></div> 设为输出</div>
         <div class="dialog-select-row" data-action="hps" bindtap="onActionOptClicked"><div class="ratio {{ action == 'hps' ? 'selected' : '' }}"><div></div></div> 设为治疗</div>
-        <div class="dialog-select-row" data-action="consumer" bindtap="onActionOptClicked"><div class="ratio {{ action == 'consumer' ? 'selected' : '' }}"><div></div></div> 设为消费</div>
+        <div class="dialog-select-row" data-action="consumer" bindtap="onActionOptClicked"><div class="ratio {{ action == 'consumer' ? 'selected' : '' }}"><div></div></div> 设为消费</div> -->
         <div class="dialog-select-row" data-action="delete" bindtap="onActionOptClicked"><div class="ratio {{ action == 'delete' ? 'selected' : '' }}"><div></div></div> 删除申请</div>
     </div>
     <div class="dialog-footer">

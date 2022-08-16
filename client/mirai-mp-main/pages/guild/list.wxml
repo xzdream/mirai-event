@@ -5,7 +5,8 @@
 </view>
 
 <view class="search-dropdown-box {{ isFullScreen ? 'full' : '' }}">
-    <input type="text" class="textbox" placeholder="搜索公会..." model:value="{{ search }}" bindinput="onSearchTextChanged" />
+    <!-- <input type="text" class="textbox" placeholder="搜索公会..." model:value="{{ search }}" bindinput="onSearchTextChanged" /> -->
+    <input type="text" class="textbox" placeholder="搜索金团..." model:value="{{ search }}" bindinput="onSearchTextChanged" />
 </view>
 
 <view class="guild-wrapper {{ isFullScreen ? 'full' : '' }}">
@@ -29,6 +30,7 @@
         </table>
     </view>
     <view class="guild-item" wx:if="{{ result && !result.data.length }}">
-        <view class="text-center" style="line-height: 40px;">没有找到公会...</view>
+        <!-- <view class="text-center" style="line-height: 40px;">没有找到公会...</view> -->
+        <view class="text-center" style="line-height: 40px;">没有找到金团...</view>
     </view>
 </view>

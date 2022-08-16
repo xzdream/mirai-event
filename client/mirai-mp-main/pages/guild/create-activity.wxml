@@ -9,7 +9,8 @@
 </view>
 
 <view class="wrapper {{ isFullScreen ? 'full' : '' }}">
-    <div class="section-title">发起公会活动</div>
+    <!-- <div class="section-title">发起公会活动</div> -->
+    <div class="section-title">发起金团活动</div>
     <view>
         <table class="form-table" style="margin-top: 15px; margin-bottom: 15px;">
             <tr>
@@ -55,21 +56,23 @@
             </tr>
         </table>
 
-        <div class="section-title" style="margin-top: 30px;">转发设置</div>
+        <!-- <div class="section-title" style="margin-top: 30px;">转发设置</div>
         <table class="form-table">
             <tr>
                 <td data-allow="{{ false }}" bindtap="switchAllowForward">
                     <span>禁止转发至其他公会</span>
+                    <span>禁止转发至其他金团</span>
                     <i wx:if="{{ !allowForward }}" class="fa fa-check-circle right raid-checked"></i>
                 </td>
             </tr>
             <tr>
                 <td data-allow="{{ true }}" bindtap="switchAllowForward">
                     <span>允许转发至其他公会</span>
+                    <span>允许转发至其他金团</span>
                     <i wx:if="{{ allowForward }}" class="fa fa-check-circle right raid-checked"></i>
                 </td>
             </tr>
-        </table>
+        </table> -->
 
         <table class="form-table" style="margin-top: 45px; margin-bottom: 15px;">
             <tr class="row-btn" bindtap="createActivity">

@@ -9,31 +9,38 @@
 </view>
 
 <view class="wrapper {{ isFullScreen ? 'full' : '' }}">
-    <div class="section-title">设置常驻公会</div>
+    <!-- <div class="section-title">设置常驻公会</div> -->
+    <div class="section-title">设置常驻金团</div>
     
     <view wx:if="{{ guild.id != defaultGuild }}">
         <table class="form-table" style="margin-top: 15px; margin-bottom: 15px;">
             <tr>
-                <td class="row-btn" bindtap="onSetBtnClicked">设置常驻公会</td>
+                <!-- <td class="row-btn" bindtap="onSetBtnClicked">设置常驻公会</td> -->
+                <td class="row-btn" bindtap="onSetBtnClicked">设置常驻金团</td>
             </tr>
             <tr>
-                <td class="row-btn" bindtap="onBackBtnClicked">返回公会列表</td>
+                <!-- <td class="row-btn" bindtap="onBackBtnClicked">返回公会列表</td> -->
+                <td class="row-btn" bindtap="onBackBtnClicked">返回金团列表</td>
             </tr>
         </table>
 
-        <div class="section-title">设置常驻公会后，进入小程序时将自动进入公会，您无需再从公会列表中找到该公会进入。</div>
+        <!-- <div class="section-title">设置常驻公会后，进入小程序时将自动进入公会，您无需再从公会列表中找到该公会进入。</div> -->
+        <div class="section-title">设置常驻金团后，进入小程序时将自动进入金团，您无需再从金团列表中找到该金团进入。</div>
     </view>
     <view wx:else>
         <table class="form-table" style="margin-top: 15px; margin-bottom: 15px;">
             <tr>
-                <td class="row-btn" style="color: rgb(255,128,128)" bindtap="onUnsetBtnClicked">取消常驻公会</td>
+                <!-- <td class="row-btn" style="color: rgb(255,128,128)" bindtap="onUnsetBtnClicked">取消常驻公会</td> -->
+                <td class="row-btn" style="color: rgb(255,128,128)" bindtap="onUnsetBtnClicked">取消常驻金团</td>
             </tr>
             <tr>
-                <td class="row-btn" bindtap="onBackBtnClicked">返回公会列表</td>
+                <!-- <td class="row-btn" bindtap="onBackBtnClicked">返回公会列表</td> -->
+                <td class="row-btn" bindtap="onBackBtnClicked">返回金团列表</td>
             </tr>
         </table>
 
-        <div class="section-title">您当前已经将{{guild.name}}设置为常驻公会，点击取消后，小程序初始化时将进入公会列表。</div>
+        <!-- <div class="section-title">您当前已经将{{guild.name}}设置为常驻公会，点击取消后，小程序初始化时将进入公会列表。</div> -->
+        <div class="section-title">您当前已经将{{guild.name}}设置为常驻金团，点击取消后，小程序初始化时将进入金团列表。</div>
     </view>
 
     <!-- <view style="margin-top: 45px">
@@ -62,33 +69,38 @@
                 </tr>
             </table>
 
-            <div class="section-title">您可以将这个ID复制给公会会长，公会会长可将该ID添加为公会管理员。</div>
+            <!-- <div class="section-title">您可以将这个ID复制给公会会长，公会会长可将该ID添加为公会管理员。</div> -->
+            <div class="section-title">您可以将这个ID复制给金团团长，团长可将该ID添加为金团管理员。</div>
         </view>
     </view>
 
     <view style="margin-top: 45px" wx:if="{{ guildPermission.guildOwner }}">
-        <div class="section-title">公会管理员设置</div>
+        <!-- <div class="section-title">公会管理员设置</div> -->
+        <div class="section-title">金团管理员设置</div>
         <table class="form-table" style="margin-top: 15px; margin-bottom: 15px;">
             <tr>
                 <td class="row-btn" bindtap="onManagerManagementClicked">管理员设置</td>
             </tr>
         </table>
 
-        <div class="section-title">您是{{guild.name}}公会的所有者，您可以点击上面的按钮添加公会管理员，让其协助你管理公会。</div>
+        <!-- <div class="section-title">您是{{guild.name}}公会的所有者，您可以点击上面的按钮添加公会管理员，让其协助你管理公会。</div> -->
+        <div class="section-title">您是{{guild.name}}金团的所有者，您可以点击上面的按钮添加金团管理员，让其协助你管理金团。</div>
     </view>
 
     <view style="margin-top: 45px" wx:if="{{ guildPermission.guildManager }}">
-        <div class="section-title">创建公会活动</div>
+        <!-- <div class="section-title">创建公会活动</div> -->
+        <div class="section-title">创建金团活动</div>
         <table class="form-table" style="margin-top: 15px; margin-bottom: 15px;">
             <tr>
                 <td class="row-btn" bindtap="onCreateActivityClicked">创建活动</td>
             </tr>
         </table>
 
-        <div class="section-title">您是{{guild.name}}公会的管理员，您可以点击上面的按钮发起一个公会活动。</div>
+        <!-- <div class="section-title">您是{{guild.name}}公会的管理员，您可以点击上面的按钮发起一个公会活动。</div> -->
+        <div class="section-title">您是{{guild.name}}金团的管理员，您可以点击上面的按钮发起一个金团活动。</div>
     </view>
 
-    <view style="margin-top: 45px" wx:if="{{ guildPermission.guildManager }}">
+    <!-- <view style="margin-top: 45px" wx:if="{{ guildPermission.guildManager }}">
         <div class="section-title">报名策略</div>
         <table class="form-table" style="margin-top: 15px; margin-bottom: 15px;">
             <tr bindtap="onRegisterPolicyClicked">
@@ -98,7 +110,8 @@
         </table>
 
         <div class="section-title">您是{{guild.name}}公会的管理员，您可以点击上面的按钮切换报名策略。</div>
-    </view>
+        <div class="section-title">您是{{guild.name}}金团的管理员，您可以点击上面的按钮切换报名策略。</div>
+    </view> -->
 
     <view style="margin-top: 45px" wx:if="{{ guildPermission.guildManager }}">
         <div class="section-title" style="margin-top: 45px">我的昵称</div>
@@ -118,7 +131,7 @@
         </view>
     </view>
 
-    <view style="margin-top: 45px">
+    <!-- <view style="margin-top: 45px">
         <div class="section-title">寻求帮助</div>
         <table class="form-table" style="margin-top: 15px; margin-bottom: 15px;">
             <tr>
@@ -127,5 +140,5 @@
         </table>
 
         <div class="section-title">您对本小程序有任何使用上的问题，或是意见或建议，请点击上方按钮与我们取得联系。</div>
-    </view>
+    </view> -->
 </view>

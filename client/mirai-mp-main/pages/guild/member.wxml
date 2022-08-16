@@ -16,7 +16,8 @@
 </view>
 
 <view class="wrapper {{ isFullScreen ? 'full' : '' }}">
-    <view class="section-title">公会成员</view>
+    <!-- <view class="section-title">公会成员</view> -->
+    <view class="section-title">金团成员</view>
     <table class="form-table">
         <tr wx:for="{{ members }}" wx:for-item="member" wx:for-index="i">
             <tr style="width: 100%; display: inline-table" bindtap="onMemberClicked" data-index="{{ i }}" data-member="{{ member }}">

@@ -24,7 +24,8 @@
 
     <table class="wcl-table">
         <tr wx:if="{{ !pricing.length }}">
-            <td colspan="2" class="text-center" style="line-height: 40px;">公会尚未发布任何价目表</td>
+            <!-- <td colspan="2" class="text-center" style="line-height: 40px;">公会尚未发布任何价目表</td> -->
+            <td colspan="2" class="text-center" style="line-height: 40px;">尚未发布任何价目表</td>
         </tr>
     </table>
 
@@ -39,11 +40,13 @@
             </button>
             <button class="btn-rect" bindtap="onBackBtnClicked">
                 <div><i class="fa fa-building"></i></div>
-                <div>公会主页</div>
+                <!-- <div>公会主页</div> -->
+                <div>金团主页</div>
             </button>
             <button class="btn-rect" bindtap="onBackToHomeBtnClicked">
                 <div><i class="fa fa-list"></i></div>
-                <div>公会列表</div>
+                <!-- <div>公会列表</div> -->
+                <div>金团列表</div>
             </button>
         </view>
     </view>

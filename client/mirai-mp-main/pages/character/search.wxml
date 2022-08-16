@@ -8,7 +8,7 @@
 </view>
 
 <view class="wrapper {{ isFullScreen ? 'full' : '' }}">
-    <view class="section-title">搜索角色</view>
+    <view class="section-title">WCL查询</view>
     <table class="form-table">
         <colgroup>
             <col style="width: 75px;" />
@@ -27,7 +27,8 @@
     
     <table class="form-table" style="margin-top: 15px">
         <tr>
-            <td class="search-btn" bindtap="onSearchBtnClicked"><i class="fa fa-search"></i> 搜索角色</td>
+            <td class="search-btn" bindtap="onSearchBtnClicked"><i class="fa fa-search"></i> 查询WCL</td>
         </tr>
     </table>
+    <div class="section-title">本查询仅供查看最新WCL击杀情况，并未开放排名查询</div>
 </view>

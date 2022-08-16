@@ -8,12 +8,14 @@
 </view>
 
 <view class="wrapper {{ isFullScreen ? 'full' : '' }}">
-    <div class="section-title">分享至公会</div>
+    <!-- <div class="section-title">分享至公会</div> -->
+    <div class="section-title">分享至金团</div>
     
     <table wx:if="{{ !myGuilds.length }}" class="form-table" style="margin-top: 15px; margin-bottom: 15px;">
         <tr>
             <td>
-                没有可以转发的公会
+                <!-- 没有可以转发的公会 -->
+                没有可以转发的金团
             </td>
         </tr>
     </table>

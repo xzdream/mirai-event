@@ -93,7 +93,8 @@ Page({
     },
     onShareAppMessage: function () {
         return {
-            title: '【公会活动】' + this.data.guild.name
+            //title: '【公会活动】' + this.data.guild.name
+            title: '【金团活动】' + this.data.guild.name
         };
     }
 })

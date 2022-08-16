@@ -179,7 +179,8 @@ Component({
                         wx.showModal({
                             showCancel: false,
                             title: '错误',
-                            content: '本公会要求授权读取微信头像与昵称才能报名'
+                            // content: '本公会要求授权读取微信头像与昵称才能报名'
+                            content: '本金团要求授权读取微信头像与昵称才能报名'
                         });
                       } else {
                         self.doSubmit(null, null);

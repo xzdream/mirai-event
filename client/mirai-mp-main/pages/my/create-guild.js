@@ -30,7 +30,8 @@ Component({
             if (!this.data.name) {
                 wx.showModal({
                     title: "错误",
-                    content: "请填写公会名称",
+                    // content: "请填写公会名称",
+                    content: "请填写金团名称",
                     showCancel: false
                 });
                 return;
@@ -39,7 +40,7 @@ Component({
             if (!this.data.domain || !/^[0-9a-zA-Z-_]{4,16}$/.test(this.data.domain)) {
                 wx.showModal({
                     title: "错误",
-                    content: "网址不合法，请输入4-16个英文字母或数字",
+                    content: "简称不合法，请输入4-16个英文字母或数字",
                     showCancel: false
                 });
                 return;
@@ -48,7 +49,7 @@ Component({
             if (!this.data.realm) {
                 wx.showModal({
                     title: "错误",
-                    content: "请填写公会所在服务器名称",
+                    content: "请填写金团所在服务器名称",
                     showCancel: false
                 });
                 return;
@@ -64,7 +65,8 @@ Component({
             }
 
             wx.showLoading({
-              title: '正在创建公会',
+              // title: '正在创建公会',
+              title: '正在创建金团',
             });
 
             let self = this;
