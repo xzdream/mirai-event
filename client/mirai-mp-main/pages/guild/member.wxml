@@ -31,10 +31,12 @@
             </tr>
             <tr wx:if="{{ member._details }}" style="width: 100%; display: inline-table" wx:for="{{ member.charactors }}" wx:for-item="ch">
                 <div class="class-{{ ch.class }} row-character">
-                    <!-- <image src="{{ '/assets/images/class-' + ch.class + '.png' }}" class="class-img" /> -->
+                    <image src="{{ '/assets/images/class-' + ch.class + '.png' }}" class="class-img" />
                     {{ ch.name }}
                     <span style="color: #ccc">({{ ch.attend }})</span>
+                    <a class="right" bindtap="onMemberWclBtnClicked" data-realm="{{ guild.realm }}" data-name="{{ ch.name }}" style="margin-right: 20px;"><i class="fa fa-globe"></i> 查询WCL</a>
                 </div>
+                
             </tr>
         </tr>
     </table>
@@ -44,7 +46,7 @@
         </tr>
     </table>
 
-    <view class="section-title" style="margin-top: 60px">搜索角色</view>
+    <!-- <view class="section-title" style="margin-top: 60px">搜索角色</view>
     <table class="form-table">
         <colgroup>
             <col style="width: 75px;" />
@@ -65,5 +67,5 @@
         <tr>
             <td class="search-btn" bindtap="onSearchBtnClicked"><i class="fa fa-search"></i> 搜索角色</td>
         </tr>
-    </table>
+    </table> -->
 </view>

@@ -26,7 +26,7 @@
                 </td>
             </tr>
             <tr>
-                <td>报名截止</td>
+                <td>报名止</td>
                 <td>
                     <date-time-picker data-field="deadline" bind:change="handleDateTimePickerChanged" value="{{ deadline }}">{{ deadline }}</date-time-picker>
                 </td>

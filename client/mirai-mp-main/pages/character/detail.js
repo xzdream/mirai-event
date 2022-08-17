@@ -108,9 +108,9 @@ Page({
     },
     handleBoss: function(boss) {
         boss.Highest = parseInt(boss.Highest);
-        boss.Lowest = parseInt(boss.Lowest);
+        // boss.Lowest = parseInt(boss.Lowest);
         boss.Fastest = this.parseTimeSpan(boss.Fastest);
-        boss.Slowest = this.parseTimeSpan(boss.Slowest);
+        // boss.Slowest = this.parseTimeSpan(boss.Slowest);
         boss.ParseCss = 'gray';
         if (boss.Parse >= 25) {
             boss.ParseCss = 'green';
@@ -121,7 +121,7 @@ Page({
         if (boss.Parse >= 75) {
             boss.ParseCss = 'purple';
         }
-        if (boss.Parse >= 95) {
+        if (boss.Parse >= 90) {
             boss.ParseCss = 'orange';
         }
     },

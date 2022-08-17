@@ -23,6 +23,9 @@ Component({
         onSearchTextChanged: function() {
             this.loadGuilds(this.data.search, 1);
         },
+
+        
+
         openGuild: function(event) {
             let id = event.currentTarget.dataset.id;
             wx.$root.navigateToGuild(id);

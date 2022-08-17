@@ -24,6 +24,18 @@ Component({
                 });
             })
         },
+
+        openMemberWclPage: function(name, realm) {
+          wx.navigateTo({
+            url: 'character/detail?name=' + name + '&realm=' + realm
+          });
+      },
+        onMemberWclBtnClicked: function(event) {
+          let realm = event.currentTarget.dataset.realm;
+          let name = event.currentTarget.dataset.name;
+          this.openMemberWclPage(name, realm);
+      },
+
         onSearchBtnClicked: function() {
             if (!this.data.characterName) {
                 wx.showModal({

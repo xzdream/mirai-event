@@ -1,2 +1,0 @@
-<view class="{{ isFullScreen ? 'header header-full' : 'header' }}">
-</view>

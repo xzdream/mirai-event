@@ -56,6 +56,7 @@
             <tr>
                 <td>职业</td>
                 <td bindtap="onClassClicked" class="new-ch-class class-{{ newCharacter.class }}">
+                    <span wx:if="{{ newCharacter.class == 512 }}">死亡骑士</span>
                     <span wx:if="{{ newCharacter.class == 1 }}">战士</span>
                     <span wx:if="{{ newCharacter.class == 2 }}">圣骑士</span>
                     <span wx:if="{{ newCharacter.class == 4 }}">猎人</span>
@@ -108,6 +109,7 @@
         <a class="right" style="line-height: 17px;" bindtap="closeSelectDialog"><i class="fa fa-close"></i></a>
     </div>
     <div class="dialog-body" style="padding: 0 15px">
+      <div class="dialog-select-row" bindtap="onClassOptionClicked" data-class="512"><div class="ratio {{ ui.selectClassValue == 512 ? 'selected' : '' }}"><div></div></div> 死亡骑士</div>
         <div class="dialog-select-row" bindtap="onClassOptionClicked" data-class="1"><div class="ratio {{ ui.selectClassValue == 1 ? 'selected' : '' }}"><div></div></div> 战士</div>
         <div class="dialog-select-row" bindtap="onClassOptionClicked" data-class="2"><div class="ratio {{ ui.selectClassValue == 2 ? 'selected' : '' }}"><div></div></div> 圣骑士</div>
         <div class="dialog-select-row" bindtap="onClassOptionClicked" data-class="4"><div class="ratio {{ ui.selectClassValue == 4 ? 'selected' : '' }}"><div></div></div> 猎人</div>

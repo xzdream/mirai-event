@@ -15,23 +15,23 @@
 
 <view class="wrapper {{ isFullScreen ? 'full' : '' }}" wx:if="{{ !notFound }}">
     <div class="tab-outer" style="margin-bottom: 15px">
-        <a class="tab-item" data-active="dps" bindtap="onTabBtnClicked" class="tab-item {{ active == 'dps' ? 'active' : '' }}"><i class="fa fa-flag-checkered"></i> 输出经验</a>
-        <a class="tab-item" data-active="hps" bindtap="onTabBtnClicked" class="tab-item {{ active == 'hps' ? 'active' : '' }}"><i class="fa fa-flag-checkered"></i> 治疗经验</a>
+        <a class="tab-item" data-active="dps" bindtap="onTabBtnClicked" class="tab-item {{ active == 'dps' ? 'active' : '' }}">输出经验</a>
+        <a class="tab-item" data-active="hps" bindtap="onTabBtnClicked" class="tab-item {{ active == 'hps' ? 'active' : '' }}">治疗经验</a>
         <!-- <a class="tab-item" data-active="item" bindtap="onTabBtnClicked" class="tab-item {{ active == 'item' ? 'active' : '' }}"><i class="fa fa-shield"></i> 装备列表</a> -->
     </div>
 
     <div wx:if="{{ active == 'dps' }}">
-        <table class="wcl-table" style="table-layout: auto">
+        <table class="wcl-table2" style="table-layout: auto">
             <thead>
                 <tr>
                     <th>首领名称</th>
                     <th>装等</th>
                     <th>%</th>
-                    <th>击杀</th>
-                    <th>最快</th>
-                    <th>最慢</th>
-                    <th>最高DPS</th>
-                    <th>最低DPS</th>
+                    <th>击杀次数</th>
+                    <th>最快击杀</th>
+                    <!-- <th>最慢</th> -->
+                    <th>最高伤害</th>
+                    <!-- <th>最低DPS</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -41,25 +41,25 @@
                     <td class="{{ boss.ParseCss }}">{{ boss.Parse }}</td>
                     <td>{{ boss.Killed }}</td>
                     <td>{{ boss.Fastest }}</td>
-                    <td>{{ boss.Slowest }}</td>
+                    <!-- <td>{{ boss.Slowest }}</td> -->
                     <td>{{ boss.Highest }}</td>
-                    <td>{{ boss.Lowest }}</td>
+                    <!-- <td>{{ boss.Lowest }}</td> -->
                 </tr>
             </tbody>
         </table>
     </div>
     <div wx:if="{{ active == 'hps' }}">
-        <table class="wcl-table" style="table-layout: auto">
+        <table class="wcl-table2" style="table-layout: auto">
             <thead>
                 <tr>
                     <th>首领名称</th>
                     <th>装等</th>
                     <th>%</th>
-                    <th>击杀</th>
-                    <th>最快</th>
-                    <th>最慢</th>
-                    <th>最高HPS</th>
-                    <th>最低HPS</th>
+                    <th>击杀次数</th>
+                    <th>最快击杀</th>
+                    <!-- <th>最慢</th> -->
+                    <th>最高治疗</th>
+                    <!-- <th>最低HPS</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -69,15 +69,15 @@
                     <td class="{{ boss.ParseCss }}">{{ boss.Parse }}</td>
                     <td>{{ boss.Killed }}</td>
                     <td>{{ boss.Fastest }}</td>
-                    <td>{{ boss.Slowest }}</td>
+                    <!-- <td>{{ boss.Slowest }}</td> -->
                     <td>{{ boss.Highest }}</td>
-                    <td>{{ boss.Lowest }}</td>
+                    <!-- <td>{{ boss.Lowest }}</td> -->
                 </tr>
             </tbody>
         </table>
     </div>
     <div wx:if="{{ active == 'item' }}">
-        <table class="wcl-table">
+        <table class="wcl-table2">
             <thead>
                 <tr>
                     <th>装备名称</th>

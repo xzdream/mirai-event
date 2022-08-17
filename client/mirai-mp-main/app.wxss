@@ -273,7 +273,7 @@ table {
 .tab-item {
   padding: 6px 10px;
   background: rgba(0,0,0,0);
-  border-radius: 50px;
+  border-radius: 5px;
   font-size: 16px;
 }
 
@@ -374,6 +374,10 @@ table {
   color: #fff;
 }
 
+.class-512 {
+  color: rgba(255, 0, 0, 0.9);
+}
+
 .purple {
   color: #c774ff;
 }
@@ -407,13 +411,31 @@ table {
   margin-bottom: 10px;
 }
 
+.wcl-table2 {
+  width: 100%;
+  font-size: 12px;
+  background: rgb(41,40,69);
+  border-collapse: collapse;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
   .wcl-table tr {
       border-bottom: 0.7px solid #1e1d32;
   }
 
+  .wcl-table2 tr {
+    border-bottom: 0.7px solid #1e1d32;
+}
+
   .wcl-table tbody tr:last-child {
       border-bottom: none;
   }
+
+  .wcl-table2 tbody tr:last-child {
+    border-bottom: none;
+}
 
   .wcl-table td {
       padding: 10px 6px;
@@ -421,11 +443,23 @@ table {
       font-weight: bold;
   }
 
+  .wcl-table2 td {
+    padding: 10px 6px;
+    zoom: 0.9;
+    font-weight: bold;
+}
+
   .wcl-table th {
       padding: 10px 6px;
       text-align: left;
       zoom: 0.9;
   }
+
+  .wcl-table2 th {
+    padding: 10px 6px;
+    text-align: left;
+    zoom: 0.9;
+}
 
   .wcl-table image {
       width: 24px;
@@ -433,9 +467,19 @@ table {
       vertical-align: middle;
   }
 
+  .wcl-table2 image {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+}
+
   .wcl-table span {
       vertical-align: middle;
   }
+
+  .wcl-table2 span {
+    vertical-align: middle;
+}
 
 .z-100 {
   z-index: 100;
@@ -563,7 +607,7 @@ table {
       }
 
 .dialog-select-row {
-  line-height: 46px;
+  line-height: 42px;
   border-bottom: 0.8px solid #1e1d32;
 }
 
