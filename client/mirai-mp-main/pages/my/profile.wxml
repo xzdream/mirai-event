@@ -36,8 +36,8 @@
     <table wx:if="{{ myGuilds.length }}" class="form-table" style="margin-top: 15px; margin-bottom: 15px;">
         <tr wx:for="{{ myGuilds }}" wx:for-item="guild">
             <td data-id="{{ guild.id }}" bindtap="onGuildClicked">
-                <image wx:if="{{ !guild.guildListImageUrl }}" src="{{ host }}/assets/images/guild-image.jpg" alt="" class="class-img guild-img" />
-                <image wx:else src="{{ host + guild.guildListImageUrl }}" alt="" class="class-img guild-img" />
+                <image wx:if="{{ guild.faction == 0 }}" src="../../assets/images/a.jpg" alt="" class="class-img guild-img" />
+                <image wx:if="{{ guild.faction == 1 }}" src="../../assets/images/h.jpg" alt="" class="class-img guild-img" />
                 {{ guild.name }}
             </td>
         </tr>

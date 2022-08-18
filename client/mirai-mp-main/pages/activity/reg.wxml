@@ -95,7 +95,7 @@
 <view class="dialog" style="margin-top:-240px" wx:if="{{ selectedReg }}">
     <div class="dialog-header">
         <span class="class-{{ selectedReg.class }}">
-            <!-- <image class="class-img" src="{{ '/assets/images/class-' + selectedReg.class + '.png' }}" /> -->
+            <image class="class-img" src="{{ '/assets/images/class-' + selectedReg.class + '.png' }}" />
             {{ selectedReg.name }}
         </span>
         <a class="right" bindtap="onDialogCloseBtnClicked"><i class="fa fa-close"></i></a>

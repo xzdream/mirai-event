@@ -17,13 +17,13 @@
             </colgroup>
             <tr>
                 <td>
-                    <image wx:if="{{ !item.guildListImageUrl }}" src="{{ host }}/assets/images/guild-image.jpg" alt="" class="img-responsive" />
-                    <image wx:else src="{{ host + item.guildListImageUrl }}" alt="" class="img-responsive" />
+                    <image wx:if="{{ item.faction == 0 }}" src="../../assets/images/a.jpg" alt="" class="img-responsive" />
+                    <image wx:if="{{ item.faction == 1 }}" src="../../assets/images/h.jpg" alt="" class="img-responsive" />
                 </td>
                 <td>
                     {{ item.name }}
                     <span class="right guild-item-hint">
-                        {{ item.realm }} - {{ item.faction == 0 ? '联盟' : '部落' }}
+                        {{ item.realm }}
                     </span>
                 </td>
             </tr>

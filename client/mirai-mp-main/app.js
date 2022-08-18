@@ -38,8 +38,7 @@ App({
           self.globalData.shortWidth = true;
         }
       },
-    });
-
+    });  
     // 登录
     wx.login({
       success: function(res) {

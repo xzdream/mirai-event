@@ -26,7 +26,7 @@
     <table class="form-table" style="margin-bottom: 45px">
         <tr wx:for="{{ myCharacters }}" wx:for-item="ch" wx:for-index="i" data-character="{{ ch }}" bindtap="onCharacterClicked">
             <td class="{{ 'class-' + ch.class }}">
-                <!-- <image src="{{ '/assets/images/class-' + ch.class + '.png' }}" class="class-img" /> -->
+                <image src="{{ '/assets/images/class-' + ch.class + '.png' }}" class="class-img" />
                 {{ ch.name }}
                 <span wx:if="ch._registered">
                     <span class="right reg-status" style="color: #ccc" wx:if="{{ ch._reg.status == 0 }}">待审核</span>
@@ -134,7 +134,7 @@
 <div class="dialog" style="margin-top:-215px" wx:if="{{ ui.submitDialog && !selectedCharacter._registered }}">
     <div class="dialog-header">
         <span class="{{ 'class-' + selectedCharacter.class }}">
-            <!-- <image class="class-img" src="{{ '/assets/images/class-' + selectedCharacter.class + '.png' }}" /> -->
+            <image class="class-img" src="{{ '/assets/images/class-' + selectedCharacter.class + '.png' }}" />
             {{ selectedCharacter.name }}
         </span>
         <a class="right" style="line-height: 17px;" bindtap="closeSubmitDialog"><i class="fa fa-close"></i></a>
@@ -143,8 +143,8 @@
         <div style="padding: 15px 0; border-bottom: 0.8px solid #1e1d32;">
             <div class="section-title">职责</div>
             <div class="dialog-select-row" data-role="1" bindtap="onRoleClicked"><div class="ratio {{ ui.selectedRole == 1 ? 'selected' : '' }}"><div></div></div> 输出</div>
-            <div class="dialog-select-row" data-role="0" bindtap="onRoleClicked"><div class="ratio {{ ui.selectedRole == 0 ? 'selected' : '' }}"><div></div></div> 坦克 <span wx:if="{{ !selectedCharacter._canTank }}">(不可用)</span></div>
-            <div class="dialog-select-row" data-role="2" bindtap="onRoleClicked"><div class="ratio {{ ui.selectedRole == 2 ? 'selected' : '' }}"><div></div></div> 治疗 <span wx:if="{{ !selectedCharacter._canHeal }}">(不可用)</span></div>
+            <div class="dialog-select-row" data-role="0" bindtap="onRoleClicked"><div class="ratio {{ ui.selectedRole == 0 ? 'selected' : '' }}"><div></div></div> 坦克</div>
+            <div class="dialog-select-row" data-role="2" bindtap="onRoleClicked"><div class="ratio {{ ui.selectedRole == 2 ? 'selected' : '' }}"><div></div></div> 治疗</div>
             <!-- <div class="dialog-select-row" data-role="3" bindtap="onRoleClicked"><div class="ratio {{ ui.selectedRole == 3 ? 'selected' : '' }}"><div></div></div> 消费</div> -->
         </div>
         <div style="padding-bottom: 15px; margin-top: 10px">
@@ -167,7 +167,7 @@
 <div class="dialog" style="margin-top:-53px" wx:if="{{ ui.submitDialog && selectedCharacter._registered }}">
     <div class="dialog-header">
         <span class="{{ 'class-' + selectedCharacter.class }}">
-            <!-- <image class="class-img" src="{{ '/assets/images/class-' + selectedCharacter.class + '.png' }}" /> -->
+            <image class="class-img" src="{{ '/assets/images/class-' + selectedCharacter.class + '.png' }}" />
             {{ selectedCharacter.name }}
         </span>
         <a class="right" style="line-height: 17px;" bindtap="closeSubmitDialog"><i class="fa fa-close"></i></a>

@@ -143,12 +143,12 @@ Component({
         },
         onRoleClicked: function(event) {
             let role = event.currentTarget.dataset.role;
-            if (role == 0 && !this.canTank(this.data.selectedCharacter.class)) {
-                return;
-            }
-            if (role == 2 && !this.canHeal(this.data.selectedCharacter.class)) {
-                return;
-            }
+            // if (role == 0 && !this.canTank(this.data.selectedCharacter.class)) {
+            //     return;
+            // }
+            // if (role == 2 && !this.canHeal(this.data.selectedCharacter.class)) {
+            //     return;
+            // }
             this.setData({
                 'ui.selectedRole': role
             });

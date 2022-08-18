@@ -1,28 +1,27 @@
 {
-    "pages": [
-        "pages/index",
-        "pages/guild",
-        "pages/activity",
-        "pages/ledger",
-        "pages/my",
-        "pages/guild/create-activity",
-        "pages/guild/manager",
-        "pages/guild/reg-policy",
-        "pages/guild/pricing",
-        "pages/guild/pricing-detail",
-        "pages/activity-manage",
-        "pages/character/detail",
-        "pages/help",
-        "pages/activity/share"
-    ],
-    "window": {
-        "backgroundTextStyle": "dark",
-        "navigationStyle": "custom",
-        "navigationBarBackgroundColor": "#292845",
-        "navigationBarTitleText": "分金人魔兽金团报名系统",
-        "navigationBarTextStyle": "white"
-    },
-    "style": "v2",
-    "sitemapLocation": "sitemap.json",
-    "lazyCodeLoading": "requiredComponents"
+  "pages": [
+    "pages/index",
+    "pages/guild",
+    "pages/activity",
+    "pages/ledger",
+    "pages/my",
+    "pages/guild/create-activity",
+    "pages/guild/manager",
+    "pages/guild/reg-policy",
+    "pages/guild/pricing",
+    "pages/guild/pricing-detail",
+    "pages/activity-manage",
+    "pages/character/detail",
+    "pages/activity/share"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationStyle": "custom",
+    "navigationBarBackgroundColor": "#292845",
+    "navigationBarTitleText": "分金人魔兽金团报名系统",
+    "navigationBarTextStyle": "white"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
 }
