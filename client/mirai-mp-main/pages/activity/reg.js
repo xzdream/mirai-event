@@ -279,6 +279,11 @@ Component({
               url: 'index?redirect=no',
             });
         },
+        onBtnClickToTable:function(){
+          wx.navigateTo({
+            url: 'activity/member-table?activity=' + JSON.stringify(this.data.activity),
+        })
+        },
         onRefreshBtnClicked: function() {
             wx.$activity.onLoad({ id: this.data.activity.id });
         },

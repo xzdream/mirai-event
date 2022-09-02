@@ -88,6 +88,10 @@
                 <!-- <div>公会列表</div> -->
                 <div>金团列表</div>
             </button>
+            <button class="btn-rect" bindtap="onBtnClickToTable">
+                <div><i class="fa fa-plus"></i></div>
+                <div>人员分配</div>
+            </button>
         </view>
     </view>
 </view>

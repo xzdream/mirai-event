@@ -1,0 +1,38 @@
+<view class="{{ isFullScreen ? 'header header-full' : 'header' }}">
+</view>
+<view class="{{ isFullScreen ? 'header-logo header-full' : 'header-logo' }}">
+  <span class="page-title">人员分配</span>
+</view>
+<view class="{{ isFullScreen ? 'header-buttons full' : 'header-buttons' }}">
+  <a bindtap="onBackBtnClicked"><i class="fa fa-angle-left"></i> 返回</a>
+</view>
+
+<view class="wrapper {{ isFullScreen ? 'full' : '' }}">
+  <!-- 页面内容超出屏幕时可滑动 -->
+  <view class='home_grids'>
+    <scroll-view scroll-y="true">
+      <view class="scrollView">
+        <view class="content" wx:for="{{characterGrid}}" wx:key="index">
+          <view class='navigator home_grid' bindtap='actioncnt' hover-class="none">
+            <input class="txtbox" style="text-align: center;" model:value="{{characterGrid[index].name}}" />
+          </view>
+
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+</view>
+<view class="footer">
+  <button class="btn-rect" open-type="share">
+    <div><i class="fa fa-share"></i></div>
+    <div>分享到群</div>
+  </button>
+</view>
+
+
+<!-- <view class="container" class="zn-uploadimg">
+
+<button type="primary"bindtap="actioncnt">操作菜单</button> 
+
+</view> -->
