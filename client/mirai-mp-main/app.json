@@ -12,7 +12,8 @@
     "pages/guild/pricing-detail",
     "pages/activity-manage",
     "pages/character/detail",
-    "pages/activity/share"
+    "pages/activity/share",
+    "pages/activity/member-table"
   ],
   "window": {
     "backgroundTextStyle": "dark",
