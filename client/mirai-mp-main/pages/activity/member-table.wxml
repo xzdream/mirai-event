@@ -1,40 +1,65 @@
 <view class="{{ isFullScreen ? 'header header-full' : 'header' }}">
 </view>
 <view class="{{ isFullScreen ? 'header-logo header-full' : 'header-logo' }}">
-    <span class="page-title">人员分配</span>
+  <span class="page-title">人员分配</span>
 </view>
 <view class="{{ isFullScreen ? 'header-buttons full' : 'header-buttons' }}">
-    <a bindtap="onBackBtnClicked"><i class="fa fa-angle-left"></i> 返回</a>
+  <a bindtap="onBackBtnClicked"><i class="fa fa-angle-left"></i> 返回</a>
 </view>
 
-<view class="wrapper {{ isFullScreen ? 'full' : '' }}" >
-    <!-- 页面内容超出屏幕时可滑动 -->
-    <view class='home_grids'>
-        <scroll-view scroll-y="true">
-            <view class="scrollView">
-                <view class="content" wx:for="{{characterGrid}}" wx:key="index">
-                    <view class='navigator home_grid' bindtap='actioncnt' hover-class="none" data-index="{{index}}">
-                        <input disabled="true" class="txtbox" style="text-align: center;" model:value="{{characterGrid[index].name}}" />
-                    </view>
+<view class="wrapper {{ isFullScreen ? 'full' : '' }}">
+  <!-- 页面内容超出屏幕时可滑动 -->
+  <view class='home_grids'>
+    <scroll-view scroll-y="true">
+      <view class="scrollView">
+        <view class="content" wx:for="{{characterGrid}}" wx:key="index">
+          <view class='navigator home_grid' bindtap='actioncnt' hover-class="none" data-index="{{index}}">
+            <input disabled="true" class="txtbox" style="text-align: center;" model:value="{{characterGrid[index].name}}" />
+          </view>
 
-                </view>
+        </view>
 
-            </view>
-        </scroll-view>
+      </view>
+    </scroll-view>
 
-    </view>
+  </view>
 
 </view>
 
 
 <view class="footer">
-    <button class="btn-rect" open-type="share">
-        <div><i class="fa fa-share"></i></div>
-        <div>分享到群</div>
-    </button>
+  <button class="btn-rect" open-type="share">
+    <div><i class="fa fa-share"></i></div>
+    <div>分享到群</div>
+  </button>
 </view>
 
-<view class="dialog-body" wx:if="{{ showDialog }}" style="margin-top: -250px; margin-right: -200rpx;">
+<div class="dialog" style="margin-top:-150px;" wx:if="{{showDialog}}">
+  <div class="dialog-header" style="text-align: center;">
+    <span style="text-align: center;">选择团员</span>
+  </div>
+  <div class="dialog-body" style="padding: 0 15px;background-color: rgb(41,40,69);">
+    <scroll-view class="dialog-select-row" scroll-y="true" style="height: 500rpx;" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
+      <checkbox-group bindchange="checkboxChange" class=" dialog-select-row">
+        <view wx:for="{{characters}}" wx:key="index" class="dialog-select-row" style="text-align: center;">
+          <label class="{{'checkbox'}}" bindtap='checkbox' data-index="{{index}}">
+            <checkbox style="text-align: center;" value="{{characters[index]}}" checked="{{characters[index].checked}}" />{{characters[index]}}
+          </label>
+        </view>
+      </checkbox-group>
+    </scroll-view>
+  </div>
+  <div class="dialog-footer">
+        <table>
+            <tr>
+                <td><a bindtap="closeSelectDialog">取消</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<!-- <view class="dialog-body" wx:if="{{ showDialog }}" style="margin-top: -250px; margin-right: -200rpx;">
 
     <view class="page-body">
         <view class="page-section">
@@ -55,4 +80,4 @@
 
     </view>
 
-</view>
+</view> -->
