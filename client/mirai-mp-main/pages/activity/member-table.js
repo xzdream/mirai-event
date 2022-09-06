@@ -72,11 +72,12 @@ Page({
   },
   drawCharacterGrid: function () {
     var result = [];
-    var gridCacheData = wx.getStorageSync(this.data.girdCacheName);
+    var gridCacheKey = this.data.activity.id + this.data.girdCacheName
+    var gridCacheData = wx.getStorageSync(gridCacheKey);
     if (gridCacheData.length === 0) {
       for (var index = 0; index < 25; index++) {
         var grid = {
-          name: " "
+          name: ""
         };
         result.push(grid)
       }
@@ -90,13 +91,14 @@ Page({
     }
     this.setCharacterGrid(result)
     let data = JSON.stringify(this.data.characterGrid);
-    wx.setStorageSync(this.data.girdCacheName, data)
+    wx.setStorageSync(gridCacheKey, data)
 
   },
 
   drawCharacters: function () {
     let result = [];
-    var member = wx.getStorageSync(this.data.characterCacheName);
+    var characterCacheKey = this.data.activity.id + this.data.characterCacheName
+    var member = wx.getStorageSync(characterCacheKey);
     if (member.length === 0) {
       var size = this.data.activity.registrations.length;
       for (let i = 0; i < size; ++i) {
@@ -110,15 +112,15 @@ Page({
     } else {
       let shareData = JSON.parse(member);
       for (var index = 0; index < shareData.length; index++) {
-
         var character = shareData[index];
         result.push(character)
       }
     }
-    this.setCharacters(result)
-
-    var datas = JSON.stringify(this.data.characters);
-    wx.setStorageSync(this.data.characterCacheName, datas)
+    if (result.length > 0) {
+      this.setCharacters(result)
+      var datas = JSON.stringify(this.data.characters);
+      wx.setStorageSync(characterCacheKey, datas)
+    }
   },
   setCharacterGrid: function (data) {
     var initValue = this;
@@ -127,17 +129,18 @@ Page({
     })
 
   },
-  setCharacters: function (data) {
+  setCharacters: function (result) {
     var initValue = this;
     initValue.setData({
-      characters: data
+      characters: result
     })
 
   },
 
   actioncnt: function (e) {
     var fillIndex = e.currentTarget.dataset.index
-    wx.setStorageSync('fillIndex', fillIndex)
+    var indexCacheKey = this.data.activity.id + "fillIndex"
+    wx.setStorageSync(indexCacheKey, fillIndex)
     this.setData({
       showDialog: true
     })
@@ -147,7 +150,8 @@ Page({
     var passName = e.detail.value
 
     //找到点击的槽位
-    var fillIndex = wx.getStorageSync('fillIndex')
+    var indexCachekey = this.data.activity.id + "fillIndex";
+    var fillIndex = wx.getStorageSync(indexCachekey)
     //槽位存在的团员
     var alreadyName = this.data.characterGrid[fillIndex].name
 
@@ -155,9 +159,11 @@ Page({
     this.setData({
       [`characterGrid[${fillIndex}].name`]: passName
     })
+    var gridCacheKey = this.data.activity.id + this.data.girdCacheName
     var gridData = JSON.stringify(this.data.characterGrid);
-    wx.setStorageSync(this.data.girdCacheName, gridData)
-    var member = wx.getStorageSync(this.data.characterCacheName);
+    wx.setStorageSync(gridCacheKey, gridData)
+    var characterCacheKey = this.data.activity.id + this.data.characterCacheName
+    var member = wx.getStorageSync(characterCacheKey);
     var memberData = JSON.parse(member);
 
     var size = memberData.length
@@ -178,7 +184,7 @@ Page({
       characters: memberData
     })
     let characterData = JSON.stringify(memberData);
-    wx.setStorageSync(this.data.characterCacheName, characterData)
+    wx.setStorageSync(characterCacheKey, characterData)
     this.setData({
       showDialog: false
     })
