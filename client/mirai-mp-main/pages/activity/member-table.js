@@ -97,29 +97,43 @@ Page({
 
   drawCharacters: function () {
     let result = [];
-    var characterCacheKey = this.data.activity.id + this.data.characterCacheName
-    var member = wx.getStorageSync(characterCacheKey);
-    if (member.length === 0) {
-      var size = this.data.activity.registrations.length;
-      for (let i = 0; i < size; ++i) {
-        let reg = this.data.activity.registrations[i];
-        //通过申请的
-        if (reg.status == 4) {
-          var character = reg.name
+    var gridCacheKey = this.data.activity.id + this.data.girdCacheName
+    var gridCacheData = wx.getStorageSync(gridCacheKey);
+    let gridData = JSON.parse(gridCacheData);
+    var size = this.data.activity.registrations.length;
+    for (let i = 0; i < size; ++i) {
+      let reg = this.data.activity.registrations[i];
+      //通过申请的
+      if (reg.status == 4) {
+        var character = reg.name
+        var canAdd = true
+        for (let j = 0; j < gridData.length; ++j) {
+          if (character == gridData[j].name) {
+            canAdd = false
+            break
+          }
+        }
+
+        if (canAdd) {
           result.push(character)
         }
       }
-    } else {
-      let shareData = JSON.parse(member);
-      for (var index = 0; index < shareData.length; index++) {
-        var character = shareData[index];
-        result.push(character)
-      }
     }
+    // var characterCacheKey = this.data.activity.id + this.data.characterCacheName
+    // var member = wx.getStorageSync(characterCacheKey);
+    // if (member.length === 0) {
+
+    // } else {
+    //   let shareData = JSON.parse(member);
+    //   for (var index = 0; index < shareData.length; index++) {
+    //     var character = shareData[index];
+    //     result.push(character)
+    //   }
+    // }
     if (result.length > 0) {
       this.setCharacters(result)
-      var datas = JSON.stringify(this.data.characters);
-      wx.setStorageSync(characterCacheKey, datas)
+      // var datas = JSON.stringify(this.data.characters);
+      // wx.setStorageSync(characterCacheKey, datas)
     }
   },
   setCharacterGrid: function (data) {
@@ -175,7 +189,7 @@ Page({
         break
       }
     }
-    if (alreadyName != null && alreadyName != " " && alreadyName != passName) {
+    if (alreadyName != null && alreadyName != "" && alreadyName != passName) {
       var newData = memberData.concat(alreadyName)
       memberData = newData
 
