@@ -14,24 +14,21 @@
       <view class="scrollView">
         <view class="content" wx:for="{{characterGrid}}" wx:key="index">
           <view class='navigator home_grid' bindtap='actioncnt' hover-class="none" data-index="{{index}}">
-            <input disabled="true" class="txtbox" style="text-align: center;" model:value="{{characterGrid[index].name}}" />
+            <td class="text-set" style="text-align: center;"><span>{{characterGrid[index].name}}</span></td>
           </view>
-
         </view>
-
       </view>
     </scroll-view>
-
   </view>
-
 </view>
 
 
 <view class="footer">
-  <button class="btn-rect" open-type="share">
+  <div class="task-item">因隐私条款无法使用分享，请截图分享至群</div>
+  <!-- <button class="btn-rect" open-type="share">
     <div><i class="fa fa-share"></i></div>
     <div>分享到群</div>
-  </button>
+  </button> -->
 </view>
 
 <div class="dialog" style="margin-top:-150px;" wx:if="{{showDialog}}">
