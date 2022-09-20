@@ -176,10 +176,10 @@ Page({
     var gridCacheKey = this.data.activity.id + this.data.girdCacheName
     var gridData = JSON.stringify(this.data.characterGrid);
     wx.setStorageSync(gridCacheKey, gridData)
-    var characterCacheKey = this.data.activity.id + this.data.characterCacheName
-    var member = wx.getStorageSync(characterCacheKey);
-    var memberData = JSON.parse(member);
-
+    // var characterCacheKey = this.data.activity.id + this.data.characterCacheName
+    // var member = wx.getStorageSync(characterCacheKey);
+    var memberData = this.data.characters;
+    console.log(memberData)
     var size = memberData.length
     for (var index = 0; index < size; index++) {
       var name = memberData[index]
@@ -197,8 +197,8 @@ Page({
     this.setData({
       characters: memberData
     })
-    let characterData = JSON.stringify(memberData);
-    wx.setStorageSync(characterCacheKey, characterData)
+    // let characterData = JSON.stringify(memberData);
+    // wx.setStorageSync(characterCacheKey, characterData)
     this.setData({
       showDialog: false
     })
